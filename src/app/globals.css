@@ -1,0 +1,390 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  /* Flutter Job Filter Theme */
+  --primary-navy: #1B3A6B;
+  --primary-blue: #3A7BD5;
+  --border-light: #E2E8F0;
+  --text-dark: #1B3A6B;
+  --text-mid: #474C54;
+  --text-light: #9199A3;
+  --bg-light: #F4F6FB;
+  
+  /* 🔤 FONT SYSTEM - 8 Size Scale */
+  --font-xs: 10px;
+  --font-sm: 12px;
+  --font-base: 14px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 20px;
+  --font-h2: 36px;
+  --font-display: 48px;
+  --lh-tight: 1.2;
+  --lh-normal: 1.4;
+  --lh-loose: 1.6;
+  @import url('/assets2/css/style.css');
+}
+
+.job-filter-sheet {
+  /* Bottom sheet styles */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 95vh;
+  background: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -12px 30px rgba(58, 123, 213, 0.08);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.job-filter-sidebar {
+  width: 130px;
+  border-right: 1px solid var(--border-light);
+}
+
+.job-filter-tab {
+  padding: 15px 14px;
+  border-bottom: 0.5px solid var(--border-light);
+  cursor: pointer;
+  transition: all 160ms;
+}
+
+.job-filter-tab.active {
+  background: white;
+  border-left: 3px solid var(--primary-navy);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.job-filter-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 140ms;
+}
+
+.job-filter-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid;
+  border-radius: 2px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.job-filter-checkbox.checked {
+  background: var(--primary-navy);
+  border-color: var(--primary-navy);
+}
+
+.job-filter-checkbox.checked::after {
+  content: '✔';
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: var(--font-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.employer-panel-with-sidebar .main {
+    padding-left: 280px;
+  }
+  body.candidate-panel-with-sidebar .main {
+    padding-left: 280px;
+  }
+}
+
+.ai-note-inline {
+  margin: 0 0 14px;
+  padding: 9px 12px;
+  border: 1px solid #b5d4f4;
+  border-radius: 8px;
+  background: #e6f1fb;
+  color: #185fa5;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.candidate-profile-v2-main-col > section#personal {
+  order: 1;
+}
+
+.candidate-profile-v2-main-col > section#documents {
+  order: 2;
+}
+
+.candidate-profile-v2-main-col > section#work {
+  order: 3;
+}
+
+.candidate-profile-v2-main-col > section#education {
+  order: 4;
+}
+
+.candidate-profile-v2-main-col > section#skills {
+  order: 5;
+}
+
+.candidate-profile-v2-main-col > section#cv {
+  order: 6;
+}
+
+input.form-control,
+select.form-control,
+textarea.form-control {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: #4f5e64;
+}
+
+input.form-control,
+select.form-control {
+  min-height: 52px;
+  border-radius: 8px;
+}
+
+textarea.form-control {
+  border-radius: 8px;
+}
+
+.candidate-profile-v2-entry-actions .btn {
+  min-width: 96px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidate-profile-v2-entry-actions .btn.btn-grey-small {
+  border: 1px solid #b4c0e0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4f5e64 !important;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  padding: 10px 23px;
+}
+
+.candidate-profile-v2-entry-actions .btn.btn-grey-small:hover {
+  background: #05264e;
+  color: #ffffff !important;
+}
+
+.candidate-profile-v2-entry-actions .candidate-profile-v2-btn-delete {
+  min-width: 96px;
+}
+
+.employer-applicants-page .employer-applicants-form .form-group {
+  margin-bottom: 16px;
+}
+
+.employer-applicants-page .employer-applicants-filter-tags,
+.employer-applicants-page .employer-applicants-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.employer-applicants-page .employer-applicants-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-brand {
+  background: #eef4ff;
+  border-color: #d3defb;
+  color: #05264e;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-success {
+  background: #e7f9ed;
+  border-color: #b9e8c8;
+  color: #0f5132;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-info {
+  background: #e8f5ff;
+  border-color: #c8e5fb;
+  color: #0b4f7b;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-warning {
+  background: #fff8e6;
+  border-color: #f6e0a8;
+  color: #7b5a00;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-muted {
+  background: #f4f6fb;
+  border-color: #d9dfea;
+  color: #4f5e64;
+}
+
+.employer-applicants-page .employer-applicants-tag.is-active {
+  box-shadow: inset 0 0 0 1px rgba(5, 38, 78, 0.35);
+}
+
+.employer-applicants-page .employer-applicants-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.employer-applicants-page .employer-applicants-status.is-applied {
+  background: #e9efff;
+  color: #1d4ed8;
+}
+
+.employer-applicants-page .employer-applicants-status.is-viewed {
+  background: #fff5e5;
+  color: #7c4a03;
+}
+
+.employer-applicants-page .employer-applicants-status.is-shortlisted {
+  background: #e7f9ed;
+  color: #166534;
+}
+
+.employer-applicants-page .employer-applicants-actions .btn {
+  min-width: 96px;
+}
+
+/* Circliful styles for profile progress */
+.circliful .outer {
+  display: none; /* hides the background circle */
+}
+
+.circliful .inner {
+  fill: transparent;
+  stroke: #3C65F5;
+  stroke-width: 20;
+  stroke-dasharray: 534;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s;
+}
+
+.circliful {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.svg-container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.circliful svg circle {
+  stroke-linecap: round;
+}
+
+.circliful svg circle:nth-child(1) {
+  display: none !important;
+}
+
+.candidate-profile-v2 .candidate-profile-v2-left-col-sticky {
+  align-self: flex-start;
+}
+
+.candidate-profile-v2 .candidate-profile-v2-sidebar-sticky {
+  position: sticky;
+  top: 140px;
+  z-index: 80;
+}
+
+.candidate-profile-v2 #circle-staticstic-demo {
+  min-height: 106px;
+}
+
+.candidate-profile-v2 #circle-staticstic-demo .svg-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.candidate-profile-v2 #circle-staticstic-demo .circliful {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+}
+
+.candidate-profile-v2 #circle-staticstic-demo .timer {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  .candidate-profile-v2 .candidate-profile-v2-sidebar-sticky {
+    position: static;
+    top: auto;
+  }
+}

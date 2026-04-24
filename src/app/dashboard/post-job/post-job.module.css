@@ -1,0 +1,405 @@
+.pageSection {
+  background: transparent;
+}
+
+.layout {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.content {
+  display: grid;
+  gap: 16px;
+}
+
+.headerActions {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.btnSoft {
+  background: #ffffff;
+  border: 1px solid #d6deef;
+  color: #4f5e64;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.formPanel {
+  background: #ffffff;
+  border: 1px solid #e0e6f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.section {
+  padding: 18px;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.section:last-child {
+  border-bottom: 0;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.sectionStep {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6f1fb;
+  border: 1px solid #b5d4f4;
+  color: #185fa5;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  color: #05264e;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sectionSub {
+  margin: 3px 0 0;
+  color: #7384a6;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  color: #4f5e64;
+  font-weight: 600;
+}
+
+.required {
+  color: #e02020;
+  margin-left: 4px;
+}
+
+.control {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #4f5e64;
+  background: #ffffff;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #4f5e64;
+  background: #ffffff;
+  resize: vertical;
+}
+
+.control:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #185fa5;
+  box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.12);
+}
+
+.selectControl {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 34px;
+  background-image: url("/assets/imgs/template/icons/arrow-down.svg");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.hint {
+  margin: 5px 0 0;
+  color: #8894ad;
+  font-size: 12px;
+}
+
+.radioGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.radioCard {
+  border: 1px solid #d6deef;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #05264e;
+  background: #ffffff;
+}
+
+.inlinePanel {
+  border: 1px solid #e0e6f0;
+  border-radius: 10px;
+  background: #fafcff;
+  padding: 14px;
+}
+
+.inlinePanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inlinePanelTitle {
+  margin: 0;
+  color: #05264e;
+}
+
+.inlinePanelBadge {
+  border-radius: 999px;
+  border: 1px solid #d6deef;
+  background: #ffffff;
+  color: #4f5e64;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 10px;
+}
+
+.inlinePanelText {
+  margin: 8px 0 12px;
+  color: #66789c;
+}
+
+.tagGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pillHot,
+.pillUrgent,
+.pillNeutral {
+  border-radius: 999px;
+  border: 1px solid #d6deef;
+  background: #ffffff;
+  color: #4f5e64;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 10px;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.skillPriorityList {
+  margin: 8px 0 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.skillPriorityItem {
+  border: 1px solid #e0e6f0;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.skillName {
+  display: block;
+  color: #05264e;
+  font-weight: 600;
+}
+
+.skillHint {
+  margin: 2px 0 0;
+  color: #8090ad;
+  font-size: 12px;
+}
+
+.skillPrimaryBadge,
+.skillSecondaryBadge {
+  border-radius: 999px;
+  border: 1px solid #d6deef;
+  background: #ffffff;
+  color: #4f5e64;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.fileControl {
+  height: auto;
+  min-height: 46px;
+  padding-top: 11px;
+}
+
+.questionList {
+  display: grid;
+  gap: 12px;
+}
+
+.questionCard {
+  border: 1px solid #e0e6f0;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.questionCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.questionCardTitle {
+  margin: 0;
+  color: #05264e;
+}
+
+.questionCardText {
+  margin: 0 0 10px;
+  color: #566988;
+}
+
+.questionRequired,
+.questionOptional {
+  border-radius: 999px;
+  border: 1px solid #d6deef;
+  background: #ffffff;
+  color: #4f5e64;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 9px;
+}
+
+.inlineNotice {
+  margin: 12px 0 0;
+  color: #6a7a99;
+  font-size: 12px;
+}
+
+.summaryPanel {
+  background: #ffffff;
+  border: 1px solid #e0e6f0;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.summaryTitle {
+  margin: 0 0 12px;
+  color: #4f5e64;
+  font-weight: 600;
+}
+
+.summaryRows {
+  display: grid;
+  gap: 8px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #edf1f7;
+  padding-bottom: 8px;
+  color: #66789c;
+}
+
+.summaryRow strong {
+  color: #05264e;
+  text-align: right;
+  font-weight: 600;
+}
+
+.summaryActions {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.summaryActions :global(.btn) {
+  width: auto;
+  min-width: 132px;
+  justify-content: center;
+}
+
+.summaryMeta {
+  font-size: 12px;
+  color: #8894ad;
+  margin: 10px 0 0;
+}
+
+.bottomLink {
+  text-align: right;
+  padding: 0 4px;
+}
+
+@media (max-width: 991px) {
+  .headerActions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .grid2,
+  .radioGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .skillPriorityItem,
+  .questionCardHead,
+  .summaryActions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section {
+    padding: 16px;
+  }
+}

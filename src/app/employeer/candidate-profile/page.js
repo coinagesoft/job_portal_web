@@ -1,0 +1,398 @@
+const profileVisibilityRows = [
+  { field: "display_name", value: "Ramesh Kumar Sharma", status: "Pre-unlock", statusClass: "badge bg-primary" },
+  { field: "trade", value: "Welder (6G Certified)", status: "Visible", statusClass: "badge bg-success" },
+  { field: "experience_years", value: "8", status: "Visible", statusClass: "badge bg-success" },
+  { field: "current_location", value: "Mumbai, Maharashtra", status: "Visible", statusClass: "badge bg-success" },
+  { field: "mobile_number", value: "+91 XXXXXXXXXX", status: "Locked", statusClass: "badge bg-warning text-dark" },
+  { field: "email", value: "rXXXXX@XXXX.com", status: "Locked", statusClass: "badge bg-warning text-dark" },
+  { field: "cv_download", value: "Available after unlock", status: "Locked", statusClass: "badge bg-warning text-dark" }
+];
+
+const profileSkills = [
+  "6G Welding",
+  "TIG Welding",
+  "MIG Welding",
+  "Pipe Fabrication",
+  "Offshore Safety",
+  "Blueprint Reading"
+];
+
+const workHistory = [
+  {
+    company: "BlueWave Shipyard",
+    location: "Mumbai, Maharashtra",
+    role: "Senior Welder",
+    type: "Full time",
+    timeRange: "2022 - Present",
+    summary:
+      "Handles offshore pipe welding, pressure vessel repairs, and welding quality checks for marine projects."
+  },
+  {
+    company: "Harbor Steel Works",
+    location: "Navi Mumbai, Maharashtra",
+    role: "Welder",
+    type: "Full time",
+    timeRange: "2019 - 2022",
+    summary:
+      "Performed TIG and MIG welding for fabrication units and supported dock-side mechanical installations."
+  },
+  {
+    company: "Westline Fabricators",
+    location: "Thane, Maharashtra",
+    role: "Junior Welder",
+    type: "Full time",
+    timeRange: "2016 - 2019",
+    summary:
+      "Assisted on structural welding tasks, metal finishing, and safety-compliant workshop operations."
+  }
+];
+
+export const metadata = {
+  title: "Employer Candidate Profile - Job Portal",
+  description: "Employer view for candidate profile with unlock and private tagging."
+};
+
+const EmployerCandidateProfilePage = () => {
+  return (
+    <main className="main">
+      <section className="section-box-2">
+        <div className="container">
+          <div className="banner-hero banner-image-single">
+            <img src="/assets/imgs/page/candidates/img.png" alt="candidate banner" />
+          </div>
+          <div className="box-company-profile">
+            <div className="image-compay">
+              <img src="/assets/imgs/page/candidates/candidate-profile.png" alt="candidate profile" />
+            </div>
+            <div className="row mt-10">
+              <div className="col-lg-8 col-md-12">
+                <h5 className="f-18">
+                  Ramesh Kumar Sharma
+                  <span className="card-location font-regular ml-20">Mumbai, Maharashtra</span>
+                </h5>
+                <p className="mt-0 font-md color-text-paragraph-2 mb-15">
+                  Welder (6G Certified) - 8 years experience
+                </p>
+                <div className="mt-10 mb-15">
+                  <img src="/assets/imgs/template/icons/star.svg" alt="rating star" />
+                  <img src="/assets/imgs/template/icons/star.svg" alt="rating star" />
+                  <img src="/assets/imgs/template/icons/star.svg" alt="rating star" />
+                  <img src="/assets/imgs/template/icons/star.svg" alt="rating star" />
+                  <img src="/assets/imgs/template/icons/star.svg" alt="rating star" />
+                  <span className="font-xs color-text-mutted ml-10">94% match</span>
+                  <img className="ml-30" src="/assets/imgs/page/candidates/verified.png" alt="verified candidate" />
+                </div>
+                <div className="mt-5">
+                  <span className="badge bg-primary mr-10">ITI Certified</span>
+                  <span className="badge bg-info text-dark mr-10">KYC Verified</span>
+                  <span className="badge bg-success">Passport Valid</span>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-12 text-lg-end">
+                <button className="btn btn-download-icon btn-apply btn-apply-big" type="button">
+                  Unlock Profile - 2 Credits
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="box-nav-tabs mt-40 mb-5">
+            <ul className="nav" role="tablist">
+              <li>
+                <a
+                  className="btn btn-border aboutus-icon mr-15 mb-5 active"
+                  href="#tab-short-bio"
+                  data-bs-toggle="tab"
+                  role="tab"
+                  aria-controls="tab-short-bio"
+                  aria-selected="true"
+                >
+                  Candidate Summary
+                </a>
+              </li>
+              <li>
+                <a
+                  className="btn btn-border recruitment-icon mr-15 mb-5"
+                  href="#tab-skills"
+                  data-bs-toggle="tab"
+                  role="tab"
+                  aria-controls="tab-skills"
+                  aria-selected="false"
+                >
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a
+                  className="btn btn-border people-icon mb-5"
+                  href="#tab-work-experience"
+                  data-bs-toggle="tab"
+                  role="tab"
+                  aria-controls="tab-work-experience"
+                  aria-selected="false"
+                >
+                  Working Experience
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="border-bottom pt-10 pb-10"></div>
+        </div>
+      </section>
+
+      <section className="section-box mt-50">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+              <div className="content-single">
+                <div className="tab-content">
+                  <div className="tab-pane fade show active" id="tab-short-bio" role="tabpanel" aria-labelledby="tab-short-bio">
+                    <h4>Employer Candidate View</h4>
+                    <p>
+                      This profile is currently locked for employer view. Contact details, complete CV, and full work
+                      records are hidden until unlock. Unlocking costs 2 credits (Band B) and grants access for 60 days.
+                    </p>
+                    <div className="alert alert-warning mt-20 mb-20" role="alert">
+                      <strong>Profile locked.</strong> Unlock is irreversible. Credits deducted after confirmation.
+                    </div>
+
+                    <h4>Profile Visibility</h4>
+                    <div className="table-responsive">
+                      <table className="table table-bordered align-middle">
+                        <thead>
+                          <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {profileVisibilityRows.map((row) => (
+                            <tr key={row.field}>
+                              <td>
+                                <code>{row.field}</code>
+                              </td>
+                              <td>{row.value}</td>
+                              <td>
+                                <span className={row.statusClass}>{row.status}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="tab-pane fade" id="tab-skills" role="tabpanel" aria-labelledby="tab-skills">
+                    <h4>Core Skills</h4>
+                    <p>
+                      Skills shown here are visible in pre-unlock mode to support shortlisting decisions before spending
+                      credits.
+                    </p>
+                    <div className="mt-20">
+                      {profileSkills.map((skill) => (
+                        <span key={skill} className="btn btn-grey-small mr-10 mb-10">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="tab-pane fade" id="tab-work-experience" role="tabpanel" aria-labelledby="tab-work-experience">
+                    <h4>Work Experience Snapshot</h4>
+                    <p>
+                      Full work details are shown after unlock. Current snapshot includes role, company, and timeline.
+                    </p>
+                    <ul>
+                      {workHistory.map((item) => (
+                        <li key={`${item.company}-${item.role}`}>
+                          <strong>{item.role}</strong> at {item.company} ({item.timeRange}) - {item.location}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box-related-job content-page">
+                <h3 className="mb-30">Work History</h3>
+                <div className="box-list-jobs display-list">
+                  {workHistory.map((item) => (
+                    <div className="col-xl-12 col-12" key={`work-card-${item.company}`}>
+                      <div className="card-grid-2 hover-up">
+                        <div className="row">
+                          <div className="col-lg-6 col-md-6 col-sm-12">
+                            <div className="card-grid-2-image-left">
+                              <div className="image-box">
+                                <img src="/assets/imgs/brands/brand-6.png" alt="company logo" />
+                              </div>
+                              <div className="right-info">
+                                <a className="name-job" href="#">
+                                  {item.company}
+                                </a>
+                                <span className="location-small">{item.location}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-lg-6 text-start text-md-end pr-60 col-md-6 col-sm-12">
+                            <div className="pl-15 mb-15 mt-30">
+                              <span className="btn btn-grey-small mr-5">{item.type}</span>
+                              <span className="btn btn-grey-small mr-5">{item.timeRange}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="card-block-info">
+                          <h4>
+                            <a href="#">{item.role}</a>
+                          </h4>
+                          <p className="font-sm color-text-paragraph mt-10">{item.summary}</p>
+                          <div className="card-2-bottom mt-20">
+                            <div className="row">
+                              <div className="col-lg-7 col-7">
+                                <span className="card-text-price">
+                                  Status:<span className="text-success"> Visible in pre-unlock</span>
+                                </span>
+                              </div>
+                              <div className="col-lg-5 col-5 text-end">
+                                <button className="btn btn-apply-now" type="button">
+                                  View Full History
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
+              <div className="sidebar-border">
+                <h5 className="f-18">Overview</h5>
+                <div className="sidebar-list-job">
+                  <ul>
+                    <li>
+                      <div className="sidebar-icon-item">
+                        <i className="fi-rr-briefcase"></i>
+                      </div>
+                      <div className="sidebar-text-info">
+                        <span className="text-description">Experience</span>
+                        <strong className="small-heading">8 years</strong>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="sidebar-icon-item">
+                        <i className="fi-rr-time-fast"></i>
+                      </div>
+                      <div className="sidebar-text-info">
+                        <span className="text-description">Trade</span>
+                        <strong className="small-heading">Welder (6G Certified)</strong>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="sidebar-icon-item">
+                        <i className="fi-rr-marker"></i>
+                      </div>
+                      <div className="sidebar-text-info">
+                        <span className="text-description">Current Location</span>
+                        <strong className="small-heading">Mumbai, MH</strong>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="sidebar-icon-item">
+                        <i className="fi-rr-dollar"></i>
+                      </div>
+                      <div className="sidebar-text-info">
+                        <span className="text-description">Credits in Wallet</span>
+                        <strong className="small-heading">2 credits</strong>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="sidebar-list-job">
+                  <h6 className="mb-10">Contact & CV Access</h6>
+                  <ul className="ul-disc">
+                    <li>Mobile: +91 XXXXXXXXXX (locked)</li>
+                    <li>Email: rXXXXX@XXXX.com (locked)</li>
+                    <li>CV: Available after unlock</li>
+                    <li>Unlock expiry window: 60 days</li>
+                  </ul>
+                  <div className="mt-30">
+                    <button className="btn btn-send-message w-100" type="button">
+                      Unlock Profile - 2 Credits
+                    </button>
+                  </div>
+                  <p className="font-xs color-text-paragraph-2 mt-10 mb-0">
+                    Unlock is irreversible and credits are deducted instantly.
+                  </p>
+                </div>
+              </div>
+
+              <div className="sidebar-border-bg bg-right">
+                <span className="text-grey">PRIVATE</span>
+                <span className="text-hiring">TAG & NOTE</span>
+                <p className="font-xxs color-text-paragraph mt-5">
+                  Tags are private to this employer account and not visible to the candidate.
+                </p>
+                <div className="mt-15">
+                  <button className="btn btn-paragraph-2 mr-10" type="button">
+                    Shortlisted
+                  </button>
+                  <button className="btn btn-paragraph-2 mr-10" type="button">
+                    On hold
+                  </button>
+                  <button className="btn btn-paragraph-2" type="button">
+                    Reject
+                  </button>
+                </div>
+                <div className="mt-20">
+                  <textarea
+                    className="form-control"
+                    rows="4"
+                    maxLength={500}
+                    placeholder="Internal notes - not visible to candidate..."
+                  ></textarea>
+                </div>
+                <div className="mt-10">
+                  <button className="btn btn-paragraph-2 w-100" type="button">
+                    Save Private Note
+                  </button>
+                </div>
+                  <p className="font-xs color-text-paragraph mt-10 mb-0">Private note visible only to your team.</p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-box mt-50 mb-20">
+        <div className="container">
+          <div className="box-newsletter">
+            <div className="row">
+              <div className="col-xl-3 col-12 text-center d-none d-xl-block">
+                <img src="/assets/imgs/template/newsletter-left.png" alt="newsletter left visual" />
+              </div>
+              <div className="col-lg-12 col-xl-6 col-12">
+                <h2 className="text-md-newsletter text-center">Need More Matches? Buy Credits And Unlock Faster</h2>
+                <div className="box-form-newsletter mt-40">
+                  <form className="form-newsletter">
+                    <input className="input-newsletter" type="text" value="" placeholder="Enter your email here" readOnly />
+                    <button className="btn btn-default font-heading icon-send-letter">Get Updates</button>
+                  </form>
+                </div>
+              </div>
+              <div className="col-xl-3 col-12 text-center d-none d-xl-block">
+                <img src="/assets/imgs/template/newsletter-right.png" alt="newsletter right visual" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default EmployerCandidateProfilePage;
