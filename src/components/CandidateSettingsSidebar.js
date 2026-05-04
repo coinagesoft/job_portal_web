@@ -16,7 +16,7 @@ const CANDIDATE_SETTINGS_LINKS = [
 const isPathActive = (pathname, href) => {
   if (!pathname || !href) return false;
 
-  // Only exact match for main settings page
+  // Only exact match for man settings page
   if (href === "/candidate-profile/settings") {
     return pathname === href;
   }
