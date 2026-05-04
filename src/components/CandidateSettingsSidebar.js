@@ -15,7 +15,14 @@ const CANDIDATE_SETTINGS_LINKS = [
 
 const isPathActive = (pathname, href) => {
   if (!pathname || !href) return false;
-  return pathname === href || pathname.startsWith(`${href}/`);
+
+  // Only exact match for main settings page
+  if (href === "/candidate-profile/settings") {
+    return pathname === href;
+  }
+
+  // Other links can use startsWith
+  return pathname.startsWith(href);
 };
 
 const CandidateSettingsSidebar = () => {
