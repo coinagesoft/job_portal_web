@@ -1,18 +1,8 @@
-# Register Page Updates - Completed
+# TODO: Fix Next.js build - Wrap useSearchParams in Suspense for /jobs-list
 
-✅ Added `contactPersonEmail`, `companySize`, `companyType` to EmployerForm data state  
-✅ Added Company Size & Company Type Fields in Step 2 (Company Details)  
-✅ Added Contact Person Email Field in Step 3 (Contact & OTP)  
-✅ Removed all "₹2,000 refundable deposit" references from:
-  - Step 1 GST selector subtitle
-  - Step 1 non-GST alert  
-  - Step 5 review trial terms
-
-## Next Steps
-1. Update validation logic `isStep2Valid`, `isStep3Valid` to include new fields
-2. Add `InfoRow` for new fields in Step 5 review
-3. Add OTP verification for `contactPersonEmail` (optional but recommended)
-4. Test form flow for both Candidate & Employer paths
-5. Run `npm run dev` and test http://localhost:3000/register
-
-**Status: Form structure complete. Ready for validation & testing!**
+## Steps:
+1. [x] Create new client component: src/app/jobs-list/JobsListPageClient.js (move all logic from page.js)
+2. [x] Refactor src/app/jobs-list/page.js to server component with Suspense boundary
+3. [x] Test: Run `npm run build` to verify fix
+4. [ ] [Optional] Fix similar issue in src/app/register/page.js if build still fails
+5. [ ] attempt_completion
