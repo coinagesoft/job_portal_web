@@ -89,8 +89,21 @@ const EmployerCandidateProfilePage = () => {
                 </div>
               </div>
               <div className="col-lg-4 col-md-12 text-lg-end">
-                <button className="btn btn-download-icon btn-apply btn-apply-big" type="button">
+                <button
+                  className="btn btn-download-icon btn-apply btn-apply-big"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                  title="Unlock this candidate's full profile and download CV"
+                >
                   Unlock Profile - 2 Credits
+                </button>
+                <button
+                  className="btn btn-border btn-apply btn-apply-big ml-10"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                  title="Unlock this profile to download the candidate CV"
+                >
+                  Download CV
                 </button>
               </div>
             </div>

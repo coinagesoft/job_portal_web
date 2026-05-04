@@ -185,6 +185,20 @@ const availabilityLabel = (availability) => (availability === "available" ? "Ava
 const availabilityBadgeClass = (availability) =>
   availability === "available" ? "badge bg-success mr-5" : "badge bg-warning text-dark mr-5";
 
+const availabilityTooltip = (availability) =>
+  availability === "available"
+    ? "Candidate is available to start immediately"
+    : "Candidate is not available immediately";
+
+const certificationTooltip = (type) =>
+  type === "ITI"
+    ? "ITI certified candidate"
+    : type === "Passport"
+    ? "Passport valid for travel"
+    : type === "Offshore"
+    ? "Candidate has offshore experience"
+    : type;
+
 const buildCandidateSearchText = (candidate) =>
   normalizeText(
     [
@@ -513,19 +527,49 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                           </div>
                           <div className="col-lg-5 text-start text-md-end pr-60 col-md-5 col-sm-12">
                             <div className="pl-15 mb-15 mt-30">
-                              <span className={availabilityBadgeClass(candidate.availability)}>
+                              <span
+                                className={availabilityBadgeClass(candidate.availability)}
+                                data-bs-toggle="tooltip"
+                                title={availabilityTooltip(candidate.availability)}
+                              >
                                 {availabilityLabel(candidate.availability)}
                               </span>
                               {candidate.itiCertified ? (
-                                <span className="badge bg-primary mr-5">ITI</span>
+                                <span
+                                  className="badge bg-primary mr-5"
+                                  data-bs-toggle="tooltip"
+                                  title={certificationTooltip("ITI")}
+                                >
+                                  ITI
+                                </span>
                               ) : null}
                               {candidate.passportValid ? (
-                                <span className="badge bg-info text-dark mr-5">Passport</span>
+                                <span
+                                  className="badge bg-info text-dark mr-5"
+                                  data-bs-toggle="tooltip"
+                                  title={certificationTooltip("Passport")}
+                                >
+                                  Passport
+                                </span>
                               ) : null}
                               {candidate.offshoreExperience ? (
-                                <span className="badge bg-secondary mr-5">Offshore</span>
+                                <span
+                                  className="badge bg-secondary mr-5"
+                                  data-bs-toggle="tooltip"
+                                  title={certificationTooltip("Offshore")}
+                                >
+                                  Offshore
+                                </span>
                               ) : null}
                             </div>
+                            {candidate.availability === "available" ? (
+                              <p
+                                className="font-sm fw-600 color-brand-1 mt-5"
+                                title="Candidate is ready to join immediately"
+                              >
+                                Available now
+                              </p>
+                            ) : null}
                           </div>
                         </div>
 

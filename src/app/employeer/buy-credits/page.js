@@ -182,11 +182,11 @@ const EmployerBuyCreditsPage = () => {
             {/* Pricing cards */}
             <div className="max-width-price">
               <div className="block-pricing mt-30">
-                <div className="row justify-content-center">
+                <div className="row justify-content-center align-items-stretch">
                   {CREDIT_PACKS.map((pack) => (
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-10" key={pack.id}>
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-10 d-flex" key={pack.id}>
                       <div
-                        className={`box-pricing-item${selected.id === pack.id ? " active" : ""}`}
+                        className={`box-pricing-item${selected.id === pack.id ? " active" : ""} d-flex flex-column h-100`}
                         onClick={() => setSelected(pack)}
                         style={{ cursor: "pointer" }}
                       >
@@ -219,14 +219,14 @@ const EmployerBuyCreditsPage = () => {
                             ₹{pack.price.toLocaleString("en-IN")} + GST
                           </p>
                         </div>
-                        <ul className="list-package-feature">
+                        <ul className="list-package-feature flex-grow-1 mb-30">
                           <li>{pack.rateLabel}</li>
                           <li>GST-compliant invoice generated</li>
                           <li>Shared wallet with sub-users</li>
                           <li>Unlock profiles across bands</li>
                           <li>Package expiry auto-tracked</li>
                         </ul>
-                        <div>
+                        <div className="mt-auto">
                           <button
                             className={`btn ${selected.id === pack.id ? "btn-default" : "btn-border"}`}
                             type="button"

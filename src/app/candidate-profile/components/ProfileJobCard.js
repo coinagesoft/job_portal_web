@@ -31,7 +31,7 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
               />
             </div>
             <div className="right-info">
-              <Link className="name-job" href="/company-details">
+              <Link className="name-job" href="/company-details" title={`View ${job.company} details`} data-bs-toggle="tooltip">
                 {job.company}
               </Link>
               <span className="location-small">{job.location}</span>
@@ -42,7 +42,13 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
           <div className="col-lg-6 text-start text-md-end pr-60 col-md-6 col-sm-12">
             <div className="pl-15 mb-15 mt-30">
               {job.tags.slice(0, 2).map((tag, index) => (
-                <a key={index} className="btn btn-grey-small mr-5" href="#">
+                <a
+                  key={index}
+                  className="btn btn-grey-small mr-5"
+                  href="#"
+                  title={tag}
+                  data-bs-toggle="tooltip"
+                >
                   {tag}
                 </a>
               ))}
@@ -83,7 +89,12 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
             </div>
             <div className="col-lg-5 col-5 text-end">
               {applyToDetails ? (
-                <Link className="btn btn-apply-now" href="/job-details">
+                <Link
+                  className="btn btn-apply-now"
+                  href="/job-details"
+                  title="Apply to this job"
+                  data-bs-toggle="tooltip"
+                >
                   Apply now
                 </Link>
               ) : (
@@ -91,6 +102,7 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
                   className="btn btn-apply-now"
                   data-bs-toggle="modal"
                   data-bs-target="#ModalApplyJobForm"
+                  title="Apply to this job"
                 >
                   Apply now
                 </div>

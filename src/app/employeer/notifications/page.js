@@ -160,45 +160,49 @@ const EmployerNotificationsPage = () => {
                 {filtered.map((notif) => (
                   <div
                     key={notif.id}
-                    className="d-flex align-items-start gap-15 py-15 px-10"
+                    className="card-grid-2 hover-up mb-10"
                     style={{
-                      borderBottom: "1px solid #f0f0f0",
-                      background: notif.read ? "transparent" : "#f7fbff",
+                      background: notif.read ? "#ffffff" : "#eef6ff",
+                      border: notif.read ? "1px solid #f0f0f0" : "1px solid #cfe0f8",
+                      borderRadius: "18px",
                       cursor: notif.read ? "default" : "pointer",
                     }}
                     onClick={() => !notif.read && markRead(notif.id)}
                   >
-                    {/* Dot indicator */}
-                    <div
-                      style={{
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "50%",
-                        background: notif.read ? "#ddd" : typeColors[notif.type] || "#185FA5",
-                        marginTop: "6px",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <p className="font-sm fw-600 mb-2">{notif.title}</p>
-                      <p className="font-xs color-text-paragraph-2 mb-2">{notif.message}</p>
-                      <p className="font-xs color-text-paragraph-2 mb-0" style={{ opacity: 0.6 }}>
-                        {notif.time}
-                      </p>
+                    <div className="card-block-info py-15 px-20">
+                      <div className="d-flex align-items-start gap-15">
+                        <div
+                          style={{
+                            width: "8px",
+                            height: "8px",
+                            borderRadius: "50%",
+                            background: notif.read ? "#ddd" : typeColors[notif.type] || "#185FA5",
+                            marginTop: "6px",
+                            flexShrink: 0,
+                          }}
+                        />
+                        <div style={{ flex: 1 }}>
+                          <p className="font-sm fw-600 mb-2">{notif.title}</p>
+                          <p className="font-xs color-text-paragraph-2 mb-2">{notif.message}</p>
+                          <p className="font-xs color-text-paragraph-2 mb-0" style={{ opacity: 0.6 }}>
+                            {notif.time}
+                          </p>
+                        </div>
+                        {!notif.read && (
+                          <span
+                            className="badge"
+                            style={{
+                              background: typeColors[notif.type] || "#185FA5",
+                              color: "#fff",
+                              fontSize: "10px",
+                              flexShrink: 0,
+                            }}
+                          >
+                            New
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {!notif.read && (
-                      <span
-                        className="badge"
-                        style={{
-                          background: typeColors[notif.type] || "#185FA5",
-                          color: "#fff",
-                          fontSize: "10px",
-                          flexShrink: 0,
-                        }}
-                      >
-                        New
-                      </span>
-                    )}
                   </div>
                 ))}
               </div>
