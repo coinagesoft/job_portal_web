@@ -12,7 +12,7 @@ const JobCardList = ({ job, onApplyNow, viewMode = 'list' }) => {
   return (
     <>
       <div className="card-grid-2 hover-up">
-        <span className="flash"></span>
+        {/* <span className="flash"></span> */}
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12">
             <div className="card-grid-2-image-left">

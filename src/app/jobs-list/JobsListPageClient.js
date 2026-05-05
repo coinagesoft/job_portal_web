@@ -77,10 +77,10 @@ const JobsListPageClient = () => {
           <div className="row flex-row-reverse">
             <div className="col-lg-9 col-md-12 col-sm-12 col-12 float-right">
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px', padding: '0 15px' }}>
-                <FilterButton 
+                {/* <FilterButton 
                   activeFilterCount={totalFilterCount}
                   onClick={() => setShowFilterSheet(true)} 
-                />
+                /> */}
               </div>
               <JobList filters={filters} />
             </div>
