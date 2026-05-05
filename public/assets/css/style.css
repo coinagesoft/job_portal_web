@@ -1118,7 +1118,20 @@ h6,
   color: #3C65F5;
   border: 1.5px solid #3C65F5 !important;   /* theme border */
 }
+.tag-active {
+  background: #dcfce7;
+  color: #15803d;
+}
 
+.tag-warning {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.tag-muted {
+  background: #f3f4f6;
+  color: #6b7280;
+}
 .btn-outline-custom:hover {
   background: #E0E6F7;   /* light theme bg */
   color: #3C65F5;

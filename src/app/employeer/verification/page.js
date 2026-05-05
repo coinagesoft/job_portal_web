@@ -86,7 +86,8 @@ const EmployerVerificationPage = () => {
                 <div className="col-xl-8 col-lg-8">
                   <h3 className="mb-5">Verification &amp; Badges</h3>
                   <span className="font-sm color-text-paragraph-2">
-                    Build trust with candidates - verified employers get more applicants.
+                    Build trust with candidates - verified employers get more
+                    applicants.
                   </span>
                 </div>
               </div>
@@ -97,7 +98,10 @@ const EmployerVerificationPage = () => {
                 <h5 className="mb-20">Trust Badges</h5>
                 <div className="row">
                   {verificationBadges.map((item) => (
-                    <div className="col-lg-4 col-md-6 col-12 mb-20" key={item.field}>
+                    <div
+                      className="col-lg-4 col-md-6 col-12 mb-20"
+                      key={item.field}
+                    >
                       <div
                         className="card-grid-2"
                         style={{
@@ -125,12 +129,23 @@ const EmployerVerificationPage = () => {
                           </span>
                           <div>
                             <p className="font-sm fw-600 mb-0">{item.badge}</p>
-                            <span className={item.statusClass} style={{ fontSize: "10px" }}>
+                            <span
+                              className={`btn btn-grey-small ${
+                                item.status === "Approved"
+                                  ? "tag-active"
+                                  : item.status === "Pending"
+                                    ? "tag-warning"
+                                    : "tag-muted"
+                              }`}
+                              style={{ fontSize: "10px", padding: "2px 8px" }}
+                            >
                               {item.status}
                             </span>
                           </div>
                         </div>
-                        <p className="font-xs color-text-paragraph-2 mb-0">{item.detail}</p>
+                        <p className="font-xs color-text-paragraph-2 mb-0">
+                          {item.detail}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -145,7 +160,10 @@ const EmployerVerificationPage = () => {
                     <h5 className="mb-0">Uploaded Documents</h5>
                   </div>
                   <div className="col-4 text-end">
-                    <button className="btn btn-default btn-sm hover-up" type="button">
+                    <button
+                      className="btn btn-default btn-sm hover-up"
+                      type="button"
+                    >
                       + Upload Document
                     </button>
                   </div>
@@ -164,9 +182,22 @@ const EmployerVerificationPage = () => {
                       {verificationDocuments.map((doc) => (
                         <tr key={doc.name}>
                           <td className="font-sm fw-500">{doc.name}</td>
-                          <td className="font-xs color-text-paragraph-2">{doc.uploaded}</td>
+                          <td className="font-xs color-text-paragraph-2">
+                            {doc.uploaded}
+                          </td>
                           <td>
-                            <span className={doc.statusClass}>{doc.status}</span>
+                           <span
+  className={`btn btn-grey-small ${
+    doc.status === "Verified"
+      ? "tag-active"
+      : doc.status === "Under review"
+      ? "tag-warning"
+      : "tag-muted"
+  }`}
+  style={{ fontSize: "10px", padding: "2px 8px" }}
+>
+  {doc.status}
+</span>
                           </td>
                           <td className="text-end">
                             <button
@@ -218,4 +249,3 @@ const EmployerVerificationPage = () => {
 };
 
 export default EmployerVerificationPage;
-
