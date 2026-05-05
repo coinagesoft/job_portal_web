@@ -10,11 +10,11 @@ const LANGUAGES = [
 ];
 
 const SETTINGS_SECTIONS = [
-  { key: "account", label: "Account Details", icon: "👤" },
-  { key: "language", label: "Language Preference", icon: "🌐" },
-  { key: "security", label: "Security", icon: "🔒" },
-  { key: "preferences", label: "Preferences", icon: "⚙️" },
-  { key: "danger", label: "Danger Zone", icon: "⚠️" },
+  { key: "account", label: "Account Details",  },
+  { key: "language", label: "Language Preference", },
+  { key: "security", label: "Security", },
+  { key: "preferences", label: "Preferences", },
+  { key: "danger", label: "Delete Account", },
 ];
 
 const NOTIFICATION_PREFS = [
@@ -406,7 +406,7 @@ const EmployerSettingsPage = () => {
                 {activeSection === "danger" && (
                   <div className="card-grid-2 hover-up">
                     <div className="card-block-info pt-20 pb-20">
-                      <h5 className="mb-5" style={{ color: "#A32D2D" }}>Danger Zone</h5>
+                      <h5 className="mb-5" style={{ color: "#A32D2D" }}>Delete Account</h5>
                       <p className="font-sm color-text-paragraph-2 mb-20">
                         These actions are irreversible. Please proceed with caution.
                       </p>
