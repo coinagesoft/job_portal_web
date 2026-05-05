@@ -32,7 +32,11 @@ const employerJobs = [
     status: "Active",
     statusClass: "badge bg-success",
     actions: [
-      { label: "Applicants", href: "/employeer/applicants", isApplicants: true },
+      {
+        label: "Applicants",
+        href: "/employeer/applicants",
+        isApplicants: true,
+      },
       { label: "Edit", href: "/dashboard/post-job" },
       { label: "Pause" },
     ],
@@ -52,7 +56,11 @@ const employerJobs = [
     status: "Active",
     statusClass: "badge bg-success",
     actions: [
-      { label: "Applicants", href: "/employeer/applicants", isApplicants: true },
+      {
+        label: "Applicants",
+        href: "/employeer/applicants",
+        isApplicants: true,
+      },
       { label: "Edit", href: "/dashboard/post-job" },
       { label: "Boost as Hot" },
     ],
@@ -71,7 +79,10 @@ const employerJobs = [
     topMatches: ["Hospitality exp", "Food safety", "Rotation shift ready"],
     status: "Paused",
     statusClass: "badge bg-warning text-dark",
-    actions: [{ label: "Resume" }, { label: "Edit", href: "/dashboard/post-job" }],
+    actions: [
+      { label: "Resume" },
+      { label: "Edit", href: "/dashboard/post-job" },
+    ],
   },
   {
     id: "job-rig-electrician-offshore",
@@ -88,7 +99,11 @@ const employerJobs = [
     status: "Active",
     statusClass: "badge bg-success",
     actions: [
-      { label: "Applicants", href: "/employeer/applicants", isApplicants: true },
+      {
+        label: "Applicants",
+        href: "/employeer/applicants",
+        isApplicants: true,
+      },
       { label: "Edit", href: "/dashboard/post-job" },
       { label: "Pause" },
     ],
@@ -108,7 +123,11 @@ const employerJobs = [
     status: "Active",
     statusClass: "badge bg-success",
     actions: [
-      { label: "Applicants", href: "/employeer/applicants", isApplicants: true },
+      {
+        label: "Applicants",
+        href: "/employeer/applicants",
+        isApplicants: true,
+      },
       { label: "Edit", href: "/dashboard/post-job" },
       { label: "Pause" },
     ],
@@ -128,9 +147,15 @@ const EmployerJobListPage = () => {
   };
 
   const handleActionClick = (label, jobTitle) => {
-    if (label === "Pause") showToast(`Job "${jobTitle}" has been paused.`, "warning");
-    else if (label === "Resume") showToast(`Job "${jobTitle}" has been resumed.`, "success");
-    else if (label === "Boost as Hot") showToast(`Boost request sent for "${jobTitle}". You will be redirected to payment.`, "info");
+    if (label === "Pause")
+      showToast(`Job "${jobTitle}" has been paused.`, "warning");
+    else if (label === "Resume")
+      showToast(`Job "${jobTitle}" has been resumed.`, "success");
+    else if (label === "Boost as Hot")
+      showToast(
+        `Boost request sent for "${jobTitle}". You will be redirected to payment.`,
+        "info",
+      );
     else showToast(`${label} — ${jobTitle}`, "info");
   };
 
@@ -151,7 +176,9 @@ const EmployerJobListPage = () => {
                   <Link
                     className="btn btn-default hover-up"
                     href="/dashboard/post-job"
-                    onClick={() => showToast("Opening post a job form...", "info")}
+                    onClick={() =>
+                      showToast("Opening post a job form...", "info")
+                    }
                   >
                     + Post a job
                   </Link>
@@ -206,22 +233,47 @@ const EmployerJobListPage = () => {
                               {job.title}
                             </a>
                           </h4>
-                          <p className="font-sm color-text-paragraph mt-10">{job.meta}</p>
+                          <p className="font-sm color-text-paragraph mt-10">
+                            {job.meta}
+                          </p>
                           <div className="mt-10 d-flex flex-wrap align-items-center">
-                            <span className={`${job.postTypeClass} mr-5 mb-5`}>{job.postType}</span>
-                            {job.postType === "Hot Vacancy" && (
-                              <span className="badge bg-primary mr-5 mb-5">Urgent Hiring</span>
-                            )}
+                            <div className="mt-10 d-flex flex-wrap">
+                              {[
+                                job.postType,
+                                job.postType === "Hot Vacancy" &&
+                                  "Urgent Hiring",
+                              ]
+                                .filter(Boolean)
+                                .map((tag, index) => (
+                                  <span
+                                    key={index}
+                                    className={`btn btn-grey-small mr-5 mb-5 ${
+                                      tag === "Hot Vacancy" ? "tag-hot" : ""
+                                    }`}
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                            </div>
                           </div>
-                          <p className="font-xs color-text-paragraph-2 mt-10 mb-5">{job.visibility}</p>
-                          <p className="font-xs color-text-paragraph-2 mb-0">{job.priorityText}</p>
-                          <p className="font-xs color-text-paragraph-2 mb-0">{job.monetization}</p>
+                          <p className="font-xs color-text-paragraph-2 mt-10 mb-5">
+                            {job.visibility}
+                          </p>
+                          <p className="font-xs color-text-paragraph-2 mb-0">
+                            {job.priorityText}
+                          </p>
+                          <p className="font-xs color-text-paragraph-2 mb-0">
+                            {job.monetization}
+                          </p>
                           <p className="font-xs color-text-paragraph-2 mt-10 mb-5">
                             Last applicant activity: {job.lastApplicant}
                           </p>
                           <div className="mt-10 d-flex flex-wrap">
                             {job.topMatches.map((tag) => (
-                              <span key={`${job.id}-${tag}`} className="badge bg-light text-dark mr-5 mb-5">
+                              <span
+                                key={`${job.id}-${tag}`}
+                                className="badge bg-light text-dark mr-5 mb-5"
+                              >
                                 {tag}
                               </span>
                             ))}
@@ -231,47 +283,54 @@ const EmployerJobListPage = () => {
                         {/* Right: Status + Actions */}
                         <div className="col-lg-5 col-md-12 col-sm-12 text-lg-end mt-md-15 mt-sm-15">
                           <div className="card-2-bottom mt-20 mt-lg-0">
-                            <span className={job.statusClass}>{job.status}</span>
+                            <span
+                              className={`btn btn-grey-small ${
+                                job.status === "Active"
+                                  ? "tag-active"
+                                  : "tag-paused"
+                              }`}
+                            >
+                              {job.status}
+                            </span>
                             <div className="mt-10">
                               {job.actions.map((action) =>
                                 action.href ? (
                                   <Link
                                     key={`${job.id}-${action.label}`}
-                                    className="btn btn-grey-small btn-sm mr-5 mb-5"
+                                    className={`btn ${
+                                      action.label === "Applicants"
+                                        ? "btn-apply-now"
+                                        : "btn-outline-theme"
+                                    } btn-sm mr-5 mb-5`}
                                     href={action.href}
-                                    style={{ ...compactBtnStyle, position: "relative", display: "inline-flex", alignItems: "center", gap: "4px" }}
-                                    onClick={() => showToast(`${action.label} — ${job.title}`, "info")}
+                                    onClick={() =>
+                                      showToast(
+                                        `${action.label} — ${job.title}`,
+                                        "info",
+                                      )
+                                    }
                                   >
                                     {action.label}
-                                    {action.isApplicants && job.applicants > 0 && (
-                                      <span
-                                        style={{
-                                          background: "#E53935",
-                                          color: "#fff",
-                                          borderRadius: "10px",
-                                          padding: "0 5px",
-                                          fontSize: "10px",
-                                          fontWeight: "700",
-                                          lineHeight: "16px",
-                                          minWidth: "18px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {job.applicants}
-                                      </span>
-                                    )}
+
+                                    {action.isApplicants &&
+                                      job.applicants > 0 && (
+                                        <span className="badge-count"> - 
+                                          {job.applicants}
+                                        </span>
+                                      )}
                                   </Link>
                                 ) : (
                                   <button
                                     key={`${job.id}-${action.label}`}
-                                    className="btn btn-grey-small btn-sm mr-5 mb-5"
+                                    className="btn btn-outline-theme btn-sm mr-5 mb-5"
                                     type="button"
-                                    style={compactBtnStyle}
-                                    onClick={() => handleActionClick(action.label, job.title)}
+                                    onClick={() =>
+                                      handleActionClick(action.label, job.title)
+                                    }
                                   >
                                     {action.label}
                                   </button>
-                                )
+                                ),
                               )}
                             </div>
                           </div>

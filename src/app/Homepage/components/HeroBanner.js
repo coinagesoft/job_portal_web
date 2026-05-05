@@ -50,7 +50,7 @@ const HeroBanner = () => {
                     Learn more
                   </a>
                 </div>
-                <div className="mt-50 mb-20">
+                {/* <div className="mt-50 mb-20">
                   <span className="font-md color-text-paragraph-2">Trusted by</span>
                 </div>
                 <div className="box-logos-485">
@@ -85,7 +85,7 @@ const HeroBanner = () => {
                       </SwiperSlide>
                     </Swiper>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-xl-5 col-lg-12 d-none d-xl-block col-md-6">

@@ -25,7 +25,7 @@ const CREDIT_PACKS = [
   },
   {
     id: "scale",
-    name: "6-Month Scale",
+    name: "6-Month Scaler",
     credits: 75,
     price: 9999,
     gst: 1800,
@@ -50,10 +50,10 @@ const EmployerBuyCreditsPage = () => {
     setPaying(true);
 
     const options = {
-      key: "rzp_test_YourTestKeyHere", // Replace with your Razorpay test key
+      key: "rzp_test_SgugRS3Yw7i4uA", // Replace with your Razorpay test key
       amount: total * 100, // paise
       currency: "INR",
-      name: "Job Portal",
+      name: "JobBox.ai",
       description: `${selected.name} — ${selected.credits} Credits`,
       image: "/assets2/imgs/page/homepage/img-banner.png",
       handler: function (response) {

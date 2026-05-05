@@ -27,7 +27,7 @@ const jobsData = [
       time: '3 mins ago', 
       price: '$55K - $72K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/ship_service.jpg', 
       tags: ['Panel Wiring', 'Safety'] 
     },
     { 
@@ -36,7 +36,7 @@ const jobsData = [
       time: '6 mins ago', 
       price: '$40K - $52K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img2.png', 
+      img: '/assets/imgs/page/blue-collar/ship_captain.jpg', 
       tags: ['HVAC', 'Troubleshooting'] 
     },
     { 
@@ -45,7 +45,7 @@ const jobsData = [
       time: '9 mins ago', 
       price: '$45K - $58K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img3.png', 
+      img: '/assets/imgs/page/blue-collar/welding.jpg', 
       tags: ['Alignment', 'Assembly'] 
     },
   ],
@@ -56,7 +56,7 @@ const jobsData = [
       time: '12 mins ago', 
       price: '$50K - $72K', 
       type: 'Contract', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/ship_captain.jpg', 
       tags: ['6G', 'Fabrication'] 
     },
     { 
@@ -76,7 +76,7 @@ const jobsData = [
       time: '20 mins ago', 
       price: '$28K - $40K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/welding.jpg', 
       tags: ['HMV', 'Fleet Safety'] 
     },
   ],
@@ -87,7 +87,7 @@ const jobsData = [
       time: '25 mins ago', 
       price: '$36K - $50K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/ship_captain.jpg', 
       tags: ['Formwork', 'Layout'] 
     },
   ],
@@ -98,7 +98,7 @@ const jobsData = [
       time: '30 mins ago', 
       price: '$32K - $45K', 
       type: 'Contract', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/welding.jpg', 
       tags: ['Deck Support', 'Safety Drill'] 
     },
   ],
@@ -109,7 +109,7 @@ const jobsData = [
       time: '35 mins ago', 
       price: '$30K - $42K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/sea offshore.jpg', 
       tags: ['Food Safety', 'Prep'] 
     },
   ],
@@ -120,7 +120,7 @@ const jobsData = [
       time: '40 mins ago', 
       price: '$32K - $44K', 
       type: 'Full time', 
-      img: '/assets/imgs/page/homepage2/img1.png', 
+      img: '/assets/imgs/page/blue-collar/sea offshore.jpg', 
       tags: ['Fire Panel', 'Compliance'] 
     },
   ],

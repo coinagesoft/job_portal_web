@@ -14,14 +14,18 @@ const cvCandidates = [
     locationState: "MH",
     availability: "available",
     primarySkill: "6G Arc Welding",
-    secondarySkills: ["MIG Welding", "Pipeline Fabrication", "Blueprint Reading"],
+    secondarySkills: [
+      "MIG Welding",
+      "Pipeline Fabrication",
+      "Blueprint Reading",
+    ],
     certifications: ["ITI Certified", "KYC Verified"],
     itiCertified: true,
     passportValid: true,
     offshoreExperience: true,
     baseScore: 86,
     profileUpdatedAt: "2026-04-18",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-002",
@@ -39,7 +43,7 @@ const cvCandidates = [
     offshoreExperience: false,
     baseScore: 82,
     profileUpdatedAt: "2026-04-20",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-003",
@@ -50,14 +54,18 @@ const cvCandidates = [
     locationState: "TN",
     availability: "unavailable",
     primarySkill: "Engine Room Maintenance",
-    secondarySkills: ["Dry Dock Support", "Ship Electrical", "Safety Compliance"],
+    secondarySkills: [
+      "Dry Dock Support",
+      "Ship Electrical",
+      "Safety Compliance",
+    ],
     certifications: ["Passport Valid", "STCW"],
     itiCertified: false,
     passportValid: true,
     offshoreExperience: true,
     baseScore: 84,
     profileUpdatedAt: "2026-04-12",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-004",
@@ -76,7 +84,7 @@ const cvCandidates = [
     baseScore: 74,
     profileUpdatedAt: "2026-04-21",
     isUnlocked: true,
-    unlockedDaysLeft: 42
+    unlockedDaysLeft: 42,
   },
   {
     id: "CAND-005",
@@ -94,7 +102,7 @@ const cvCandidates = [
     offshoreExperience: false,
     baseScore: 78,
     profileUpdatedAt: "2026-04-15",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-006",
@@ -112,7 +120,7 @@ const cvCandidates = [
     offshoreExperience: false,
     baseScore: 80,
     profileUpdatedAt: "2026-04-17",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-007",
@@ -130,7 +138,7 @@ const cvCandidates = [
     offshoreExperience: true,
     baseScore: 79,
     profileUpdatedAt: "2026-04-11",
-    isUnlocked: false
+    isUnlocked: false,
   },
   {
     id: "CAND-008",
@@ -141,18 +149,24 @@ const cvCandidates = [
     locationState: "UP",
     availability: "available",
     primarySkill: "Control Panel Assembly",
-    secondarySkills: ["SCADA Support", "Maintenance Planning", "Cable Fault Testing"],
+    secondarySkills: [
+      "SCADA Support",
+      "Maintenance Planning",
+      "Cable Fault Testing",
+    ],
     certifications: ["ITI Certified", "KYC Verified", "Safety Card"],
     itiCertified: true,
     passportValid: true,
     offshoreExperience: false,
     baseScore: 88,
     profileUpdatedAt: "2026-04-22",
-    isUnlocked: false
-  }
+    isUnlocked: false,
+  },
 ];
 
-const tradeOptions = Array.from(new Set(cvCandidates.map((candidate) => candidate.trade))).sort();
+const tradeOptions = Array.from(
+  new Set(cvCandidates.map((candidate) => candidate.trade)),
+).sort();
 
 const getQueryValue = (value, fallback = "") => {
   if (Array.isArray(value)) return value[0] ?? fallback;
@@ -166,10 +180,18 @@ const parseInteger = (value) => {
 
 const isChecked = (value) => {
   const checkedValue = String(getQueryValue(value, "")).toLowerCase();
-  return checkedValue === "1" || checkedValue === "true" || checkedValue === "on" || checkedValue === "yes";
+  return (
+    checkedValue === "1" ||
+    checkedValue === "true" ||
+    checkedValue === "on" ||
+    checkedValue === "yes"
+  );
 };
 
-const normalizeText = (value) => String(value || "").toLowerCase().trim();
+const normalizeText = (value) =>
+  String(value || "")
+    .toLowerCase()
+    .trim();
 
 const tokenizeSearch = (value) =>
   normalizeText(value)
@@ -177,13 +199,17 @@ const tokenizeSearch = (value) =>
     .map((part) => part.trim())
     .filter(Boolean);
 
-const formatLocation = (candidate) => `${candidate.locationCity}, ${candidate.locationState}`;
+const formatLocation = (candidate) =>
+  `${candidate.locationCity}, ${candidate.locationState}`;
 const formatExperience = (candidate) => `${candidate.yearsExp} yrs exp`;
 
-const availabilityLabel = (availability) => (availability === "available" ? "Available now" : "Not available");
+const availabilityLabel = (availability) =>
+  availability === "available" ? "Available now" : "Not available";
 
 const availabilityBadgeClass = (availability) =>
-  availability === "available" ? "badge bg-success mr-5" : "badge bg-warning text-dark mr-5";
+  availability === "available"
+    ? "badge bg-success mr-5"
+    : "badge bg-warning text-dark mr-5";
 
 const availabilityTooltip = (availability) =>
   availability === "available"
@@ -194,10 +220,10 @@ const certificationTooltip = (type) =>
   type === "ITI"
     ? "ITI certified candidate"
     : type === "Passport"
-    ? "Passport valid for travel"
-    : type === "Offshore"
-    ? "Candidate has offshore experience"
-    : type;
+      ? "Passport valid for travel"
+      : type === "Offshore"
+        ? "Candidate has offshore experience"
+        : type;
 
 const buildCandidateSearchText = (candidate) =>
   normalizeText(
@@ -208,8 +234,8 @@ const buildCandidateSearchText = (candidate) =>
       candidate.primarySkill,
       candidate.secondarySkills.join(" "),
       candidate.certifications.join(" "),
-      formatLocation(candidate)
-    ].join(" ")
+      formatLocation(candidate),
+    ].join(" "),
   );
 
 const getMatchedKeywords = (candidate, queryTokens) => {
@@ -242,16 +268,20 @@ const scoreCandidate = (candidate, queryTokens) => {
   if (!queryTokens.length) {
     return {
       matchedKeywords,
-      matchScore: candidate.baseScore
+      matchScore: candidate.baseScore,
     };
   }
 
   const coverage = matchedKeywords.length / queryTokens.length;
-  const weightedScore = Math.round(candidate.baseScore * 0.72 + coverage * 28 + (candidate.itiCertified ? 1 : 0));
+  const weightedScore = Math.round(
+    candidate.baseScore * 0.72 +
+      coverage * 28 +
+      (candidate.itiCertified ? 1 : 0),
+  );
 
   return {
     matchedKeywords,
-    matchScore: Math.max(58, Math.min(99, weightedScore))
+    matchScore: Math.max(58, Math.min(99, weightedScore)),
   };
 };
 
@@ -259,7 +289,9 @@ const sortCandidates = (candidates, sortBy) => {
   const sorted = [...candidates];
 
   if (sortBy === "newest") {
-    sorted.sort((a, b) => new Date(b.profileUpdatedAt) - new Date(a.profileUpdatedAt));
+    sorted.sort(
+      (a, b) => new Date(b.profileUpdatedAt) - new Date(a.profileUpdatedAt),
+    );
     return sorted;
   }
 
@@ -279,7 +311,8 @@ const buildActiveFilterTags = (filters, tokenCount) => {
   if (tokenCount > 0) tags.push(`Keyword terms: ${tokenCount}`);
   if (filters.trade !== ANY_TRADE) tags.push(`Trade: ${filters.trade}`);
   if (filters.location) tags.push(`Location: ${filters.location}`);
-  if (filters.availability !== ANY_AVAILABILITY) tags.push(`Availability: ${availabilityLabel(filters.availability)}`);
+  if (filters.availability !== ANY_AVAILABILITY)
+    tags.push(`Availability: ${availabilityLabel(filters.availability)}`);
   if (filters.minExp !== null) tags.push(`Min exp: ${filters.minExp} yrs`);
   if (filters.maxExp !== null) tags.push(`Max exp: ${filters.maxExp} yrs`);
   if (filters.itiOnly) tags.push("ITI certified only");
@@ -292,7 +325,7 @@ const buildActiveFilterTags = (filters, tokenCount) => {
 
 export const metadata = {
   title: "Employer CV Search - Job Portal",
-  description: "Search and unlock candidate profiles."
+  description: "Search and unlock candidate profiles.",
 };
 
 const EmployerCvSearchPage = async ({ searchParams }) => {
@@ -309,7 +342,7 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
     passportOnly: isChecked(params.passport),
     offshoreOnly: isChecked(params.offshore),
     unlockedOnly: isChecked(params.unlocked),
-    sort: getQueryValue(params.sort, "match")
+    sort: getQueryValue(params.sort, "match"),
   };
 
   if (
@@ -329,7 +362,8 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
   const candidatesWithScore = cvCandidates.map((candidate) => {
     const scoring = scoreCandidate(candidate, queryTokens);
     const pricing = getBandPricing(scoring.matchScore);
-    const canUnlock = candidate.isUnlocked || EMPLOYER_CREDITS >= pricing.credits;
+    const canUnlock =
+      candidate.isUnlocked || EMPLOYER_CREDITS >= pricing.credits;
 
     return {
       ...candidate,
@@ -340,33 +374,44 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
         ? `Unlocked - ${candidate.unlockedDaysLeft || 30}d left`
         : canUnlock
           ? `Unlock profile (${pricing.credits} cr)`
-          : `Need ${pricing.credits} credits`
+          : `Need ${pricing.credits} credits`,
     };
   });
 
   const filteredCandidates = sortCandidates(
     candidatesWithScore.filter((candidate) => {
-      if (filters.trade !== ANY_TRADE && candidate.trade !== filters.trade) return false;
+      if (filters.trade !== ANY_TRADE && candidate.trade !== filters.trade)
+        return false;
 
-      if (filters.availability !== ANY_AVAILABILITY && candidate.availability !== filters.availability) return false;
+      if (
+        filters.availability !== ANY_AVAILABILITY &&
+        candidate.availability !== filters.availability
+      )
+        return false;
 
       if (filters.location) {
-        const locationText = normalizeText(`${candidate.locationCity} ${candidate.locationState}`);
-        if (!locationText.includes(normalizeText(filters.location))) return false;
+        const locationText = normalizeText(
+          `${candidate.locationCity} ${candidate.locationState}`,
+        );
+        if (!locationText.includes(normalizeText(filters.location)))
+          return false;
       }
 
-      if (filters.minExp !== null && candidate.yearsExp < filters.minExp) return false;
-      if (filters.maxExp !== null && candidate.yearsExp > filters.maxExp) return false;
+      if (filters.minExp !== null && candidate.yearsExp < filters.minExp)
+        return false;
+      if (filters.maxExp !== null && candidate.yearsExp > filters.maxExp)
+        return false;
       if (filters.itiOnly && !candidate.itiCertified) return false;
       if (filters.passportOnly && !candidate.passportValid) return false;
       if (filters.offshoreOnly && !candidate.offshoreExperience) return false;
       if (filters.unlockedOnly && !candidate.isUnlocked) return false;
 
-      if (queryTokens.length > 0 && candidate.matchedKeywords.length === 0) return false;
+      if (queryTokens.length > 0 && candidate.matchedKeywords.length === 0)
+        return false;
 
       return true;
     }),
-    filters.sort
+    filters.sort,
   );
 
   const activeFilterTags = buildActiveFilterTags(filters, queryTokens.length);
@@ -378,10 +423,12 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
           <div className="banner-hero banner-single banner-single-bg">
             <div className="block-banner text-center">
               <h3>
-                <span className="color-brand-2">{cvCandidates.length}</span> Candidates in CV Search
+                <span className="color-brand-2">{cvCandidates.length}</span>{" "}
+                Candidates in CV Search
               </h3>
               <div className="font-sm color-text-paragraph-2 mt-10">
-                Search by keyword, trade, experience, location, and verification tags.
+                Search by keyword, trade, experience, location, and verification
+                tags.
               </div>
 
               <div className="form-find text-start mt-40">
@@ -431,16 +478,37 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <option value="unavailable">Not available</option>
                   </select>
 
-                  {filters.location ? <input type="hidden" name="location" value={filters.location} /> : null}
-                  {filters.minExp !== null ? <input type="hidden" name="minExp" value={filters.minExp} /> : null}
-                  {filters.maxExp !== null ? <input type="hidden" name="maxExp" value={filters.maxExp} /> : null}
-                  {filters.itiOnly ? <input type="hidden" name="iti" value="1" /> : null}
-                  {filters.passportOnly ? <input type="hidden" name="passport" value="1" /> : null}
-                  {filters.offshoreOnly ? <input type="hidden" name="offshore" value="1" /> : null}
-                  {filters.unlockedOnly ? <input type="hidden" name="unlocked" value="1" /> : null}
+                  {filters.location ? (
+                    <input
+                      type="hidden"
+                      name="location"
+                      value={filters.location}
+                    />
+                  ) : null}
+                  {filters.minExp !== null ? (
+                    <input type="hidden" name="minExp" value={filters.minExp} />
+                  ) : null}
+                  {filters.maxExp !== null ? (
+                    <input type="hidden" name="maxExp" value={filters.maxExp} />
+                  ) : null}
+                  {filters.itiOnly ? (
+                    <input type="hidden" name="iti" value="1" />
+                  ) : null}
+                  {filters.passportOnly ? (
+                    <input type="hidden" name="passport" value="1" />
+                  ) : null}
+                  {filters.offshoreOnly ? (
+                    <input type="hidden" name="offshore" value="1" />
+                  ) : null}
+                  {filters.unlockedOnly ? (
+                    <input type="hidden" name="unlocked" value="1" />
+                  ) : null}
                   <input type="hidden" name="sort" value={filters.sort} />
 
-                  <button className="btn btn-default btn-find font-sm" type="submit">
+                  <button
+                    className="btn btn-default btn-find font-sm"
+                    type="submit"
+                  >
                     Search
                   </button>
                 </form>
@@ -459,17 +527,21 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                   <div className="row">
                     <div className="col-xl-7 col-lg-7">
                       <span className="text-small text-showing">
-                        <strong>{filteredCandidates.length}</strong> of {cvCandidates.length} candidates found
+                        <strong>{filteredCandidates.length}</strong> of{" "}
+                        {cvCandidates.length} candidates found
                       </span>
                       <p className="font-xs color-text-paragraph-2 mt-5 mb-0">
-                        Keyword match uses role, skills, certifications, and location relevance.
+                        Keyword match uses role, skills, certifications, and
+                        location relevance.
                       </p>
                     </div>
                     <div className="col-xl-5 col-lg-5 text-lg-end mt-sm-15">
                       <div className="display-flex2">
                         <div className="box-border mr-10">
                           <span className="text-sortby">Credits:</span>
-                          <strong className="color-brand-1">{EMPLOYER_CREDITS}</strong>
+                          <strong className="color-brand-1">
+                            {EMPLOYER_CREDITS}
+                          </strong>
                         </div>
                         <span className="btn btn-grey-small mr-5">A = 1cr</span>
                         <span className="btn btn-grey-small mr-5">B = 2cr</span>
@@ -481,7 +553,10 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                   {activeFilterTags.length > 0 ? (
                     <div className="mt-15">
                       {activeFilterTags.map((tag) => (
-                        <span key={tag} className="badge bg-light text-dark mr-5 mb-5">
+                        <span
+                          key={tag}
+                          className="badge bg-light text-dark mr-5 mb-5"
+                        >
                           {tag}
                         </span>
                       ))}
@@ -494,9 +569,12 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <div className="col-xl-12 col-12">
                       <div className="card-grid-2 hover-up">
                         <div className="card-block-info pt-20">
-                          <h5 className="mb-10">No candidates matched your filters.</h5>
+                          <h5 className="mb-10">
+                            No candidates matched your filters.
+                          </h5>
                           <p className="font-sm color-text-paragraph mb-0">
-                            Try broadening keywords, removing one filter, or resetting to view all candidates.
+                            Try broadening keywords, removing one filter, or
+                            resetting to view all candidates.
                           </p>
                         </div>
                       </div>
@@ -507,79 +585,82 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <div className="col-xl-12 col-12" key={candidate.id}>
                       <div
                         className="card-grid-2 hover-up"
-                        style={candidate.isUnlocked ? { borderColor: "#b6c5e6", background: "#edf4fd" } : undefined}
+                        style={
+                          candidate.isUnlocked
+                            ? { borderColor: "#b6c5e6", background: "#edf4fd" }
+                            : undefined
+                        }
                       >
                         <div className="row">
                           <div className="col-lg-7 col-md-7 col-sm-12">
                             <div className="card-grid-2-image-left">
                               <div className="image-box">
-                                <img src="/assets/imgs/page/candidates/candidate-profile.png" alt={candidate.name} />
+                                <img
+                                  src="/assets/imgs/page/candidates/candidate-profile.png"
+                                  alt={candidate.name}
+                                />
                               </div>
                               <div className="right-info">
-                                <Link className="name-job" href="/employeer/candidate-profile">
+                                <Link
+                                  className="name-job"
+                                  href="/employeer/candidate-profile"
+                                >
                                   {candidate.name} - {candidate.trade}
                                 </Link>
-                                <span className="location-small">
-                                  {formatExperience(candidate)} - {formatLocation(candidate)}
+
+                                <span className="location-small d-block">
+                                  {formatExperience(candidate)} -{" "}
+                                  {formatLocation(candidate)}
                                 </span>
+
+                                {candidate.availability === "available" && (
+                                  <span className="available-now-text">
+                                    Available now
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-5 text-start text-md-end pr-60 col-md-5 col-sm-12">
                             <div className="pl-15 mb-15 mt-30">
-                              <span
-                                className={availabilityBadgeClass(candidate.availability)}
-                                data-bs-toggle="tooltip"
-                                title={availabilityTooltip(candidate.availability)}
-                              >
-                                {availabilityLabel(candidate.availability)}
-                              </span>
-                              {candidate.itiCertified ? (
-                                <span
-                                  className="badge bg-primary mr-5"
-                                  data-bs-toggle="tooltip"
-                                  title={certificationTooltip("ITI")}
-                                >
-                                  ITI
-                                </span>
-                              ) : null}
-                              {candidate.passportValid ? (
-                                <span
-                                  className="badge bg-info text-dark mr-5"
-                                  data-bs-toggle="tooltip"
-                                  title={certificationTooltip("Passport")}
-                                >
-                                  Passport
-                                </span>
-                              ) : null}
-                              {candidate.offshoreExperience ? (
-                                <span
-                                  className="badge bg-secondary mr-5"
-                                  data-bs-toggle="tooltip"
-                                  title={certificationTooltip("Offshore")}
-                                >
-                                  Offshore
-                                </span>
-                              ) : null}
+                              {[
+                               
+                                candidate.itiCertified && "ITI",
+                                candidate.passportValid && "Passport",
+                                candidate.offshoreExperience && "Offshore",
+                              ]
+                                .filter(Boolean)
+                                .map((tag, index) => (
+                                  <span
+                                    key={index}
+                                    className="btn btn-grey-small mr-5"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
                             </div>
-                            {candidate.availability === "available" ? (
+                            {/* {candidate.availability === "available" ? (
                               <p
                                 className="font-sm fw-600 color-brand-1 mt-5"
                                 title="Candidate is ready to join immediately"
                               >
                                 Available now
                               </p>
-                            ) : null}
+                            ) : null} */}
                           </div>
                         </div>
 
                         <div className="card-block-info">
                           <h4>
-                            <Link href="/employeer/candidate-profile">{candidate.trade} Candidate Profile</Link>
+                            <Link href="/employeer/candidate-profile">
+                              {candidate.trade} Candidate Profile
+                            </Link>
                           </h4>
 
                           <div className="mt-5">
-                            <span className="card-briefcase">{formatExperience(candidate)}</span>
+                            <span className="card-briefcase">
+                              {formatExperience(candidate)}
+                            </span>
                             <span className="card-time">
                               <span>{formatLocation(candidate)}</span>
                             </span>
@@ -591,13 +672,17 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                           </p>
                           <p className="font-xs color-text-paragraph-2 mb-10">
                             <i className="fi-rs-star mr-5" />
-                            Secondary skills: {candidate.secondarySkills.join(", ")}
+                            Secondary skills:{" "}
+                            {candidate.secondarySkills.join(", ")}
                           </p>
 
                           {candidate.matchedKeywords.length > 0 ? (
                             <div className="mb-10">
                               {candidate.matchedKeywords.map((keyword) => (
-                                <span key={`${candidate.id}-${keyword}`} className="badge bg-light text-dark mr-5 mb-5">
+                                <span
+                                  key={`${candidate.id}-${keyword}`}
+                                  className="badge bg-light text-dark mr-5 mb-5"
+                                >
                                   <i className="fi-rr-search mr-5" />
                                   {keyword}
                                 </span>
@@ -608,18 +693,26 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                           <div className="card-2-bottom mt-20">
                             <div className="row align-items-center">
                               <div className="col-lg-7 col-7">
-                                <span className="card-text-price">Keyword match: {candidate.matchScore}%</span>
+                                <span className="card-text-price">
+                                  Keyword match: {candidate.matchScore}%
+                                </span>
                                 <span className="font-xs color-text-mutted ml-10">
                                   {candidate.band} - {candidate.credits} cr
                                 </span>
                               </div>
                               <div className="col-lg-5 col-5 text-end">
                                 {candidate.canUnlock ? (
-                                  <Link className="btn btn-apply-now" href="/employeer/candidate-profile">
+                                  <Link
+                                    className="btn btn-apply-now"
+                                    href="/employeer/candidate-profile"
+                                  >
                                     {candidate.unlockText}
                                   </Link>
                                 ) : (
-                                  <button className="btn btn-grey-small" type="button">
+                                  <button
+                                    className="btn btn-grey-small"
+                                    type="button"
+                                  >
                                     {candidate.unlockText}
                                   </button>
                                 )}
@@ -641,7 +734,10 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <div className="filter-block head-border mb-30">
                       <h5>
                         Search Filters{" "}
-                        <Link className="link-reset" href="/employeer/cv-search">
+                        <Link
+                          className="link-reset"
+                          href="/employeer/cv-search"
+                        >
                           Reset
                         </Link>
                       </h5>
@@ -659,7 +755,8 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                           list="cv-keyword-suggestions"
                         />
                         <p className="font-xs color-text-paragraph-2 mt-5 mb-0">
-                          Matches against role, skills, certifications, and location
+                          Matches against role, skills, certifications, and
+                          location
                         </p>
                       </div>
                     </div>
@@ -667,7 +764,11 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <div className="filter-block mb-20">
                       <div className="form-group">
                         <label className="mb-5">Trade category</label>
-                        <select className="form-control form-icons select-active" name="trade" defaultValue={filters.trade}>
+                        <select
+                          className="form-control form-icons select-active"
+                          name="trade"
+                          defaultValue={filters.trade}
+                        >
                           <option value={ANY_TRADE}>Any trade</option>
                           {tradeOptions.map((tradeOption) => (
                             <option key={tradeOption} value={tradeOption}>
@@ -739,29 +840,55 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                         <ul className="list-checkbox">
                           <li>
                             <label className="cb-container">
-                              <input type="checkbox" name="iti" value="1" defaultChecked={filters.itiOnly} />
-                              <span className="text-small">ITI certified only</span>
+                              <input
+                                type="checkbox"
+                                name="iti"
+                                value="1"
+                                defaultChecked={filters.itiOnly}
+                              />
+                              <span className="text-small">
+                                ITI certified only
+                              </span>
                               <span className="checkmark"></span>
                             </label>
                           </li>
                           <li>
                             <label className="cb-container">
-                              <input type="checkbox" name="passport" value="1" defaultChecked={filters.passportOnly} />
+                              <input
+                                type="checkbox"
+                                name="passport"
+                                value="1"
+                                defaultChecked={filters.passportOnly}
+                              />
                               <span className="text-small">Valid passport</span>
                               <span className="checkmark"></span>
                             </label>
                           </li>
                           <li>
                             <label className="cb-container">
-                              <input type="checkbox" name="offshore" value="1" defaultChecked={filters.offshoreOnly} />
-                              <span className="text-small">Offshore experience</span>
+                              <input
+                                type="checkbox"
+                                name="offshore"
+                                value="1"
+                                defaultChecked={filters.offshoreOnly}
+                              />
+                              <span className="text-small">
+                                Offshore experience
+                              </span>
                               <span className="checkmark"></span>
                             </label>
                           </li>
                           <li>
                             <label className="cb-container">
-                              <input type="checkbox" name="unlocked" value="1" defaultChecked={filters.unlockedOnly} />
-                              <span className="text-small">Unlocked profiles only</span>
+                              <input
+                                type="checkbox"
+                                name="unlocked"
+                                value="1"
+                                defaultChecked={filters.unlockedOnly}
+                              />
+                              <span className="text-small">
+                                Unlocked profiles only
+                              </span>
                               <span className="checkmark"></span>
                             </label>
                           </li>
@@ -772,19 +899,31 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                     <div className="filter-block mb-30">
                       <div className="form-group">
                         <label className="mb-5">Sort by</label>
-                        <select className="form-control form-icons select-active" name="sort" defaultValue={filters.sort}>
+                        <select
+                          className="form-control form-icons select-active"
+                          name="sort"
+                          defaultValue={filters.sort}
+                        >
                           <option value="match">Keyword match score</option>
                           <option value="newest">Newest profile update</option>
-                          <option value="experience">Experience high to low</option>
+                          <option value="experience">
+                            Experience high to low
+                          </option>
                         </select>
                       </div>
                     </div>
 
                     <div className="filter-block mb-20">
-                      <button className="btn btn-default w-100 mb-10" type="submit">
+                      <button
+                        className="btn btn-default w-100 mb-10"
+                        type="submit"
+                      >
                         Search
                       </button>
-                      <Link className="btn btn-border w-100" href="/employeer/cv-search">
+                      <Link
+                        className="btn btn-border w-100"
+                        href="/employeer/cv-search"
+                      >
                         Clear filters
                       </Link>
                     </div>
