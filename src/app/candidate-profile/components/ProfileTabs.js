@@ -39,7 +39,7 @@ const EditModal = ({ title, onClose, children }) => (
     }}>
       <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid #eee", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <h5 style={{ margin: 0, color: "#05264E" }}>{title}</h5>
-        <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#666" }}>Ã—</button>
+        <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#666" }}>X</button>
       </div>
       <div style={{ padding: "20px 24px 24px" }}>{children}</div>
     </div>
