@@ -1,0 +1,25 @@
+extends ../layouts/master.pug
+
+block title
+    title Jobbox - Page Not Found
+
+block header
+    include ../components/header.pug
+
+block content
+    section.pt-50.login-register
+        .container
+            .row.login-register-cover.pb-250
+                .col-lg-5.col-md-6.col-sm-12.mx-auto
+                    .text-center
+                        img.w-75.mb-30(src="assets/imgs/template/404.svg", alt="JobBox")
+                        h2.mt-10.mb-5.text-brand-1 Something Went Wrong!
+                        p.font-sm.text-muted.mb-30
+                            | Sorry, but we are unable to open this page.
+                    form.login-register.text-start.mt-20.mb-30(action="#")
+                        +inputWithLabel('input-1', 'Search', 'text', 'text', 'Enter keywords')
+                    .text-center.mt-20
+                        a(href='index.html') Back To Homepage
+
+
+
