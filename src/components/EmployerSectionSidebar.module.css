@@ -7,7 +7,7 @@
 }
 
 .sidebarCard {
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 10px 28px rgba(16, 47, 85, 0.08);
@@ -20,13 +20,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #185fa5;
+  color: #ff9900;
 }
 
 .sidebarTitle {
   margin: 6px 0 2px;
   font-size: 18px;
-  color: #0b2f57;
+  color: #122359;
 }
 
 .sidebarSubTitle {
@@ -47,7 +47,7 @@
 .sidebarLink {
   display: block;
   padding: 10px 12px;
-  border: 1px solid #e4e8f0;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   color: #3a4559;
   font-size: 13px;
@@ -57,15 +57,15 @@
 }
 
 .sidebarLink:hover {
-  border-color: #9ec0e7;
-  background: #f4f9ff;
-  color: #185fa5;
+  border-color: #ffc151;
+  background: #ffffff;
+  color: #ff9900;
 }
 
 .sidebarLinkActive {
-  border-color: #2d79c4;
-  background: #e6f1fb;
-  color: #185fa5;
+  border-color: #ff9900;
+  background: #ffffff;
+  color: #ff9900;
   font-weight: 700;
 }
 

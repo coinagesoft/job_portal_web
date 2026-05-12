@@ -107,7 +107,7 @@ const EmployerVerificationPage = () => {
                         style={{
                           borderRadius: "10px",
                           padding: "16px",
-                          border: "1px solid #e0e6f0",
+                          border: "1px solid #ffc151",
                         }}
                       >
                         <div className="d-flex align-items-center gap-10 mb-10">
@@ -119,10 +119,10 @@ const EmployerVerificationPage = () => {
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
-                              background: "#f0f6ff",
+                              background: "#ffffff",
                               borderRadius: "8px",
                               fontWeight: 700,
-                              color: "#185FA5",
+                              color: "#ff9900",
                             }}
                           >
                             {item.icon}
@@ -221,11 +221,11 @@ const EmployerVerificationPage = () => {
                 <h5 className="mb-15">Upload New Document</h5>
                 <div
                   style={{
-                    border: "2px dashed #b5d4f4",
+                    border: "2px dashed #ffc151",
                     borderRadius: "10px",
                     padding: "40px",
                     textAlign: "center",
-                    background: "#f7fbff",
+                    background: "#ffffff",
                     cursor: "pointer",
                   }}
                 >

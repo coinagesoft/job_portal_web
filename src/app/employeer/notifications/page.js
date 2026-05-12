@@ -31,7 +31,7 @@ const allNotifications = [
 ];
 
 const typeColors = {
-  applicant: "#185FA5",
+  applicant: "#ff9900",
   credit: "#BA7517",
 };
 
@@ -124,7 +124,7 @@ const EmployerNotificationsPage = () => {
                 key={notif.id}
                 className="card-grid-2 mb-10"
                 style={{
-                  background: notif.read ? "#fff" : "#eef6ff",
+                  background: notif.read ? "#fff" : "#ffffff",
                   cursor: "pointer",
                 }}
                 onClick={() => markRead(notif.id)}
@@ -165,7 +165,7 @@ const EmployerNotificationsPage = () => {
                             width: "40px",
                             height: "22px",
                             borderRadius: "20px",
-                            background: pref.enabled ? "#3C65F5" : "#ddd",
+                            background: pref.enabled ? "#ffa300" : "#ddd",
                             position: "relative",
                             transition: "all 0.3s ease",
                           }}

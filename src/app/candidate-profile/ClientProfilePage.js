@@ -135,7 +135,7 @@ const CandidateProfilePage = () => {
         animation: 1, foregroundBorderWidth: 10, backgroundBorderWidth: 10,
         percent, percentageTextSize: 20,
         textStyle: "font-size: 20px; font-weight: bold; font-family: 'Plus Jakarta Sans', sans-serif",
-        fontColor: "#05264E", fillColor: "#d8e0fd", backgroundColor: "#d8e0fd",
+        fontColor: "#122359", fillColor: "#ffffff", backgroundColor: "#ffffff",
         multiPercentage: 0, targetTextSize: 20
       });
     };

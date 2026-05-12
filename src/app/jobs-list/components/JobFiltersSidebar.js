@@ -36,7 +36,7 @@ const JobFiltersSidebar = ({ onFilterChange }) => {
   const safeIncludes = (values, value) => (values || []).includes(value);
 
   return (
-    <div className="sidebar-shadow none-shadow mb-30" style={{ '--primary-navy': '#1B3A6B' }}>
+    <div className="sidebar-shadow none-shadow mb-30" style={{ '--primary-navy': '#122359' }}>
       <div className="sidebar-filters">
         <div className="filter-block head-border mb-30" style={{ borderColor: 'var(--border-light)' }}>
           <h5 style={{ color: 'var(--text-dark)' }}>

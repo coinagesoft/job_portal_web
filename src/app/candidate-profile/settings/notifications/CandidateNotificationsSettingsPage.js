@@ -83,7 +83,7 @@ const CandidateNotificationsSettingsPage = () => {
               style={{ gap: "12px" }}
             >
               <div>
-                <p className="font-sm mb-2" style={{ color: "#05264e", fontWeight: 700 }}>
+                <p className="font-sm mb-2" style={{ color: "#122359", fontWeight: 700 }}>
                   {item.label}
                 </p>
                 <p className="font-xs mb-0 color-text-paragraph-2">{item.description}</p>
@@ -97,7 +97,7 @@ const CandidateNotificationsSettingsPage = () => {
                   height: "24px",
                   borderRadius: "999px",
                   border: "none",
-                  background: settings[item.id] ? "#3C65F5" : "#d6ddea",
+                  background: settings[item.id] ? "#ffa300" : "#ffc151",
                   position: "relative",
                   flexShrink: 0
                 }}

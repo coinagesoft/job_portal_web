@@ -51,22 +51,22 @@ function StepBar({ current, total, labels }) {
                 width: 28, height: 28, borderRadius:"50%", display:"flex",
                 alignItems:"center", justifyContent:"center", fontSize:12,
                 fontWeight:600, flexShrink:0,
-                background: done ? "#185FA5" : active ? "#185FA5" : "var(--color-background-secondary)",
+                background: done ? "#ff9900" : active ? "#ff9900" : "var(--color-background-secondary)",
                 color: (done || active) ? "#fff" : "var(--color-text-tertiary)",
-                border: active ? "3px solid #B5D4F4" : "none",
+                border: active ? "3px solid #ffc151" : "none",
                 boxSizing:"border-box",
               }}>
                 {done ? "✓" : n}
               </div>
               {labels && (
-                <span style={{ fontSize:10, color: active ? "#185FA5" : "var(--color-text-tertiary)", whiteSpace:"nowrap", fontWeight: active ? 600 : 400 }}>
+                <span style={{ fontSize:10, color: active ? "#ff9900" : "var(--color-text-tertiary)", whiteSpace:"nowrap", fontWeight: active ? 600 : 400 }}>
                   {labels[i]}
                 </span>
               )}
             </div>
             {i < total - 1 && (
               <div style={{ flex:1, height:2, margin:"0 4px", marginBottom: labels ? 20 : 0,
-                background: done ? "#185FA5" : "var(--color-border-tertiary)" }} />
+                background: done ? "#ff9900" : "var(--color-border-tertiary)" }} />
             )}
           </div>
         );
@@ -125,7 +125,7 @@ function Btn({ children, variant = "primary", disabled, onClick, style = {} }) {
     opacity: disabled ? 0.5 : 1, transition:"opacity .15s", ...style,
   };
   const vars = {
-    primary:  { background:"#185FA5", color:"#fff" },
+    primary:  { background:"#ff9900", color:"#fff" },
     outline:  { background:"transparent", border:"0.5px solid var(--color-border-secondary)", color:"var(--color-text-secondary)" },
     success:  { background:"#3B6D11", color:"#fff" },
     danger:   { background:"#A32D2D", color:"#fff" },
@@ -136,7 +136,7 @@ function Btn({ children, variant = "primary", disabled, onClick, style = {} }) {
 
 function Alert({ type = "info", children }) {
   const colors = {
-    info:    { bg:"#E6F1FB", color:"#185FA5", border:"#B5D4F4" },
+    info:    { bg:"#ffffff", color:"#ff9900", border:"#ffc151" },
     success: { bg:"#EAF3DE", color:"#3B6D11", border:"#C0DD97" },
     warning: { bg:"#FAEEDA", color:"#854F0B", border:"#FAC775" },
     error:   { bg:"#FCEBEB", color:"#A32D2D", border:"#F7C1C1" },
@@ -307,7 +307,7 @@ function CandidateForm() {
         setLoading(false);
       },
       prefill: { name: form.name, contact: form.mobile, email: form.email },
-      theme: { color: "#185FA5" },
+      theme: { color: "#ff9900" },
       modal: {
         ondismiss: () => {
           setLoading(false);
@@ -519,8 +519,8 @@ function EmployerForm() {
           <div key={String(opt.val)} onClick={() => set("hasGst", opt.val)}
             style={{
               flex:1, padding:"18px 16px", borderRadius:10, cursor:"pointer",
-              border: data.hasGst === opt.val ? "2px solid #185FA5" : "0.5px solid var(--color-border-secondary)",
-              background: data.hasGst === opt.val ? "#E6F1FB" : "var(--color-background-primary)",
+              border: data.hasGst === opt.val ? "2px solid #ff9900" : "0.5px solid var(--color-border-secondary)",
+              background: data.hasGst === opt.val ? "#ffffff" : "var(--color-background-primary)",
               transition:"all .15s",
             }}>
             <div style={{ fontSize:24, marginBottom:8 }}>{opt.icon}</div>
@@ -583,7 +583,7 @@ function EmployerForm() {
         <Field label="Legal / Company Name" required>
           <Input value={data.legalName} onChange={e => set("legalName", e.target.value)}
             placeholder="Acme Pvt. Ltd."
-            style={{ background: data.hasGst && data.legalName ? "#F0F7FF" : undefined }} />
+            style={{ background: data.hasGst && data.legalName ? "#ffffff" : undefined }} />
         </Field>
         <Field label="Trade Name" hint="Brand / display name">
           <Input value={data.tradeName} onChange={e => set("tradeName", e.target.value)} placeholder="Acme" />
@@ -594,7 +594,7 @@ function EmployerForm() {
           <Field label="PAN" hint="Auto-filled from GSTN for GST users">
             <Input value={data.pan} onChange={e => set("pan", e.target.value.toUpperCase())}
               placeholder="AAPFU0939F" maxLength={10}
-              style={{ fontFamily:"monospace", background: data.pan ? "#F0F7FF" : undefined }} />
+              style={{ fontFamily:"monospace", background: data.pan ? "#ffffff" : undefined }} />
           </Field>
         )}
 
@@ -631,7 +631,7 @@ function EmployerForm() {
         {data.hasGst && (
           <Field label="GST Registration Date" hint="Auto-filled for GST users">
             <Input type="date" value={data.gstRegDate} onChange={e => set("gstRegDate", e.target.value)}
-              style={{ background: data.gstRegDate ? "#F0F7FF" : undefined }} />
+              style={{ background: data.gstRegDate ? "#ffffff" : undefined }} />
           </Field>
         )}
 
@@ -654,12 +654,12 @@ function EmployerForm() {
         <Field label="City" required>
           <Input value={data.city} onChange={e => set("city", e.target.value)}
             placeholder="Mumbai"
-            style={{ background: data.hasGst && data.city ? "#F0F7FF" : undefined }} />
+            style={{ background: data.hasGst && data.city ? "#ffffff" : undefined }} />
         </Field>
         <Field label="PIN Code" required>
           <Input value={data.pincode} maxLength={6} onChange={e => set("pincode", e.target.value)}
             placeholder="400001"
-            style={{ background: data.hasGst && data.pincode ? "#F0F7FF" : undefined }} />
+            style={{ background: data.hasGst && data.pincode ? "#ffffff" : undefined }} />
         </Field>
         <Field label="Official Website">
           <Input value={data.officialWebsite} onChange={e => set("officialWebsite", e.target.value)}
@@ -670,7 +670,7 @@ function EmployerForm() {
       <Field label="Full Registered Address" required>
         <Input value={data.address} onChange={e => set("address", e.target.value)}
           placeholder="Building, Street, City, State, PIN"
-          style={{ background: data.hasGst && data.address ? "#F0F7FF" : undefined }} />
+          style={{ background: data.hasGst && data.address ? "#ffffff" : undefined }} />
       </Field>
 
       <Field label="Company Logo">
@@ -787,7 +787,7 @@ function EmployerForm() {
             <div key={lic.id}>
               <p style={{ fontSize:12, fontWeight:600, color:"var(--color-text-secondary)", marginBottom:8 }}>{lic.label}</p>
               <div onClick={() => licRef.current?.click()}
-                style={{ border:"1px dashed var(--color-border-secondary, #B4C0E0)", borderRadius:8,
+                style={{ border:"1px dashed var(--color-border-secondary, #ffc151)", borderRadius:8,
                   padding:"24px 16px", textAlign:"center", cursor:"pointer",
                   background: file ? "#EAF3DE" : "var(--color-background-secondary)" }}>
                 {file
@@ -859,9 +859,9 @@ function EmployerForm() {
         <InfoRow label="Licences" val={data.licDocs.length > 0 ? data.licDocs.map(d => d.id.toUpperCase()).join(", ") : "Skipped"} />
         <InfoRow label="GST Registered" val={data.hasGst ? "Yes" : "No"} />
       </div>
-      <div style={{ background:"#E6F1FB", border:"0.5px solid #B5D4F4",
+      <div style={{ background:"#ffffff", border:"0.5px solid #ffc151",
         borderRadius:10, padding:"14px 16px", marginBottom:20 }}>
-        <p style={{ fontSize:11, fontWeight:600, color:"#185FA5", marginBottom:10, letterSpacing:.5 }}>TRIAL TERMS</p>
+        <p style={{ fontSize:11, fontWeight:600, color:"#ff9900", marginBottom:10, letterSpacing:.5 }}>TRIAL TERMS</p>
         <InfoRow label="Trial period" val="14 days" />
         <InfoRow label="Free credits" val="5 × Band A" />
         <InfoRow label="CV downloads" val="Disabled during trial" />
@@ -905,7 +905,7 @@ function RegisterPageInner() {
       <div style={{ maxWidth: role === "employer" ? 680 : 460, margin:"0 auto" }}>
         {/* Header */}
         <div style={{ textAlign:"center", marginBottom:32 }}>
-          <div style={{ fontSize:11, fontWeight:700, letterSpacing:1.5, color:"#185FA5",
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:1.5, color:"#ff9900",
             textTransform:"uppercase", marginBottom:8 }}>SkillBridge</div>
           <h1 style={{ fontSize:26, fontWeight:700, color:"var(--color-text-primary)", marginBottom:8 }}>
             {role === "employer" ? "Employer Registration" : role === "candidate" ? "Candidate Registration" : "Create your account"}
@@ -939,8 +939,8 @@ function RegisterPageInner() {
                   style={{
                     flex:1, padding: role ? "10px 14px" : "18px 14px",
                     borderRadius:10, cursor:"pointer",
-                    border: role === r.val ? "2px solid #185FA5" : "1px solid var(--color-border-secondary, #C7D2E0)",
-                    background: role === r.val ? "#E6F1FB" : "var(--color-background-secondary)",
+                    border: role === r.val ? "2px solid #ff9900" : "1px solid var(--color-border-secondary, #C7D2E0)",
+                    background: role === r.val ? "#ffffff" : "var(--color-background-secondary)",
                     transition:"all .15s",
                     display:"flex", alignItems: role ? "center" : "flex-start",
                     gap:12,
@@ -948,7 +948,7 @@ function RegisterPageInner() {
                   <span style={{ fontSize: role ? 18 : 24, flexShrink:0 }}>{r.icon}</span>
                   <div>
                     <div style={{ fontSize: role ? 13 : 14, fontWeight:600,
-                      color: role === r.val ? "#185FA5" : "var(--color-text-primary)" }}>{r.label}</div>
+                      color: role === r.val ? "#ff9900" : "var(--color-text-primary)" }}>{r.label}</div>
                     {!role && <div style={{ fontSize:11, color:"var(--color-text-secondary)", marginTop:2 }}>{r.sub}</div>}
                   </div>
                 </div>
@@ -968,7 +968,7 @@ function RegisterPageInner() {
 
         <p style={{ textAlign:"center", fontSize:13, color:"var(--color-text-secondary)", marginTop:20 }}>
           Already have an account?{" "}
-          <a href="/Login" style={{ color:"#185FA5", fontWeight:600, textDecoration:"none" }}>Sign in</a>
+          <a href="/Login" style={{ color:"#ff9900", fontWeight:600, textDecoration:"none" }}>Sign in</a>
         </p>
       </div>
     </main>

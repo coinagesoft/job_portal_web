@@ -62,7 +62,7 @@ export const ToastProvider = ({ children }) => {
               background: toast.type === "success" ? "#0BAB7C"
                 : toast.type === "error" ? "#E53935"
                 : toast.type === "warning" ? "#F59E0B"
-                : "#1976D2",
+                : "#ffa300",
               color: "#fff", fontSize: "14px", fontWeight: 500,
               animation: toast.isExiting
                 ? `slideOutToast ${EXIT_ANIMATION_DURATION}ms ease-in forwards`

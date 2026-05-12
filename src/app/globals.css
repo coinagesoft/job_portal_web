@@ -1,13 +1,13 @@
 :root {
   --background: #ffffff;
-  --foreground: #05264e;
-  --primary-navy: #05264e;
-  --primary-blue: #3c65f5;
-  --border-light: #e0e6f7;
-  --text-dark: #05264e;
+  --foreground: #122359;
+  --primary-navy: #122359;
+  --primary-blue: #ffa300;
+  --border-light: #ffc151;
+  --text-dark: #122359;
   --text-mid: #4f5e64;
   --text-light: #a0abb8;
-  --bg-light: #f8faff;
+  --bg-light: #ffffff;
   --font-xs: 12px;
   --font-sm: 14px;
   --font-base: 14px;
@@ -20,11 +20,11 @@
   --lh-normal: 1.6;
   --lh-loose: 1.6;
   --color-background-primary: #ffffff;
-  --color-background-secondary: #f8faff;
-  --color-background-tertiary: #eff3fc;
-  --color-border-secondary: #b4c0e0;
-  --color-border-tertiary: #e0e6f7;
-  --color-text-primary: #05264e;
+  --color-background-secondary: #ffffff;
+  --color-background-tertiary: #ffffff;
+  --color-border-secondary: #ffc151;
+  --color-border-tertiary: #ffc151;
+  --color-text-primary: #122359;
   --color-text-secondary: #4f5e64;
   --color-text-tertiary: #66789c;
 }
@@ -140,10 +140,10 @@ a {
 .ai-note-inline {
   margin: 0 0 14px;
   padding: 9px 12px;
-  border: 1px solid #b5d4f4;
+  border: 1px solid #ffc151;
   border-radius: 8px;
-  background: #e6f1fb;
-  color: #185fa5;
+  background: #ffffff;
+  color: #ff9900;
   font-size: 12px;
   line-height: 1.5;
 }
@@ -204,7 +204,7 @@ textarea.form-control {
 }
 
 .candidate-profile-v2-entry-actions .btn.btn-grey-small {
-  border: 1px solid #b4c0e0;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   background: #ffffff;
   color: #4f5e64 !important;
@@ -215,7 +215,7 @@ textarea.form-control {
 }
 
 .candidate-profile-v2-entry-actions .btn.btn-grey-small:hover {
-  background: #05264e;
+  background: #122359;
   color: #ffffff !important;
 }
 
@@ -299,7 +299,7 @@ textarea.form-control {
 }
 
 .paginations .pager button.pager-number.active {
-  color: #05264e;
+  color: #122359;
 }
 
 .paginations .pager button.pager-number.active::before,
@@ -307,7 +307,7 @@ textarea.form-control {
   content: "";
   height: 28px;
   width: 28px;
-  background: #e0e6f7;
+  background: #ffc151;
   opacity: 0.3;
   border-radius: 50%;
   position: absolute;
@@ -375,7 +375,7 @@ textarea.form-control {
 
 .apply-job-modal-shell {
   border-radius: 16px;
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   overflow: hidden;
 }
 
@@ -415,7 +415,7 @@ textarea.form-control {
 .apply-job-modal-close {
   width: 34px;
   height: 34px;
-  border: 1px solid #c9d5ed;
+  border: 1px solid #ffc151;
   border-radius: 50%;
   background: #ffffff;
   color: #42526b;
@@ -425,12 +425,12 @@ textarea.form-control {
 }
 
 .apply-job-modal-close:hover {
-  border-color: #3c65f5;
-  color: #3c65f5;
+  border-color: #ffa300;
+  color: #ffa300;
 }
 
 .apply-job-question-block {
-  border: 1px solid #e3e8f5;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   padding: 12px;
   background: #ffffff;
@@ -443,10 +443,10 @@ textarea.form-control {
 }
 
 .apply-job-preview-panel {
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   border-radius: 12px;
   padding: 16px;
-  background: #f8fbff;
+  background: #ffffff;
 }
 
 .apply-job-stepper {
@@ -463,7 +463,7 @@ textarea.form-control {
 }
 
 .apply-job-step.is-active {
-  color: #185fa5;
+  color: #ff9900;
 }
 
 .apply-job-step.is-done {
@@ -473,7 +473,7 @@ textarea.form-control {
 .apply-job-step-divider {
   flex: 1;
   height: 1px;
-  background: #dce2ee;
+  background: #ffc151;
 }
 
 .apply-job-step-page {
@@ -498,7 +498,7 @@ textarea.form-control {
   flex-wrap: wrap;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid #e3e8f5;
+  border-top: 1px solid #ffc151;
 }
 
 .employer-applicants-page .employer-applicants-form .form-group {
@@ -527,9 +527,9 @@ textarea.form-control {
 }
 
 .employer-applicants-page .employer-applicants-tag.is-brand {
-  background: #eef4ff;
-  border-color: #d3defb;
-  color: #05264e;
+  background: #ffffff;
+  border-color: #ffc151;
+  color: #122359;
 }
 
 .employer-applicants-page .employer-applicants-tag.is-success {
@@ -539,9 +539,9 @@ textarea.form-control {
 }
 
 .employer-applicants-page .employer-applicants-tag.is-info {
-  background: #e8f5ff;
-  border-color: #c8e5fb;
-  color: #0b4f7b;
+  background: #ffffff;
+  border-color: #ffc151;
+  color: #ff9900;
 }
 
 .employer-applicants-page .employer-applicants-tag.is-warning {
@@ -574,8 +574,8 @@ textarea.form-control {
 }
 
 .employer-applicants-page .employer-applicants-status.is-applied {
-  background: #e9efff;
-  color: #1d4ed8;
+  background: #ffffff;
+  color: #ff9900;
 }
 
 .employer-applicants-page .employer-applicants-status.is-viewed {
@@ -606,7 +606,7 @@ textarea.form-control {
 }
 
 .candidate-ticket-item {
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   padding: 12px;
   background: #ffffff;
@@ -641,8 +641,8 @@ textarea.form-control {
 }
 
 .candidate-ticket-status.active {
-  background: #edf4fd;
-  color: #185fa5;
+  background: #ffffff;
+  color: #ff9900;
 }
 
 .candidate-ticket-status.open {
@@ -706,7 +706,7 @@ textarea.form-control {
 
 .circliful .inner {
   fill: transparent;
-  stroke: #3C65F5;
+  stroke: #ffa300;
   stroke-width: 20;
   stroke-dasharray: 534;
   stroke-dashoffset: 0;

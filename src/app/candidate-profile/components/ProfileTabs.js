@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useMemo, useState } from "react";
 import { useToast } from "@/components/Toast";
@@ -38,7 +38,7 @@ const EditModal = ({ title, onClose, children }) => (
       maxHeight: "90vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
     }}>
       <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid #eee", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h5 style={{ margin: 0, color: "#05264E" }}>{title}</h5>
+        <h5 style={{ margin: 0, color: "#122359" }}>{title}</h5>
         <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#666" }}>X</button>
       </div>
       <div style={{ padding: "20px 24px 24px" }}>{children}</div>
@@ -141,7 +141,7 @@ const ProfileTabs = ({
 
   return (
     <div className="candidate-profile-v2-main-col">
-      {/* â”€â”€ PERSONAL â”€â”€ */}
+      {/* ── PERSONAL ── */}
       <section id="personal" ref={(n) => registerSectionRef("personal", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -171,7 +171,7 @@ const ProfileTabs = ({
                     const file = e.target.files?.[0];
                     if (file) {
                       if (file.size > 2 * 1024 * 1024) {
-                        showToast("File too large â€” please upload a JPG or PNG under 2 MB.", "error");
+                        showToast("File too large — please upload a JPG or PNG under 2 MB.", "error");
                         return;
                       }
                       showToast(`Photo "${file.name}" uploaded successfully.`, "success");
@@ -341,7 +341,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ DOCUMENTS â”€â”€ */}
+      {/* ── DOCUMENTS ── */}
       <section id="documents" ref={(n) => registerSectionRef("documents", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -357,18 +357,18 @@ const ProfileTabs = ({
         <div className="candidate-profile-v2-card-body">
           <p className="ai-note-inline">Your CV and documents are being scanned by Smart AI. Parsing and verification may take some time. Once completed, profile fields below are prefilled for your final review.</p>
 
-          {/* CV Upload â€” prominent card at top */}
+          {/* CV Upload — prominent card at top */}
           <div style={{ marginBottom: "20px" }}>
-            <article className="candidate-profile-v2-doc-card" style={{ border: "2px solid #3B82F6", background: "#f0f6ff" }}>
+            <article className="candidate-profile-v2-doc-card" style={{ border: "2px solid #ffa300", background: "#ffffff" }}>
               <div className="candidate-profile-v2-doc-head">
-                <h6 style={{ color: "#1976D2" }}>CV / Resume</h6>
+                <h6 style={{ color: "#ffa300" }}>CV / Resume</h6>
                 <span className={`candidate-profile-v2-badge ${getStatusDetails(profileData.documents.cv?.status || "optional").className}`}>
                   {getStatusDetails(profileData.documents.cv?.status || "optional").label}
                 </span>
               </div>
               <div className="candidate-profile-v2-doc-body">
                 <p className="candidate-profile-v2-doc-main">Upload your latest CV or resume. This is the primary document employers review.</p>
-                <p className="candidate-profile-v2-doc-meta">Accepted: PDF, DOC, DOCX Â· Max size: 5 MB</p>
+                <p className="candidate-profile-v2-doc-meta">Accepted: PDF, DOC, DOCX · Max size: 5 MB</p>
                 {profileData.documents.cv ? renderSingleUploadZone("cv", profileData.documents.cv) : null}
               </div>
               <div className="candidate-profile-v2-doc-foot">Your CV is shown to verified employers only</div>
@@ -453,7 +453,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ WORK HISTORY â”€â”€ */}
+      {/* ── WORK HISTORY ── */}
       <section id="work" ref={(n) => registerSectionRef("work", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -519,7 +519,7 @@ const ProfileTabs = ({
                 </label>
               </div>
               <div className="candidate-profile-v2-entry-actions">
-                <button type="button" className="btn btn-border btn-sm" onClick={() => { setEditWorkModal(entry); showToast("Editing work entry â€” update fields below.", "info"); }}>Edit</button>
+                <button type="button" className="btn btn-border btn-sm" onClick={() => { setEditWorkModal(entry); showToast("Editing work entry — update fields below.", "info"); }}>Edit</button>
                 <button type="button" className="btn btn-grey-small candidate-profile-v2-btn-delete" onClick={() => removeWorkEntry(entry.id)}>Delete</button>
               </div>
             </div>
@@ -527,7 +527,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ EDUCATION â”€â”€ */}
+      {/* ── EDUCATION ── */}
       <section id="education" ref={(n) => registerSectionRef("education", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -569,7 +569,7 @@ const ProfileTabs = ({
                 </div>
               </div>
               <div className="candidate-profile-v2-entry-actions">
-                <button type="button" className="btn btn-border btn-sm" onClick={() => { setEditEduModal(entry); showToast("Editing education entry â€” update fields below.", "info"); }}>Edit</button>
+                <button type="button" className="btn btn-border btn-sm" onClick={() => { setEditEduModal(entry); showToast("Editing education entry — update fields below.", "info"); }}>Edit</button>
                 <button type="button" className="btn btn-grey-small candidate-profile-v2-btn-delete" onClick={() => removeEducationEntry(entry.id)}>Delete</button>
               </div>
             </div>
@@ -577,7 +577,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ SKILLS â”€â”€ */}
+      {/* ── SKILLS ── */}
       <section id="skills" ref={(n) => registerSectionRef("skills", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -627,7 +627,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ LANGUAGES â”€â”€ */}
+      {/* ── LANGUAGES ── */}
       <section id="languages" ref={(n) => registerSectionRef("languages", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
@@ -709,14 +709,14 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ CV PREVIEW â”€â”€ */}
+      {/* ── CV PREVIEW ── */}
       <section id="cv" ref={(n) => registerSectionRef("cv", n)} className="candidate-profile-v2-section-card">
         <div className="candidate-profile-v2-card-header">
           <div className="candidate-profile-v2-title-wrap">
             <h5 className="candidate-profile-v2-card-title">Step 7: CV Preview</h5>
           </div>
           <div className="candidate-profile-v2-actions">
-            <button type="button" className="btn btn-border btn-sm" onClick={() => showToast("PDF download initiated â€” your CV will be ready shortly.", "info")}>Download PDF</button>
+            <button type="button" className="btn btn-border btn-sm" onClick={() => showToast("PDF download initiated — your CV will be ready shortly.", "info")}>Download PDF</button>
             <button type="button" className="btn btn-default btn-sm" onClick={() => showToast("CV link copied to clipboard!", "success")}>Share CV link</button>
             <button type="button" className="btn btn-default btn-sm" onClick={() => saveSection("cv")}>Save changes</button>
           </div>
@@ -727,36 +727,36 @@ const ProfileTabs = ({
 
           {/* Enlarged CV Preview */}
           <div className="candidate-profile-v2-cv-box" style={{ minHeight: "700px", fontSize: "15px" }}>
-            <div className="candidate-profile-v2-cv-head" style={{ padding: "32px 32px 24px", borderBottom: "3px solid #3B82F6" }}>
+            <div className="candidate-profile-v2-cv-head" style={{ padding: "32px 32px 24px", borderBottom: "3px solid #ffa300" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "12px" }}>
-                <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "#3B82F6", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: "bold", flexShrink: 0 }}>
+                <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "#ffa300", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: "bold", flexShrink: 0 }}>
                   {profileName.slice(0, 1).toUpperCase()}
                 </div>
                 <div>
-                  <h3 style={{ margin: 0, color: "#05264E", fontSize: "25px" }}>{profileName}</h3>
-                  <p style={{ margin: "4px 0 0", color: "#3B82F6", fontWeight: "600", fontSize: "16px" }}>{profileData.trade} Â· {profileData.yearsOfExperience} years experience</p>
+                  <h3 style={{ margin: 0, color: "#122359", fontSize: "25px" }}>{profileName}</h3>
+                  <p style={{ margin: "4px 0 0", color: "#ffa300", fontWeight: "600", fontSize: "16px" }}>{profileData.trade} · {profileData.yearsOfExperience} years experience</p>
                 </div>
               </div>
               <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", fontSize: "13px", color: "#6b7280" }}>
-                <span>ðŸ“ {location}</span>
-                <span>ðŸ“ž {maskedMobile}</span>
-                <span>âœ‰ {profileEmail}</span>
-                {profileData.nationality && <span>ðŸŒ {profileData.nationality}</span>}
+                <span>📍 {location}</span>
+                <span>📞 {maskedMobile}</span>
+                <span>✉ {profileEmail}</span>
+                {profileData.nationality && <span>🌏 {profileData.nationality}</span>}
               </div>
               {(profileData.languages || []).length > 0 && (
                 <div style={{ marginTop: "10px", fontSize: "13px", color: "#6b7280" }}>
-                  ðŸ—£ Languages: {(profileData.languages || []).map(l => `${l.name} (${l.proficiency})`).join(" Â· ")}
+                  🗣 Languages: {(profileData.languages || []).map(l => `${l.name} (${l.proficiency})`).join(" · ")}
                 </div>
               )}
             </div>
 
             <div className="candidate-profile-v2-cv-grid" style={{ padding: "28px 32px", gap: "32px" }}>
               <div>
-                <h5 style={{ color: "#05264E", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Work Experience</h5>
+                <h5 style={{ color: "#122359", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Work Experience</h5>
                 {profileData.workHistory.map((entry) => (
-                  <div key={entry.id} className="candidate-profile-v2-cv-item" style={{ marginBottom: "18px", paddingLeft: "12px", borderLeft: "3px solid #3B82F6" }}>
+                  <div key={entry.id} className="candidate-profile-v2-cv-item" style={{ marginBottom: "18px", paddingLeft: "12px", borderLeft: "3px solid #ffa300" }}>
                     <strong style={{ fontSize: "15px" }}>{entry.title}</strong>
-                    <div style={{ color: "#3B82F6", fontSize: "13px", margin: "2px 0" }}>{entry.company}</div>
+                    <div style={{ color: "#ffa300", fontSize: "13px", margin: "2px 0" }}>{entry.company}</div>
                     <p style={{ color: "#6b7280", fontSize: "12px", margin: "2px 0" }}>
                       {(entry.startDate || entry.endDate) ? `${entry.startDate || "-"} to ${entry.current ? "Present" : entry.endDate || "-"}` : entry.period} | {entry.location}
                     </p>
@@ -764,31 +764,31 @@ const ProfileTabs = ({
                   </div>
                 ))}
 
-                <h5 style={{ color: "#05264E", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px", marginTop: "24px" }}>Summary</h5>
+                <h5 style={{ color: "#122359", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px", marginTop: "24px" }}>Summary</h5>
                 <p style={{ color: "#374151", lineHeight: "1.7", fontSize: "14px" }}>{profileData.summary}</p>
               </div>
 
               <div>
-                <h5 style={{ color: "#05264E", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Skills</h5>
+                <h5 style={{ color: "#122359", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Skills</h5>
                 <div className="candidate-profile-v2-cv-skills" style={{ marginBottom: "24px" }}>
                   {profileData.selectedSkills.map((skill) => (
                     <span key={skill} className="candidate-profile-v2-badge is-brand" style={{ marginBottom: "6px", fontSize: "12px" }}>{skill}</span>
                   ))}
                 </div>
 
-                <h5 style={{ color: "#05264E", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Education</h5>
+                <h5 style={{ color: "#122359", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px" }}>Education</h5>
                 {profileData.education.map((entry) => (
                   <div key={entry.id} className="candidate-profile-v2-cv-item" style={{ marginBottom: "14px", paddingLeft: "12px", borderLeft: "3px solid #10b981" }}>
                     <strong style={{ fontSize: "14px" }}>{entry.title}</strong>
                     <p style={{ color: "#6b7280", fontSize: "12px", margin: "2px 0" }}>{entry.institution}</p>
                     <small style={{ color: "#9ca3af" }}>{entry.meta}</small>
-                    {entry.verified && <span style={{ marginLeft: "8px", fontSize: "10px", background: "#d1fae5", color: "#065f46", padding: "1px 6px", borderRadius: "10px" }}>âœ“ Verified</span>}
+                    {entry.verified && <span style={{ marginLeft: "8px", fontSize: "10px", background: "#d1fae5", color: "#065f46", padding: "1px 6px", borderRadius: "10px" }}>✓ Verified</span>}
                   </div>
                 ))}
 
                 {(profileData.languages || []).length > 0 && (
                   <>
-                    <h5 style={{ color: "#05264E", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px", marginTop: "24px" }}>Languages</h5>
+                    <h5 style={{ color: "#122359", borderBottom: "2px solid #e5e7eb", paddingBottom: "8px", marginBottom: "16px", marginTop: "24px" }}>Languages</h5>
                     {(profileData.languages || []).map((lang) => (
                       <div key={lang.name} style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "13px" }}>
                         <span>{lang.name}</span>
@@ -805,7 +805,7 @@ const ProfileTabs = ({
         </div>
       </section>
 
-      {/* â”€â”€ ADD WORK MODAL â”€â”€ */}
+      {/* ── ADD WORK MODAL ── */}
       {showWorkModal && (
         <EditModal title="Add Work Experience" onClose={closeWorkModal}>
           <div className="candidate-profile-v2-form-grid two-col">
@@ -861,7 +861,7 @@ const ProfileTabs = ({
         </EditModal>
       )}
 
-      {/* â”€â”€ EDIT WORK MODAL â”€â”€ */}
+      {/* ── EDIT WORK MODAL ── */}
       {editWorkModal && (
         <EditModal title="Edit Work Experience" onClose={() => setEditWorkModal(null)}>
           <div className="candidate-profile-v2-form-grid two-col">
@@ -896,7 +896,7 @@ const ProfileTabs = ({
         </EditModal>
       )}
 
-      {/* â”€â”€ EDIT EDUCATION MODAL â”€â”€ */}
+      {/* ── EDIT EDUCATION MODAL ── */}
       {editEduModal && (
         <EditModal title="Edit Education" onClose={() => setEditEduModal(null)}>
           <div className="candidate-profile-v2-form-grid two-col">
@@ -931,7 +931,7 @@ const ProfileTabs = ({
         </EditModal>
       )}
 
-      {/* â”€â”€ EDIT SKILL MODAL â”€â”€ */}
+      {/* ── EDIT SKILL MODAL ── */}
       {editSkillModal && (
         <EditModal title={`Edit Skill: ${editSkillModal.name}`} onClose={() => setEditSkillModal(null)}>
           <div className="candidate-profile-v2-form-grid two-col">

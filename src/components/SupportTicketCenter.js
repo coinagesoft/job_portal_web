@@ -241,13 +241,13 @@ const SupportTicketCenter = ({
                         <div
                           style={{
                             marginTop: "8px",
-                            border: "1px solid #dce2ee",
+                            border: "1px solid #ffc151",
                             borderRadius: "8px",
                             padding: "8px 10px",
-                            background: "#f8fbff"
+                            background: "#ffffff"
                           }}
                         >
-                          <p className="font-sm mb-5 support-ticket-latest-label" style={{ color: "#185fa5", fontWeight: 600 }}>
+                          <p className="font-sm mb-5 support-ticket-latest-label" style={{ color: "#ff9900", fontWeight: 600 }}>
                             Latest admin reply
                           </p>
                           <p className="font-sm mb-0 support-ticket-latest-body" style={{ color: "#3a4559" }}>
@@ -279,7 +279,7 @@ const SupportTicketCenter = ({
                         <div
                           style={{
                             marginTop: "10px",
-                            border: "1px solid #dce2ee",
+                            border: "1px solid #ffc151",
                             borderRadius: "10px",
                             padding: "10px"
                           }}
@@ -292,11 +292,11 @@ const SupportTicketCenter = ({
                                   marginBottom: "8px",
                                   padding: "8px 10px",
                                   borderRadius: "8px",
-                                  background: message.sender === "admin" ? "#edf4fd" : "#f7f8fc",
-                                  border: message.sender === "admin" ? "1px solid #d4e1f7" : "1px solid #e7eaf2"
+                                  background: message.sender === "admin" ? "#ffffff" : "#f7f8fc",
+                                  border: message.sender === "admin" ? "1px solid #ffc151" : "1px solid #e7eaf2"
                                 }}
                               >
-                                <p className="font-sm mb-5" style={{ fontWeight: 700, color: "#0b2f57" }}>
+                                <p className="font-sm mb-5" style={{ fontWeight: 700, color: "#122359" }}>
                                   {message.senderLabel}
                                 </p>
                                 <p className="font-sm mb-5" style={{ color: "#3a4559" }}>
@@ -332,7 +332,7 @@ const SupportTicketCenter = ({
 
           <div className="candidate-settings-card">
             <h5 className="mb-15">{title}</h5>
-            <div className="p-15" style={{ border: "1px solid #dce2ee", borderRadius: "10px" }}>
+            <div className="p-15" style={{ border: "1px solid #ffc151", borderRadius: "10px" }}>
               <p className="font-sm color-text-paragraph-2 mb-5 support-ticket-contact-text">{description}</p>
               <a className="font-sm color-brand-1 support-ticket-contact-email" href="mailto:support@jobportal.com">
                 support@jobportal.com

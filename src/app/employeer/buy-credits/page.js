@@ -71,7 +71,7 @@ const EmployerBuyCreditsPage = () => {
         credits: selected.credits,
       },
       theme: {
-        color: "#185FA5",
+        color: "#ff9900",
       },
       modal: {
         ondismiss: function () {
@@ -197,7 +197,7 @@ const EmployerBuyCreditsPage = () => {
                               top: "-12px",
                               left: "50%",
                               transform: "translateX(-50%)",
-                              background: "#185FA5",
+                              background: "#ff9900",
                               color: "#fff",
                               fontSize: "11px",
                               fontWeight: 700,

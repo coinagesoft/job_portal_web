@@ -93,11 +93,11 @@ const EmployerSettingsPage = () => {
                           textAlign: "left",
                           padding: "11px 18px",
                           border: "none",
-                          background: activeSection === sec.key ? "#e6f1fb" : "transparent",
-                          color: activeSection === sec.key ? "#185FA5" : "#5a5855",
+                          background: activeSection === sec.key ? "#ffffff" : "transparent",
+                          color: activeSection === sec.key ? "#ff9900" : "#5a5855",
                           fontWeight: activeSection === sec.key ? 700 : 400,
                           fontSize: "13px",
-                          borderLeft: activeSection === sec.key ? "3px solid #185FA5" : "3px solid transparent",
+                          borderLeft: activeSection === sec.key ? "3px solid #ff9900" : "3px solid transparent",
                           cursor: "pointer",
                           transition: "all 0.15s",
                         }}
@@ -221,7 +221,7 @@ const EmployerSettingsPage = () => {
                       {/* Preview banner */}
                       <div
                         className="mb-25 p-15"
-                        style={{ background: "#e6f1fb", borderRadius: "10px", border: "1px solid #b5d4f4" }}
+                        style={{ background: "#ffffff", borderRadius: "10px", border: "1px solid #ffc151" }}
                       >
                         <p className="font-sm fw-600 color-brand-1 mb-3">Current Language Setting</p>
                         <p className="font-xs color-text-paragraph-2 mb-0">
@@ -259,7 +259,7 @@ const EmployerSettingsPage = () => {
                       <h5 className="mb-20">Security</h5>
                       <div
                         className="mb-20 p-15"
-                        style={{ background: "#e6f1fb", borderRadius: "8px", border: "1px solid #b5d4f4" }}
+                        style={{ background: "#ffffff", borderRadius: "8px", border: "1px solid #ffc151" }}
                       >
                         <p className="font-sm fw-600 color-brand-1 mb-5">OTP-based Login Active</p>
                         <p className="font-xs color-text-paragraph-2 mb-0">
@@ -334,7 +334,7 @@ const EmployerSettingsPage = () => {
                                   width: "36px",
                                   height: "20px",
                                   borderRadius: "10px",
-                                  background: pref.enabled ? "#185FA5" : "#ddd",
+                                  background: pref.enabled ? "#ff9900" : "#ddd",
                                   position: "relative",
                                   cursor: "pointer",
                                   flexShrink: 0,
@@ -416,7 +416,7 @@ const EmployerSettingsPage = () => {
                           desc: "Temporarily disable your account. Your jobs and data will be hidden but not deleted. You can reactivate at any time by contacting support.",
                           btnLabel: "Deactivate Account",
                           btnClass: "btn-border",
-                          borderColor: "#e0e6f0",
+                          borderColor: "#ffc151",
                         },
                         {
                           title: "Delete All Jobs",

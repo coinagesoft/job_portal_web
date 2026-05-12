@@ -22,7 +22,7 @@
 
 .btnSoft {
   background: #ffffff;
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   color: #4f5e64;
 }
 
@@ -35,7 +35,7 @@
 
 .formPanel {
   background: #ffffff;
-  border: 1px solid #e0e6f0;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -63,16 +63,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #e6f1fb;
-  border: 1px solid #b5d4f4;
-  color: #185fa5;
+  background: #ffffff;
+  border: 1px solid #ffc151;
+  color: #ff9900;
   font-weight: 700;
   font-size: 12px;
   flex-shrink: 0;
 }
 
 .sectionTitle {
-  color: #05264e;
+  color: #122359;
   font-weight: 700;
   margin: 0;
 }
@@ -111,7 +111,7 @@
 .control {
   width: 100%;
   min-height: 46px;
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   border-radius: 8px;
   padding: 0 12px;
   color: #4f5e64;
@@ -121,7 +121,7 @@
 .textarea {
   width: 100%;
   min-height: 120px;
-  border: 1px solid #dce2ee;
+  border: 1px solid #ffc151;
   border-radius: 8px;
   padding: 10px 12px;
   color: #4f5e64;
@@ -132,7 +132,7 @@
 .control:focus,
 .textarea:focus {
   outline: none;
-  border-color: #185fa5;
+  border-color: #ff9900;
   box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.12);
 }
 
@@ -159,19 +159,19 @@
 }
 
 .radioCard {
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   border-radius: 8px;
   padding: 10px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #05264e;
+  color: #122359;
   background: #ffffff;
 }
 
 .inlinePanel {
-  border: 1px solid #e0e6f0;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   background: #fafcff;
   padding: 14px;
@@ -186,12 +186,12 @@
 
 .inlinePanelTitle {
   margin: 0;
-  color: #05264e;
+  color: #122359;
 }
 
 .inlinePanelBadge {
   border-radius: 999px;
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   background: #ffffff;
   color: #4f5e64;
   font-size: 12px;
@@ -214,7 +214,7 @@
 .pillUrgent,
 .pillNeutral {
   border-radius: 999px;
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   background: #ffffff;
   color: #4f5e64;
   font-size: 12px;
@@ -235,7 +235,7 @@
 }
 
 .skillPriorityItem {
-  border: 1px solid #e0e6f0;
+  border: 1px solid #ffc151;
   border-radius: 8px;
   background: #ffffff;
   padding: 10px 12px;
@@ -247,7 +247,7 @@
 
 .skillName {
   display: block;
-  color: #05264e;
+  color: #122359;
   font-weight: 600;
 }
 
@@ -260,7 +260,7 @@
 .skillPrimaryBadge,
 .skillSecondaryBadge {
   border-radius: 999px;
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   background: #ffffff;
   color: #4f5e64;
   font-size: 12px;
@@ -281,7 +281,7 @@
 }
 
 .questionCard {
-  border: 1px solid #e0e6f0;
+  border: 1px solid #ffc151;
   border-radius: 8px;
   background: #ffffff;
   padding: 12px;
@@ -297,7 +297,7 @@
 
 .questionCardTitle {
   margin: 0;
-  color: #05264e;
+  color: #122359;
 }
 
 .questionCardText {
@@ -308,7 +308,7 @@
 .questionRequired,
 .questionOptional {
   border-radius: 999px;
-  border: 1px solid #d6deef;
+  border: 1px solid #ffc151;
   background: #ffffff;
   color: #4f5e64;
   font-size: 12px;
@@ -324,7 +324,7 @@
 
 .summaryPanel {
   background: #ffffff;
-  border: 1px solid #e0e6f0;
+  border: 1px solid #ffc151;
   border-radius: 10px;
   padding: 16px;
 }
@@ -350,7 +350,7 @@
 }
 
 .summaryRow strong {
-  color: #05264e;
+  color: #122359;
   text-align: right;
   font-weight: 600;
 }

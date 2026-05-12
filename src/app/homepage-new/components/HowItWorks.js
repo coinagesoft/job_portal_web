@@ -42,10 +42,10 @@ export default function HowItWorks() {
                   textAlign: "center",
                   padding: "36px 28px",
                   borderRadius: "12px",
-                  border: "1px solid #e0e6f7",
+                  border: "1px solid #ffc151",
                 }}
               >
-                <div className="mb-15" style={{ fontSize: "40px", fontWeight: 800, color: "#3c65f5", opacity: 0.16 }}>
+                <div className="mb-15" style={{ fontSize: "40px", fontWeight: 800, color: "#ffa300", opacity: 0.16 }}>
                   {item.step}
                 </div>
                 <div className="mb-20">

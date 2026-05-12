@@ -25,7 +25,7 @@ const trustBadges = [
   { badge: "GST Verified", status: "Approved", color: "#0BAB7C", bg: "#d1fae5" },
   { badge: "POE Licensed", status: "Approved · Exp: 31 Dec 2026", color: "#0BAB7C", bg: "#d1fae5" },
   { badge: "RPSL Licensed", status: "Pending upload", color: "#d97706", bg: "#fef3c7" },
-  { badge: "Verified Employer", status: "Active", color: "#1976D2", bg: "#dbeafe" },
+  { badge: "Verified Employer", status: "Active", color: "#ffa300", bg: "#ffffff" },
 ];
 
 const recruitmentCards = [
@@ -47,7 +47,7 @@ const EditFieldModal = ({ field, value, onClose, onSave }) => {
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
       <div style={{ background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "480px", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}>
         <div style={{ padding: "18px 24px 14px", borderBottom: "1px solid #eee", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <h5 style={{ margin: 0, color: "#05264E" }}>Edit: {field}</h5>
+          <h5 style={{ margin: 0, color: "#122359" }}>Edit: {field}</h5>
           <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "22px", cursor: "pointer" }}>×</button>
         </div>
         <div style={{ padding: "20px 24px 24px" }}>
@@ -112,7 +112,7 @@ export default function EmployerCompanyProfilePage() {
                 <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
                   {[["Active Jobs", company.activeJobs], ["Total Hired", company.totalHired], ["Avg. Time to Hire", company.avgTime]].map(([label, val]) => (
                     <div key={label} style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: "22px", fontWeight: "700", color: "#05264E" }}>{val}</div>
+                      <div style={{ fontSize: "22px", fontWeight: "700", color: "#122359" }}>{val}</div>
                       <div style={{ fontSize: "12px", color: "#9ca3af" }}>{label}</div>
                     </div>
                   ))}
@@ -134,7 +134,7 @@ export default function EmployerCompanyProfilePage() {
                   <button
                     className={`btn btn-border mr-15 mb-5 ${activeTab === key ? "active" : ""}`}
                     onClick={() => setActiveTab(key)}
-                    style={{ border: activeTab === key ? "2px solid #3B82F6" : undefined, color: activeTab === key ? "#3B82F6" : undefined }}
+                    style={{ border: activeTab === key ? "2px solid #ffa300" : undefined, color: activeTab === key ? "#ffa300" : undefined }}
                   >
                     {label}
                   </button>
@@ -182,7 +182,7 @@ export default function EmployerCompanyProfilePage() {
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "14px", marginBottom: "24px" }}>
                     {trustBadges.map((b) => (
                       <div key={b.badge} style={{ padding: "16px", border: "1.5px solid #e5e7eb", borderRadius: "10px", background: b.bg }}>
-                        <div style={{ fontWeight: "600", color: "#05264E", marginBottom: "4px" }}>{b.badge}</div>
+                        <div style={{ fontWeight: "600", color: "#122359", marginBottom: "4px" }}>{b.badge}</div>
                         <div style={{ fontSize: "12px", color: b.color, fontWeight: "500" }}>{b.status}</div>
                         <button className="btn btn-border btn-sm" style={{ marginTop: "10px", fontSize: "11px" }} onClick={() => showToast(`${b.badge}: ${b.status}`, b.status.includes("Pending") ? "warning" : "success")}>View details</button>
                       </div>
@@ -213,7 +213,7 @@ export default function EmployerCompanyProfilePage() {
                                 </div>
                               </div>
                               <div style={{ textAlign: "right" }}>
-                                <div style={{ fontWeight: "700", color: "#05264E", fontSize: "16px" }}>{job.salary}</div>
+                                <div style={{ fontWeight: "700", color: "#122359", fontSize: "16px" }}>{job.salary}</div>
                                 <div style={{ fontSize: "12px", color: "#6b7280" }}>{job.applicants} applicants</div>
                               </div>
                             </div>
@@ -244,9 +244,9 @@ export default function EmployerCompanyProfilePage() {
                   <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                     {people.map((p) => (
                       <div key={p.name} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "16px 20px", border: "1px solid #e5e7eb", borderRadius: "10px", background: "#fafafa" }}>
-                        <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: "#3B82F6", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "15px", flexShrink: 0 }}>{p.initials}</div>
+                        <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: "#ffa300", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "15px", flexShrink: 0 }}>{p.initials}</div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: "600", color: "#05264E" }}>{p.name}</div>
+                          <div style={{ fontWeight: "600", color: "#122359" }}>{p.name}</div>
                           <div style={{ fontSize: "12px", color: "#6b7280" }}>{p.role} · {p.email}</div>
                         </div>
                         <div style={{ display: "flex", gap: "8px" }}>

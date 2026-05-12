@@ -587,7 +587,7 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
                         className="card-grid-2 hover-up"
                         style={
                           candidate.isUnlocked
-                            ? { borderColor: "#b6c5e6", background: "#edf4fd" }
+                            ? { borderColor: "#ffc151", background: "#ffffff" }
                             : undefined
                         }
                       >
