@@ -7,7 +7,7 @@
   avatar: "/assets/imgs/page/candidates/candidate-profile.png",
   firstName: "Ramesh Kumar",
   lastName: "Sharma",
-  fullName: "Ramesh Kumar Sharma",
+  fullName: "Ramesh  Sharma",
   mobile: "+91 98765 43210",
   email: "ramesh@email.com",
   trade: "Senior Electrician",
