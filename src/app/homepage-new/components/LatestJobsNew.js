@@ -4,11 +4,26 @@ import { useState } from "react";
 import Link from "next/link";
 
 const tabCategories = [
-  { name: "India", flag: "/assets/imgs/flags/india.png" },
-  { name: "UAE", flag: "/assets/imgs/flags/uae.png" },
-  { name: "Saudi", flag: "/assets/imgs/flags/saudi.png" },
-  { name: "Qatar", flag: "/assets/imgs/flags/qatar.png" },
-  { name: "Singapore", flag: "/assets/imgs/flags/singapore.png" },
+  {
+    name: "India",
+    flag: "https://flagcdn.com/w40/in.png",
+  },
+  {
+    name: "UAE",
+    flag: "https://flagcdn.com/w40/ae.png",
+  },
+  {
+    name: "Saudi",
+    flag: "https://flagcdn.com/w40/sa.png",
+  },
+  {
+    name: "Qatar",
+    flag: "https://flagcdn.com/w40/qa.png",
+  },
+  {
+    name: "Singapore",
+    flag: "https://flagcdn.com/w40/sg.png",
+  },
 ];
 
 const formatHourlyPrice = (value) => {
@@ -188,9 +203,7 @@ export default function LatestJobs() {
                           <div className="card-grid-2-image">
                             <span
                               className={`lbl-hot ${
-                                job.type === "Freelancer"
-                                  ? "bg-green"
-                                  : ""
+                                job.type === "Freelancer" ? "bg-green" : ""
                               }`}
                             >
                               <span>{job.type}</span>
@@ -205,9 +218,7 @@ export default function LatestJobs() {
 
                           <div className="card-block-info">
                             <h6>
-                              <Link href="/job-details">
-                                {job.title}
-                              </Link>
+                              <Link href="/job-details">{job.title}</Link>
                             </h6>
 
                             <div className="mt-5">
@@ -215,9 +226,7 @@ export default function LatestJobs() {
                                 {job.location}
                               </span>
 
-                              <span className="card-time">
-                                {job.time}
-                              </span>
+                              <span className="card-time">{job.time}</span>
                             </div>
 
                             <div className="card-2-bottom mt-20">
@@ -238,9 +247,7 @@ export default function LatestJobs() {
                                     {formatHourlyPrice(job.price)}
                                   </span>
 
-                                  <span className="text-muted">
-                                    /Hour
-                                  </span>
+                                  <span className="text-muted">/Hour</span>
                                 </div>
                               </div>
                             </div>
