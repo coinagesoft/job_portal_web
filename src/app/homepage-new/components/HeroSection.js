@@ -10,7 +10,7 @@ export default function HeroSection() {
           <div className="banner-inner">
             <div className="block-banner">
               <h1 className="text-42 color-white wow animate__animated animate__fadeInUp">
-                India’s #1 <span className="color-green">Golbal</span>
+                India’s #1 <span className="color-green">Global</span>
                 <br className="d-none d-lg-block" />
                 Job Portal for Skilled Workers
               </h1>

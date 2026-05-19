@@ -1,17 +1,31 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-
 const JOB_CATEGORIES = [
-  { label: "Management", img: "/assets/imgs/page/homepage1/management.svg" },
   {
-    label: "Marketing & Sale",
-    img: "/assets/imgs/page/homepage1/marketing.svg",
+    label: "Construction",
+    icon: "fa-solid fa-helmet-safety",
   },
-  { label: "Finance", img: "/assets/imgs/page/homepage1/finance.svg" },
-  { label: "Human Resource", img: "/assets/imgs/page/homepage1/human.svg" },
-  { label: "Retail & Products", img: "/assets/imgs/page/homepage1/retail.svg" },
-  { label: "Content Writer", img: "/assets/imgs/page/homepage1/content.svg" },
+  {
+    label: "Technician",
+    icon: "fa-solid fa-screwdriver-wrench",
+  },
+  {
+    label: "Oil & Gas",
+    icon: "fa-solid fa-oil-well",
+  },
+  {
+    label: "Factory",
+    icon: "fa-solid fa-industry",
+  },
+  {
+    label: "Logistics",
+    icon: "fa-solid fa-truck-fast",
+  },
+  {
+    label: "Mechanical",
+    icon: "fa-solid fa-gears",
+  },
 ];
 
 export default function JobsOfTheDay() {
@@ -47,7 +61,8 @@ export default function JobsOfTheDay() {
                     aria-controls={`tab-job-${index + 1}`}
                     aria-selected={activeTab === index}
                   >
-                    <img src={tab.img} alt="jobBox" /> {tab.label}
+                    <i className={tab.icon}></i>
+                    <span>{tab.label}</span>
                   </a>
                 </li>
               ))}
@@ -341,28 +356,44 @@ export default function JobsOfTheDay() {
         .list-tabs .nav-tabs li a {
           display: flex;
           align-items: center;
-          gap: 8px;
-          transition: all 0.3s ease;
+          gap: 10px;
+
+          transition: all 0.35s ease;
         }
 
-        .list-tabs .nav-tabs li a img {
-          width: 18px;
-          height: 18px;
+        .list-tabs .nav-tabs li a i {
+          font-size: 18px;
 
-          filter: brightness(0) saturate(100%) invert(14%) sepia(47%)
-            saturate(1145%) hue-rotate(205deg) brightness(95%) contrast(95%);
+          color: #122359;
 
-          transition: all 0.3s ease;
+          transition: all 0.35s ease;
         }
 
-        .list-tabs .nav-tabs li a:hover img,
-        .list-tabs .nav-tabs li a.active img {
-          filter: brightness(0) saturate(100%) invert(71%) sepia(69%)
-            saturate(741%) hue-rotate(356deg) brightness(103%) contrast(101%);
+        /* Hover */
+        .list-tabs .nav-tabs li a:hover i {
+          color: #ffa300;
+          transform: scale(1.08);
         }
 
-        .list-tabs .nav-tabs li a:hover,
-        .list-tabs .nav-tabs li a.active {
+        /* Hover */
+        .list-tabs .nav-tabs li a:hover i {
+          color: #ffa300;
+          transform: scale(1.08);
+        }
+
+        /* Active Icon */
+        .list-tabs .nav-tabs li a.active i {
+          color: #ffa300;
+          transform: scale(1.08);
+        }
+
+        /* Active Text */
+        .list-tabs .nav-tabs li a.active span {
+          color: #ffa300 !important;
+        }
+
+        /* Hover Text */
+        .list-tabs .nav-tabs li a:hover span {
           color: #ffa300 !important;
         }
       `}</style>

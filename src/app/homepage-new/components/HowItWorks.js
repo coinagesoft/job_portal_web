@@ -5,19 +5,19 @@ import Link from "next/link";
 const steps = [
   {
     step: "01",
-    icon: "/assets/imgs/page/homepage1/management.svg",
+    icon: "fa-solid fa-user-gear",
     title: "Create Your Profile",
     desc: "Upload your trade details and work history in simple steps.",
   },
   {
     step: "02",
-    icon: "/assets/imgs/page/homepage1/finance.svg",
+    icon: "fa-solid fa-briefcase",
     title: "Choose Jobs Fast",
     desc: "Browse jobs by location, role, and salary and apply quickly.",
   },
   {
     step: "03",
-    icon: "/assets/imgs/page/homepage1/human.svg",
+    icon: "fa-solid fa-file-circle-check",
     title: "Track Application",
     desc: "Get updates from recruiters and move ahead with confidence.",
   },
@@ -76,15 +76,14 @@ export default function HowItWorks() {
                     boxShadow: "0 12px 30px rgba(18, 35, 89, 0.18)",
                   }}
                 >
-                  <img
-                    src={item.icon}
-                    alt={item.title}
+                  <i
+                    className={item.icon}
                     style={{
-                      width: 42,
-                      height: 42,
-                      filter: "brightness(0) invert(1)",
+                      fontSize: "38px",
+                      color: "#ffffff",
+                      transition: "all 0.35s ease",
                     }}
-                  />
+                  ></i>
                 </div>
                 <h5 className="mb-10">{item.title}</h5>
                 <p className="font-sm color-text-paragraph">{item.desc}</p>

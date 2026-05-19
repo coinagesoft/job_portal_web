@@ -15,9 +15,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <head>
-        <link rel="stylesheet" href="/assets/css/style.css" />
-        <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/template/favicon.svg" />
-      </head>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/imgs/template/favicon.svg"
+  />
+</head>
 
       <body suppressHydrationWarning={true}>
         <Provider store={store}>

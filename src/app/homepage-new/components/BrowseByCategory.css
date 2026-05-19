@@ -6,6 +6,7 @@
   padding: 10px 12px 20px;
 }
 
+/* Main Card */
 .box-swiper .swiper-container .item-logo {
   border: 1px solid rgba(18, 35, 89, 0.08);
   background: #ffffff;
@@ -25,12 +26,13 @@
   box-shadow: 0 4px 18px rgba(18, 35, 89, 0.04);
 }
 
-/* Top gradient border effect */
+/* Top Gradient Border */
 .box-swiper .swiper-container .item-logo::before {
   content: "";
   position: absolute;
   left: 0;
   top: 0;
+
   width: 100%;
   height: 4px;
 
@@ -43,31 +45,35 @@
 
   transform: scaleX(0);
   transform-origin: left;
+
   transition: transform 0.35s ease;
 }
 
-/* Hover effect */
+/* Hover Effect */
 .box-swiper .swiper-container .item-logo:hover {
   transform: translateY(-8px);
 
   border-color: #ffc151;
-
-  box-shadow:
-    0 15px 40px rgba(18, 35, 89, 0.12),
-    0 5px 15px rgba(255, 163, 0, 0.08);
 
   background: linear-gradient(
     180deg,
     #ffffff 0%,
     #fffaf1 100%
   );
+
+  box-shadow:
+    0 15px 40px rgba(18, 35, 89, 0.12),
+    0 5px 15px rgba(255, 163, 0, 0.08);
 }
 
 .box-swiper .swiper-container .item-logo:hover::before {
   transform: scaleX(1);
 }
 
-/* SVG / Icon container */
+/* =========================================
+   ICON BOX
+========================================= */
+
 .box-swiper .swiper-container .item-logo .image-left {
   min-width: 62px;
   width: 62px;
@@ -88,26 +94,15 @@
   transition: all 0.35s ease;
 }
 
-/* SVG theme coloring feel */
-.box-swiper .swiper-container .item-logo .image-left img {
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-
-  filter:
-    brightness(0)
-    saturate(100%)
-    invert(12%)
-    sepia(54%)
-    saturate(1183%)
-    hue-rotate(206deg)
-    brightness(93%)
-    contrast(97%);
+/* Font Awesome Icons */
+.box-swiper .swiper-container .item-logo .image-left i {
+  font-size: 28px;
+  color: #122359;
 
   transition: all 0.35s ease;
 }
 
-/* SVG hover */
+/* Hover Icon Box */
 .box-swiper .swiper-container .item-logo:hover .image-left {
   background: linear-gradient(
     135deg,
@@ -115,15 +110,19 @@
     #1a327a 100%
   );
 
-  transform: rotate(-4deg) scale(1.05);
+  transform:  scale(1.05);
 }
 
-.box-swiper .swiper-container .item-logo:hover .image-left img {
-  filter: brightness(0) invert(1);
+/* Hover Icons */
+.box-swiper .swiper-container .item-logo:hover .image-left i {
+  color: #ffa300;
   transform: scale(1.08);
 }
 
-/* Content */
+/* =========================================
+   CONTENT
+========================================= */
+
 .box-swiper .swiper-container .item-logo .text-info-right {
   flex: 1;
 }
@@ -132,6 +131,7 @@
   font-size: 18px;
   line-height: 28px;
   font-weight: 700;
+
   color: #122359;
 
   margin-bottom: 6px;
@@ -156,7 +156,10 @@
   color: #a0abb8;
 }
 
-/* Swiper buttons premium */
+/* =========================================
+   SWIPER BUTTONS
+========================================= */
+
 .box-swiper .swiper-button-next,
 .box-swiper .swiper-button-prev {
   width: 52px;
@@ -173,16 +176,24 @@
 .box-swiper .swiper-button-next:hover,
 .box-swiper .swiper-button-prev:hover {
   transform: translateY(-3px) scale(1.05);
+
   box-shadow: 0 15px 35px rgba(255, 163, 0, 0.18);
 }
 
-/* Section title spacing */
+/* =========================================
+   SECTION TITLE
+========================================= */
+
 .section-title {
   margin-bottom: 14px;
 }
 
-/* Mobile responsive */
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
 @media (max-width: 768px) {
+
   .box-swiper .swiper-slide {
     padding: 8px;
   }
@@ -201,4 +212,674 @@
   .box-swiper .swiper-button-prev {
     display: none;
   }
+
+}
+
+/* =========================================
+   PREMIUM JOB CARD DESIGN
+========================================= */
+
+.card-grid-2.grid-bd-16 {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 24px !important;
+
+  border: 1px solid rgba(18, 35, 89, 0.08) !important;
+
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fffdf8 100%
+  );
+
+  padding: 18px;
+
+  transition: all 0.4s ease;
+
+  box-shadow:
+    0 5px 18px rgba(18, 35, 89, 0.05),
+    0 2px 6px rgba(18, 35, 89, 0.03);
+}
+
+/* Top premium border */
+.card-grid-2.grid-bd-16::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #122359 0%,
+    #ffc151 50%,
+    #ffa300 100%
+  );
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  transition: transform 0.4s ease;
+}
+
+/* Hover */
+.card-grid-2.grid-bd-16:hover {
+  transform: translateY(-10px);
+
+  border-color: rgba(255, 193, 81, 0.5) !important;
+
+  box-shadow:
+    0 20px 45px rgba(18, 35, 89, 0.12),
+    0 8px 20px rgba(255, 163, 0, 0.08);
+}
+
+.card-grid-2.grid-bd-16:hover::before {
+  transform: scaleX(1);
+}
+
+/* =========================================
+   IMAGE SECTION
+========================================= */
+
+.card-grid-2-image {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 18px;
+}
+
+.card-grid-2-image figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.card-grid-2-image img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+
+  transition: all 0.5s ease;
+}
+
+.card-grid-2.grid-bd-16:hover .card-grid-2-image img {
+  transform: scale(1.08);
+}
+
+/* Image overlay */
+.card-grid-2-image::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(18, 35, 89, 0.12),
+    transparent
+  );
+
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.card-grid-2.grid-bd-16:hover .card-grid-2-image::after {
+  opacity: 1;
+}
+
+/* =========================================
+   JOB TYPE BADGE
+========================================= */
+
+.lbl-hot {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  z-index: 2;
+
+  background: linear-gradient(
+    135deg,
+    #122359 0%,
+    #1a327a 100%
+  ) !important;
+
+  color: #ffffff !important;
+
+  padding: 7px 16px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+
+  box-shadow:
+    0 8px 18px rgba(18, 35, 89, 0.18);
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.card-block-info {
+  padding-top: 20px;
+}
+
+.card-block-info h6 a {
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 700;
+
+  color: #122359;
+
+  transition: all 0.3s ease;
+}
+
+.card-grid-2.grid-bd-16:hover .card-block-info h6 a {
+  color: #ffa300;
+}
+
+/* Location & time */
+.card-location,
+.card-time {
+  color: #66789c;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =========================================
+   TAGS
+========================================= */
+
+.badge.bg-white.border.text-muted {
+  border-radius: 30px !important;
+
+  padding: 7px 14px;
+
+  border: 1px solid rgba(18, 35, 89, 0.08) !important;
+
+  background: #ffffff !important;
+
+  color: #122359 !important;
+
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.badge.bg-white.border.text-muted:hover {
+  background: #122359 !important;
+  color: #ffffff !important;
+
+  border-color: #122359 !important;
+}
+
+/* =========================================
+   PRICE
+========================================= */
+
+.card-text-price {
+  color: #ffa300;
+
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.color-text-paragraph {
+  color: #66789c;
+  line-height: 28px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .card-grid-2.grid-bd-16 {
+    padding: 14px;
+  }
+
+  .card-grid-2-image img {
+    height: 220px;
+  }
+
+  .card-block-info h6 a {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+}
+/* =========================================
+   PREMIUM CAPSULE TABS
+========================================= */
+
+.list-tabs.list-tabs-2 .nav-tabs {
+  border: none !important;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* Capsule Tab */
+.list-tabs.list-tabs-2 .nav-tabs li {
+  margin: 0;
+  list-style: none;
+}
+
+.list-tabs.list-tabs-2 .nav-tabs li a {
+  border: 1px solid rgba(18, 35, 89, 0.08) !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 9px 16px;
+
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: #122359 !important;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  position: relative;
+  overflow: hidden;
+
+  text-decoration: none !important;
+
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 4px 12px rgba(18, 35, 89, 0.05),
+    0 2px 5px rgba(18, 35, 89, 0.03);
+}
+
+/* Soft Glow */
+.list-tabs.list-tabs-2 .nav-tabs li a::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 193, 81, 0.06),
+    rgba(255, 163, 0, 0.03)
+  );
+
+  opacity: 0;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.list-tabs.list-tabs-2 .nav-tabs li a:hover {
+  transform: translateY(-2px);
+
+  color: #122359 !important;
+
+  border-color: rgba(255, 193, 81, 0.35) !important;
+
+  box-shadow:
+    0 10px 25px rgba(18, 35, 89, 0.12),
+    0 4px 12px rgba(255, 163, 0, 0.08);
+}
+
+.list-tabs.list-tabs-2 .nav-tabs li a:hover::after {
+  opacity: 1;
+}
+
+/* =========================================
+   ACTIVE CAPSULE
+========================================= */
+
+.list-tabs.list-tabs-2 .nav-tabs li a.active {
+  background: linear-gradient(
+    135deg,
+    #ffc151 0%,
+    #ffa300 100%
+  );
+
+  border: 1px solid rgba(255, 163, 0, 0.35) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 12px 28px rgba(255, 163, 0, 0.22),
+    0 5px 15px rgba(255, 193, 81, 0.14);
+}
+
+.list-tabs.list-tabs-2 .nav-tabs li a.active::after {
+  opacity: 0;
+}
+
+/* =========================================
+   FLAGS
+========================================= */
+
+.list-tabs.list-tabs-2 .nav-tabs li a img {
+  width: 18px !important;
+  height: 18px !important;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.08);
+
+  transition: all 0.3s ease;
+}
+
+/* Hover Flag */
+.list-tabs.list-tabs-2 .nav-tabs li a:hover img,
+.list-tabs.list-tabs-2 .nav-tabs li a.active img {
+  transform: scale(1.08);
+}
+
+/* =========================================
+   ACTIVE TEXT
+========================================= */
+
+.list-tabs.list-tabs-2 .nav-tabs li a.active {
+  color: #ffffff !important;
+}
+
+/* =========================================
+   ACTIVE ICONS
+========================================= */
+
+.list-tabs.list-tabs-2 .nav-tabs li a.active i {
+  color: #ffffff !important;
+}
+
+/* Hover Icons */
+.list-tabs.list-tabs-2 .nav-tabs li a:hover i {
+  color: #ffa300;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .list-tabs.list-tabs-2 .nav-tabs {
+    gap: 8px;
+  }
+
+  .list-tabs.list-tabs-2 .nav-tabs li a {
+    padding: 8px 14px;
+
+    font-size: 12px;
+  }
+
+}
+/* =========================================
+   PREMIUM LOCATION CARDS
+   SAME AS LATEST JOBS CARD
+========================================= */
+
+.card-image-top {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 24px !important;
+
+  border: 1px solid rgba(18, 35, 89, 0.08) !important;
+
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fffdf8 100%
+  );
+
+  transition: all 0.4s ease;
+
+  box-shadow:
+    0 5px 18px rgba(18, 35, 89, 0.05),
+    0 2px 6px rgba(18, 35, 89, 0.03);
+}
+
+/* Premium Top Border */
+.card-image-top::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #122359 0%,
+    #ffc151 50%,
+    #ffa300 100%
+  );
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  transition: transform 0.4s ease;
+
+  z-index: 5;
+}
+
+/* Hover */
+.card-image-top:hover {
+  transform: translateY(-10px);
+
+  border-color: rgba(255, 193, 81, 0.5) !important;
+
+  box-shadow:
+    0 20px 45px rgba(18, 35, 89, 0.12),
+    0 8px 20px rgba(255, 163, 0, 0.08);
+}
+
+.card-image-top:hover::before {
+  transform: scaleX(1);
+}
+
+/* =========================================
+   IMAGE SECTION
+========================================= */
+
+.card-image-top .image {
+  position: relative;
+
+  height: 240px;
+
+  overflow: hidden;
+
+  border-radius: 18px 18px 0 0;
+
+  background-size: cover;
+  background-position: center;
+
+  transition: all 0.5s ease;
+}
+
+/* Image Zoom */
+.card-image-top:hover .image {
+  transform: scale(1.08);
+}
+
+/* Overlay */
+.card-image-top .image::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(18, 35, 89, 0.16),
+    transparent
+  );
+
+  opacity: 0;
+
+  transition: all 0.4s ease;
+}
+
+.card-image-top:hover .image::after {
+  opacity: 1;
+}
+
+/* =========================================
+   BADGE
+========================================= */
+
+.card-image-top .lbl-hot {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  z-index: 6;
+
+  background: linear-gradient(
+    135deg,
+    #122359 0%,
+    #1a327a 100%
+  );
+
+  color: #ffffff !important;
+
+  padding: 7px 16px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.4px;
+
+  box-shadow:
+    0 8px 18px rgba(18, 35, 89, 0.18);
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.card-image-top .informations {
+  padding: 22px 22px 24px;
+}
+
+/* Title */
+.card-image-top .informations h5 {
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 700;
+
+  color: #122359;
+
+  margin-bottom: 14px;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover Title */
+.card-image-top:hover .informations h5 {
+  color: #ffa300;
+}
+
+/* Country */
+.card-image-top .font-sm.color-text-paragraph-2 {
+  color: #66789c;
+  font-weight: 500;
+}
+
+/* Vacancy & Companies */
+.card-image-top .text-14,
+.card-image-top .color-text-paragraph-2.text-14 {
+  color: #66789c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================================
+   SWIPER BUTTONS
+========================================= */
+
+.swiper-location-next,
+.swiper-location-prev {
+  width: 54px;
+  height: 54px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 25px rgba(18, 35, 89, 0.12);
+
+  transition: all 0.35s ease;
+}
+
+/* Hover */
+.swiper-location-next:hover,
+.swiper-location-prev:hover {
+  transform: translateY(-3px) scale(1.05);
+
+  background: linear-gradient(
+    135deg,
+    #122359 0%,
+    #1a327a 100%
+  );
+
+  box-shadow:
+    0 15px 35px rgba(18, 35, 89, 0.2),
+    0 5px 15px rgba(255, 163, 0, 0.12);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .card-image-top .image {
+    height: 220px;
+  }
+
+  .card-image-top .informations {
+    padding: 18px;
+  }
+
+  .card-image-top .informations h5 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .swiper-location-next,
+  .swiper-location-prev {
+    display: none;
+  }
+
 }
