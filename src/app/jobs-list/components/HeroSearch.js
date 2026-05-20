@@ -61,7 +61,7 @@ const HeroSearch = () => {
       <div className="container">
         <div className="banner-hero banner-single banner-single-bg">
           <div className="block-banner text-center">
-            <h3 className="wow animate__animated animate__fadeInUp">
+            <h3 className="animate__animated animate__fadeInUp">
               <span className="color-brand-2">22 Jobs</span> Available Now
             </h3>
             <div
@@ -80,6 +80,7 @@ const HeroSearch = () => {
               <form className="dashboard-search-form" onSubmit={handleSearch}>
                 <div className="box-industry">
                   <select
+                   
                     className="form-input mr-10 input-industry dashboard-industry-multi"
                     value={industries}
                     onChange={handleIndustryChange}
@@ -94,7 +95,7 @@ const HeroSearch = () => {
                   </select>
                 </div>
                 <select
-                  className="form-input mr-10 select-active dashboard-select-arrow"
+                 className="form-input mr-10 dashboard-select-arrow"
                   value={location}
                   onChange={(event) => setLocation(event.target.value)}
                 >

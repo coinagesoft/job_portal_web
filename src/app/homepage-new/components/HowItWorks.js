@@ -31,67 +31,44 @@ export default function HowItWorks() {
           <h2 className="section-title mb-10 wow animate__animated animate__fadeInUp">
             How It Works
           </h2>
+
           <p className="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
             Complete your journey in 3 simple steps
           </p>
         </div>
+
         <div className="row mt-40">
           {steps.map((item) => (
             <div
               key={item.step}
               className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-30"
             >
-              <div
-                className="card-grid-1 hover-up wow animate__animated animate__fadeInUp"
-                style={{
-                  textAlign: "center",
-                  padding: "36px 28px",
-                  borderRadius: "12px",
-                  border: "1px solid #ffc151",
-                }}
-              >
-                <div
-                  className="mb-15"
-                  style={{
-                    fontSize: "40px",
-                    fontWeight: 800,
-                    color: "#ffa300",
-                    opacity: 0.8,
-                  }}
-                >
+              <div className="card-grid-2 grid-bd-16 hover-up how-work-card position-relative h-100">
+                
+                {/* Top Step Badge */}
+                <span className="lbl-hot">
                   {item.step}
+                </span>
+
+                {/* Icon */}
+                <div className="how-work-icon">
+                  <i className={item.icon}></i>
                 </div>
-                <div
-                  className="mb-20"
-                  style={{
-                    width: "82px",
-                    height: "82px",
-                    margin: "0 auto",
-                    borderRadius: "20px",
-                    background:
-                      "linear-gradient(135deg, #122359 0%, #1a327a 100%)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 12px 30px rgba(18, 35, 89, 0.18)",
-                  }}
-                >
-                  <i
-                    className={item.icon}
-                    style={{
-                      fontSize: "38px",
-                      color: "#ffffff",
-                      transition: "all 0.35s ease",
-                    }}
-                  ></i>
+
+                {/* Content */}
+                <div className="card-block-info text-center">
+                  <h5 className="mb-15">{item.title}</h5>
+
+                  <p className="font-sm color-text-paragraph">
+                    {item.desc}
+                  </p>
                 </div>
-                <h5 className="mb-10">{item.title}</h5>
-                <p className="font-sm color-text-paragraph">{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="text-center mt-25">
+
+        <div className="text-center mt-30">
           <Link href="/register" className="btn btn-default">
             Start Now
           </Link>

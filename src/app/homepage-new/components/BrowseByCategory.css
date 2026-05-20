@@ -639,6 +639,125 @@
 
 }
 /* =========================================
+   HOW IT WORKS PREMIUM CARD
+========================================= */
+
+.how-work-card {
+  padding: 40px 25px 30px;
+  text-align: center;
+  min-height: 320px;
+}
+
+/* Icon Box */
+.how-work-icon {
+  width: 55px;
+  height: 55px;
+
+  margin: 30px auto 25px;
+
+  border-radius: 24px;
+
+  background: linear-gradient(
+    135deg,
+    #122359 0%,
+    #1a327a 100%
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 15px 35px rgba(18, 35, 89, 0.18);
+
+  transition: all 0.4s ease;
+}
+
+/* Icon */
+.how-work-icon i {
+  font-size: 42px;
+  color: #ffffff;
+
+  transition: all 0.4s ease;
+}
+
+/* Hover Icon Box */
+.how-work-card:hover .how-work-icon {
+  transform: translateY(-5px) scale(1.05);
+
+  background: linear-gradient(
+    135deg,
+    #ffc151 0%,
+    #ffa300 100%
+  );
+}
+
+/* Hover Icon */
+.how-work-card:hover .how-work-icon i {
+  color: #122359;
+}
+
+/* Title */
+.how-work-card h5 {
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 700;
+
+  color: #122359;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover Title */
+.how-work-card:hover h5 {
+  color: #ffa300;
+}
+
+/* Description */
+.how-work-card .color-text-paragraph {
+  font-size: 15px;
+  line-height: 28px;
+
+  max-width: 280px;
+  margin: 0 auto;
+
+  color: #66789c;
+}
+
+/* Step Badge */
+.how-work-card .lbl-hot {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+
+  min-width: 52px;
+  text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .how-work-card {
+    min-height: auto;
+    padding: 35px 20px 28px;
+  }
+
+  .how-work-icon {
+    width: 82px;
+    height: 82px;
+  }
+
+  .how-work-icon i {
+    font-size: 36px;
+  }
+
+  .how-work-card h5 {
+    font-size: 21px;
+    line-height: 30px;
+  }
+
+}
+/* =========================================
    PREMIUM LOCATION CARDS
    SAME AS LATEST JOBS CARD
 ========================================= */
