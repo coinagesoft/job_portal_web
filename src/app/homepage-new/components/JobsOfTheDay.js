@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+
 const JOB_CATEGORIES = [
   {
     label: "Construction",
@@ -83,276 +84,209 @@ export default function JobsOfTheDay() {
                 aria-labelledby={`nav-tab-job-${index + 1}`}
               >
                 <div className="row">
-                  {/* CARD 1 */}
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="card-grid-2 grid-bd-16 hover-up">
-                      <div className="card-block-info pt-25">
-                        <h6>
-                          <a href="job-details.html">
-                            UX Designer & Researcher Remote
-                          </a>
-                        </h6>
+                  {[
+                    {
+                      title: "UX Designer & Researcher Remote",
+                      company: "Linkedin",
+                      location: "New York, US",
+                      price: "$200",
+                      time: "3 mins ago",
+                      type: "Remote",
+                      img: "/assets/imgs/brands/brand-1.png",
+                      tags: ["Figma", "Adobe XD", "Sketch"],
+                    },
+                    {
+                      title: "Full Stack Engineer",
+                      company: "Google",
+                      location: "California, US",
+                      price: "$250",
+                      time: "10 mins ago",
+                      type: "Remote",
+                      img: "/assets/imgs/brands/brand-2.png",
+                      tags: ["React", "Node.js", "MongoDB"],
+                    },
+                    {
+                      title: "Frontend Developer",
+                      company: "Microsoft",
+                      location: "Seattle, US",
+                      price: "$180",
+                      time: "20 mins ago",
+                      type: "Hybrid",
+                      img: "/assets/imgs/brands/brand-3.png",
+                      tags: ["React", "Next.js", "Tailwind"],
+                    },
+                    {
+                      title: "UI / UX Designer",
+                      company: "Adobe",
+                      location: "Texas, US",
+                      price: "$220",
+                      time: "30 mins ago",
+                      type: "Fulltime",
+                      img: "/assets/imgs/brands/brand-4.png",
+                      tags: ["UI Design", "Figma", "Adobe XD"],
+                    },
+                  ].map((job, idx) => (
+                    <div
+                      key={idx}
+                      className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-30"
+                    >
+                      <div className="card-grid-2 grid-bd-16 hover-up">
+                        <div className="card-block-info pt-25">
+                          <h6>
+                            <a href="job-details.html">{job.title}</a>
+                          </h6>
 
-                        <div className="mt-5">
-                          <span className="card-briefcase mr-15">Remote</span>
-                          <span className="card-time">3 mins ago</span>
-                        </div>
+                          <div className="mt-5">
+                            <span className="card-briefcase mr-15">
+                              {job.type}
+                            </span>
 
-                        <div className="mt-20 border-bottom pb-20">
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Figma
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Adobe XD
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Sketch
-                          </a>
-                        </div>
+                            <span className="card-time">{job.time}</span>
+                          </div>
 
-                        <div className="card-2-bottom mt-20">
-                          <div className="row">
-                            <div className="col-lg-7 col-md-7">
-                              <div className="d-flex">
+                          {/* TAGS */}
+                          <div className="mt-20 border-bottom pb-20">
+                            {job.tags.map((tag, tagIndex) => (
+                              <a
+                                key={tagIndex}
+                                className="btn btn-grey-small bg-14 mb-5 mr-5"
+                                href="jobs-grid.html"
+                              >
+                                {tag}
+                              </a>
+                            ))}
+                          </div>
+
+                          {/* FOOTER */}
+                          {/* FOOTER */}
+                          <div
+                            className="card-2-bottom mt-16"
+                            style={{
+                              paddingTop: 12,
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 12,
+                              }}
+                            >
+                              {/* LEFT */}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 10,
+                                  flex: 1,
+                                  minWidth: 0,
+                                }}
+                              >
                                 <img
                                   className="img-rounded"
-                                  src="/assets/imgs/brands/brand-1.png"
+                                  src={job.img}
                                   alt="jobBox"
+                                  style={{
+                                    width: 42,
+                                    height: 42,
+                                    objectFit: "contain",
+                                    borderRadius: "50%",
+                                    flexShrink: 0,
+                                  }}
                                 />
 
-                                <div className="info-right-img">
-                                  <h6 className="color-brand-1 lh-14">
-                                    Linkedin
+                                <div
+                                  style={{
+                                    minWidth: 0,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <h6
+                                    style={{
+                                      margin: 0,
+                                      fontSize: 16,
+                                      lineHeight: 1.2,
+                                      fontWeight: 700,
+                                      color: "#122359",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                    }}
+                                  >
+                                    {job.company}
                                   </h6>
 
-                                  <span className="card-location font-xxs pl-15 color-text-paragraph-2">
-                                    New York, US
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 4,
+                                      fontSize: 12,
+                                      color: "#8A94A6",
+                                      marginTop: 6,
+                                      lineHeight: 1.2,
+                                    }}
+                                  >
+                                    <i
+                                      className="fi-rr-marker"
+                                      style={{
+                                        fontSize: 10,
+                                      }}
+                                    ></i>
+
+                                    {job.location}
                                   </span>
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="col-lg-5 col-md-5 text-end">
-                              <span className="card-text-price">$200</span>
-                              <span className="text-muted">/Hour</span>
+                              {/* RIGHT */}
+                              <div
+                                style={{
+                                  textAlign: "right",
+                                  flexShrink: 0,
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    fontSize: 24,
+                                    fontWeight: 800,
+                                    color: "#ffa300",
+                                    lineHeight: 1,
+                                  }}
+                                >
+                                  {job.price}
+                                </div>
+
+                                <span
+                                  style={{
+                                    fontSize: 12,
+                                    color: "#7B8794",
+                                  }}
+                                >
+                                  /Hour
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* CARD 2 */}
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="card-grid-2 grid-bd-16 hover-up">
-                      <div className="card-block-info pt-25">
-                        <h6>
-                          <a href="job-details.html">Full Stack Engineer</a>
-                        </h6>
-
-                        <div className="mt-5">
-                          <span className="card-briefcase mr-15">Remote</span>
-                          <span className="card-time">10 mins ago</span>
-                        </div>
-
-                        <div className="mt-20 border-bottom pb-20">
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            React
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Node.js
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            MongoDB
-                          </a>
-                        </div>
-
-                        <div className="card-2-bottom mt-20">
-                          <div className="row">
-                            <div className="col-lg-7 col-md-7">
-                              <div className="d-flex">
-                                <img
-                                  className="img-rounded"
-                                  src="/assets/imgs/brands/brand-2.png"
-                                  alt="jobBox"
-                                />
-
-                                <div className="info-right-img">
-                                  <h6 className="color-brand-1 lh-14">
-                                    Google
-                                  </h6>
-
-                                  <span className="card-location font-xxs pl-15 color-text-paragraph-2">
-                                    California, US
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="col-lg-5 col-md-5 text-end">
-                              <span className="card-text-price">$250</span>
-                              <span className="text-muted">/Hour</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* CARD 3 */}
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="card-grid-2 grid-bd-16 hover-up">
-                      <div className="card-block-info pt-25">
-                        <h6>
-                          <a href="job-details.html">Frontend Developer</a>
-                        </h6>
-
-                        <div className="mt-5">
-                          <span className="card-briefcase mr-15">Hybrid</span>
-                          <span className="card-time">20 mins ago</span>
-                        </div>
-
-                        <div className="mt-20 border-bottom pb-20">
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            React
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Next.js
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Tailwind
-                          </a>
-                        </div>
-
-                        <div className="card-2-bottom mt-20">
-                          <div className="row">
-                            <div className="col-lg-7 col-md-7">
-                              <div className="d-flex">
-                                <img
-                                  className="img-rounded"
-                                  src="/assets/imgs/brands/brand-3.png"
-                                  alt="jobBox"
-                                />
-
-                                <div className="info-right-img">
-                                  <h6 className="color-brand-1 lh-14">
-                                    Microsoft
-                                  </h6>
-
-                                  <span className="card-location font-xxs pl-15 color-text-paragraph-2">
-                                    Seattle, US
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="col-lg-5 col-md-5 text-end">
-                              <span className="card-text-price">$180</span>
-                              <span className="text-muted">/Hour</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* CARD 4 */}
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div className="card-grid-2 grid-bd-16 hover-up">
-                      <div className="card-block-info pt-25">
-                        <h6>
-                          <a href="job-details.html">UI / UX Designer</a>
-                        </h6>
-
-                        <div className="mt-5">
-                          <span className="card-briefcase mr-15">Fulltime</span>
-                          <span className="card-time">30 mins ago</span>
-                        </div>
-
-                        <div className="mt-20 border-bottom pb-20">
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            UI Design
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Figma
-                          </a>
-                          <a
-                            className="btn btn-grey-small bg-14 mb-5 mr-5"
-                            href="jobs-grid.html"
-                          >
-                            Adobe XD
-                          </a>
-                        </div>
-
-                        <div className="card-2-bottom mt-20">
-                          <div className="row">
-                            <div className="col-lg-7 col-md-7">
-                              <div className="d-flex">
-                                <img
-                                  className="img-rounded"
-                                  src="/assets/imgs/brands/brand-4.png"
-                                  alt="jobBox"
-                                />
-
-                                <div className="info-right-img">
-                                  <h6 className="color-brand-1 lh-14">Adobe</h6>
-
-                                  <span className="card-location font-xxs pl-15 color-text-paragraph-2">
-                                    Texas, US
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="col-lg-5 col-md-5 text-end">
-                              <span className="card-text-price">$220</span>
-                              <span className="text-muted">/Hour</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
       <style jsx>{`
+        /* =========================================
+           TABS
+        ========================================= */
+
         .list-tabs .nav-tabs li a {
           display: flex;
           align-items: center;
@@ -369,32 +303,126 @@ export default function JobsOfTheDay() {
           transition: all 0.35s ease;
         }
 
-        /* Hover */
         .list-tabs .nav-tabs li a:hover i {
           color: #ffa300;
           transform: scale(1.08);
         }
 
-        /* Hover */
-        .list-tabs .nav-tabs li a:hover i {
-          color: #ffa300;
-          transform: scale(1.08);
-        }
-
-        /* Active Icon */
         .list-tabs .nav-tabs li a.active i {
           color: #ffa300;
           transform: scale(1.08);
         }
 
-        /* Active Text */
         .list-tabs .nav-tabs li a.active span {
           color: #ffa300 !important;
         }
 
-        /* Hover Text */
         .list-tabs .nav-tabs li a:hover span {
           color: #ffa300 !important;
+        }
+
+        /* =========================================
+           SAME CARD HEIGHT
+        ========================================= */
+
+        .card-grid-2.grid-bd-16 {
+          min-height: 390px;
+
+          height: 100%;
+
+          display: flex;
+          flex-direction: column;
+        }
+
+        .card-grid-2.grid-bd-16 .card-block-info {
+          flex: 1;
+
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* Same title height */
+        .card-grid-2.grid-bd-16 h6 {
+          min-height: 64px;
+
+          display: flex;
+          align-items: flex-start;
+        }
+
+        .card-grid-2.grid-bd-16 h6 a {
+          display: -webkit-box;
+
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+
+          overflow: hidden;
+        }
+
+        /* Same tags height */
+        .card-grid-2.grid-bd-16 .border-bottom {
+          min-height: 92px;
+
+          display: flex;
+          flex-wrap: wrap;
+          align-content: flex-start;
+        }
+
+        /* Bottom always aligned */
+        .card-grid-2.grid-bd-16 .card-2-bottom {
+          margin-top: auto !important;
+        }
+
+        /* Company section fixed */
+        .card-grid-2.grid-bd-16 .info-right-img {
+          min-height: 42px;
+        }
+
+        /* Equal company row */
+        .card-grid-2.grid-bd-16 .card-2-bottom .row {
+          align-items: center;
+        }
+
+        /* =========================================
+           PREMIUM TAGS
+        ========================================= */
+
+        .btn.btn-grey-small.bg-14 {
+          border-radius: 999px !important;
+
+          padding: 7px 14px !important;
+
+          border: 1px solid #b9dcff !important;
+
+          background: #eaf4ff !important;
+
+          color: #1d4ed8 !important;
+
+          font-size: 12px !important;
+          font-weight: 600 !important;
+
+          transition: all 0.3s ease;
+        }
+
+        .btn.btn-grey-small.bg-14:hover {
+          background: #1d4ed8 !important;
+
+          color: #ffffff !important;
+
+          transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+          .card-grid-2.grid-bd-16 {
+            min-height: auto;
+          }
+
+          .card-grid-2.grid-bd-16 h6 {
+            min-height: auto;
+          }
+
+          .card-grid-2.grid-bd-16 .border-bottom {
+            min-height: auto;
+          }
         }
       `}</style>
     </section>

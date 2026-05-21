@@ -11,7 +11,38 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
 
   return (
     <>
-      <div className="card-grid-2 hover-up">
+      <div
+  className="card-grid-2 hover-up"
+  style={{
+    border: "1px solid rgba(18, 35, 89, 0.08)",
+    borderRadius: "24px",
+    overflow: "hidden",
+    transition: "all 0.35s ease",
+    background: "#ffffff",
+    boxShadow:
+      "0 4px 14px rgba(18,35,89,0.04)",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform =
+      "translateY(-8px)";
+
+    e.currentTarget.style.border =
+      "1px solid rgba(255, 153, 0, 0.22)";
+
+    e.currentTarget.style.boxShadow =
+      "0 20px 40px rgba(255,153,0,0.12)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform =
+      "translateY(0px)";
+
+    e.currentTarget.style.border =
+      "1px solid rgba(18, 35, 89, 0.08)";
+
+    e.currentTarget.style.boxShadow =
+      "0 4px 14px rgba(18,35,89,0.04)";
+  }}
+>
         {/* <span className="flash"></span> */}
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12">

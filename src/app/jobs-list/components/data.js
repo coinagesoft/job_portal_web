@@ -25,7 +25,17 @@ export const mockJobs = [
     time: "2 hours ago",
     price: "220",
     desc: "Maintenance of onboard panels, cable routing, and electrical safety checks for vessel operations.",
-    tags: ["Panel Wiring", "Safety Compliance"],
+   tags: [
+    "Panel Wiring",
+    "Safety Compliance",
+    "Verified Employer",
+    "Licensed Contractor",
+    "IMO Certified",
+    "ISO Approved",
+    "Urgent Hiring",
+    "Passport Required"
+  ],
+
     workMode: "On-site",
     department: "Maintenance",
     experience: "3-5 Years",
@@ -62,7 +72,17 @@ export const mockJobs = [
     time: "4 hours ago",
     price: "260",
     desc: "Structural and pipeline welding for industrial site projects with mandatory quality testing.",
-    tags: ["6G Welding", "Fabrication"],
+   tags: [
+    "Panel Wiring",
+    "Safety Compliance",
+    "Verified Employer",
+    "Licensed Contractor",
+    "IMO Certified",
+    "ISO Approved",
+    "Urgent Hiring",
+    "Passport Required"
+  ],
+
     workMode: "On-site",
     department: "Fabrication",
     experience: "5-10 Years",
@@ -121,7 +141,17 @@ export const mockJobs = [
     time: "1 day ago",
     price: "170",
     desc: "Meal prep for large teams with strict hygiene and food safety standards.",
-    tags: ["Food Safety", "Bulk Kitchen"],
+   tags: [
+    "Panel Wiring",
+    "Safety Compliance",
+    "Verified Employer",
+    "Licensed Contractor",
+    "IMO Certified",
+    "ISO Approved",
+    "Urgent Hiring",
+    "Passport Required"
+  ],
+
     workMode: "On-site",
     department: "Hospitality",
     experience: "1-3 Years",
@@ -143,7 +173,14 @@ export const mockJobs = [
     time: "1 day ago",
     price: "210",
     desc: "Assembly and alignment of rotating equipment for manufacturing and maintenance projects.",
-    tags: ["Alignment", "Machine Assembly"],
+    tags: [
+    "Panel Wiring",
+    "Safety Compliance",
+    
+    "Urgent Hiring",
+    "Passport Required"
+  ],
+
     workMode: "On-site",
     department: "Maintenance",
     experience: "3-5 Years",

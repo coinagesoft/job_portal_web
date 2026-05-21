@@ -14,7 +14,16 @@ const ExploreMarketplace = () => {
   ];
 
   return (
-    <section className="section-box mt-50 mb-30 bg-brand-2 pt-60 pb-60">
+    <section
+  className="section-box mt-50 mb-30 pt-60 pb-60"
+  style={{
+    background:
+      "linear-gradient(135deg, #ff9900 0%, #ffb11f 100%)",
+    position: "relative",
+    overflow: "hidden",
+  }}
+>
+  
       <div className="container">
         <div className="row">
           <div className="col-xl-5">

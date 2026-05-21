@@ -80,7 +80,7 @@ export default function HeroSection() {
             </div>
 
             <div className="mt-60">
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-lg-3 col-sm-3 col-6 text-center mb-20">
                   <div className="d-inline-block text-start">
                     <h4 className="color-white">
@@ -122,7 +122,7 @@ export default function HeroSection() {
                     <p className="font-sm color-text-mutted">Blog Tips</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

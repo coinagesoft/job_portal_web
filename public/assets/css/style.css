@@ -8930,6 +8930,16 @@ ul li:last-child .card-list-4 {
 
 .candidate-profile-v2-entry-content {
   flex: 1;
+  min-width: 0;
+}
+
+/* Keep entry cards aligned (Work vs Education) */
+.candidate-profile-v2-entry-card {
+  align-items: flex-start;
+}
+
+.candidate-profile-v2-entry-actions {
+  flex: 0 0 auto;
 }
 
 .candidate-profile-v2-entry-actions {
@@ -10355,7 +10365,7 @@ ul li:last-child .card-list-4 {
 ========================================= */
 
 body {
-  background: #fff8ec !important;
+  background: #fffefd !important;
 }
 
 /* Optional soft section tint */
@@ -10364,11 +10374,11 @@ body {
   background: transparent;
 }
 
-/* Alternate section shades */
+/* Ultra light warm sections */
 .section-box:nth-child(even) {
-  background: #fff7e8;
+  background: #fffdfb;
 }
 
 .section-box:nth-child(odd) {
-  background: #fffaf2;
+  background: #fffefc;
 }
