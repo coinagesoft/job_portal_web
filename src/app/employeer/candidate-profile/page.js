@@ -147,13 +147,10 @@ const EmployerCandidateProfilePage = () => {
                     alt="verified candidate"
                   />
                 </div>
-                <div className="mt-10">
+                <div className="candidate-tags-wrap">
                   {["ITI Certified", "KYC Verified", "Passport Valid"].map(
                     (tag, index) => (
-                      <span
-                        key={index}
-                        className="btn btn-grey-small mr-10 mb-10"
-                      >
+                      <span key={index} className="candidate-profile-tag">
                         {tag}
                       </span>
                     ),
@@ -171,11 +168,11 @@ const EmployerCandidateProfilePage = () => {
                   </button>
 
                   <button
-                    className="btn btn-outline-custom btn-lg ml-10"
+                    className="btn btn-outline-custom btn-lg ml-12"
                     type="button"
                     title="Unlock required before downloading CV"
                   >
-                    Download CV
+                    Download CV - 2 Credits
                   </button>
                 </div>
               </div>
@@ -208,7 +205,7 @@ const EmployerCandidateProfilePage = () => {
                   Skills
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   className="btn btn-border people-icon mb-5"
                   href="#tab-work-experience"
@@ -219,7 +216,7 @@ const EmployerCandidateProfilePage = () => {
                 >
                   Working Experience
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="border-bottom pt-10 pb-10"></div>
@@ -254,31 +251,258 @@ const EmployerCandidateProfilePage = () => {
                     </div>
 
                     <h4>Profile Visibility</h4>
-                    <div className="table-responsive">
-                      <table className="table table-bordered align-middle">
-                        <thead>
-                          <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {profileVisibilityRows.map((row) => (
-                            <tr key={row.field}>
-                              <td>
-                                <code>{row.field}</code>
-                              </td>
-                              <td>{row.value}</td>
-                              <td>
-                                <span className={row.statusClass}>
-                                  {row.status}
+
+                    <p className="mb-25">
+                      Recruiters can preview important candidate information
+                      before unlocking the full profile. Contact details and
+                      downloadable documents are protected until unlock.
+                    </p>
+
+                    <div className="row">
+                      {/* =========================================
+      PREVIEW ACCESS CARD
+  ========================================= */}
+
+                      <div className="col-lg-6 mb-25">
+                        <div className="candidate-visibility-card visible-card">
+                          <div className="visibility-card-header">
+                            <div>
+                              <h5 className="mb-5">Preview Access</h5>
+
+                              <p className="mb-0 font-sm color-text-paragraph">
+                                Information visible before unlock
+                              </p>
+                            </div>
+
+                            <span className="visibility-badge success">
+                              Visible
+                            </span>
+                          </div>
+
+                          <div className="visibility-card-body">
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-user"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Candidate Name
                                 </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+
+                                <h6 className="visibility-value">
+                                  Ramesh Kumar Sharma
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-briefcase"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Current Role
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  Senior Welder (6G)
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-time-fast"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Experience
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  8 Years Experience
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-marker"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Current Location
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  Mumbai, Maharashtra
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-id-badge"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Verification Status
+                                </span>
+
+                                <h6 className="visibility-value text-success">
+                                  KYC + Passport Verified
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-credit-card"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Passport Validity
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  Valid Till 2031
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* =========================================
+      LOCKED ACCESS CARD
+  ========================================= */}
+
+                      <div className="col-lg-6 mb-25">
+                        <div className="candidate-visibility-card locked-card">
+                          <div className="visibility-card-header">
+                            <div>
+                              <h5 className="mb-5">Unlock Required</h5>
+
+                              <p className="mb-0 font-sm color-text-paragraph">
+                                Protected candidate information
+                              </p>
+                            </div>
+
+                            <span className="visibility-badge warning">
+                              Locked
+                            </span>
+                          </div>
+
+                          <div className="visibility-card-body">
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-phone-call"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Mobile Number
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  +91 XXXXXXXXXX
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-envelope"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Email Address
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  rXXXXX@XXXX.com
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-document"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Resume Download
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  Unlock Required
+                                </h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-dollar"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Expected Salary
+                                </span>
+
+                                <h6 className="visibility-value">Hidden</h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-id-badge"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Government Documents
+                                </span>
+
+                                <h6 className="visibility-value">Protected</h6>
+                              </div>
+                            </div>
+
+                            <div className="visibility-item">
+                              <div className="visibility-icon">
+                                <i className="fi-rr-credit-card"></i>
+                              </div>
+
+                              <div>
+                                <span className="visibility-label">
+                                  Unlock Access
+                                </span>
+
+                                <h6 className="visibility-value">
+                                  2 Credits / 60 Days
+                                </h6>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="visibility-card-footer">
+                            <button
+                              className="btn btn-default w-100"
+                              type="button"
+                            >
+                              Unlock Full Candidate Profile
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -386,12 +610,12 @@ const EmployerCandidateProfilePage = () => {
                                 </span>
                               </div>
                               <div className="col-lg-5 col-5 text-end">
-                                <button
+                                {/* <button
                                   className="btn btn-apply-now"
                                   type="button"
                                 >
                                   View Full History
-                                </button>
+                                </button> */}
                               </div>
                             </div>
                           </div>
@@ -474,8 +698,6 @@ const EmployerCandidateProfilePage = () => {
                   </p> */}
                 </div>
               </div>
-
-            
             </div>
           </div>
         </div>
@@ -483,7 +705,7 @@ const EmployerCandidateProfilePage = () => {
 
       <section className="section-box mt-50 mb-20">
         <div className="container">
-          <div className="box-newsletter">
+          <div className="box-newsletter orange-newsletter">
             <div className="row">
               <div className="col-xl-3 col-12 text-center d-none d-xl-block">
                 <img

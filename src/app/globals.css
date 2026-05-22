@@ -1313,3 +1313,218 @@ textarea {
   font-size: var(--font-lg) !important;
 }
 
+/* =========================================================
+   CANDIDATE VISIBILITY CARDS
+========================================================= */
+
+.candidate-visibility-card {
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  border-radius: 22px;
+  padding: 24px;
+  height: 100%;
+
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 4px 10px rgba(16, 24, 40, 0.04),
+    0 2px 4px rgba(16, 24, 40, 0.03);
+}
+
+.candidate-visibility-card:hover {
+  transform: translateY(-4px);
+
+  border-color: #d0d5dd;
+
+  box-shadow:
+    0 20px 30px rgba(16, 24, 40, 0.08),
+    0 8px 12px rgba(16, 24, 40, 0.04);
+}
+
+.visible-card:hover {
+  border-color: #12b76a;
+}
+
+.locked-card:hover {
+  border-color: #f79009;
+}
+
+.visibility-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 24px;
+}
+
+.visibility-badge {
+  padding: 7px 14px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.visibility-badge.success {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.visibility-badge.warning {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.visibility-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.visibility-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.visibility-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.visibility-icon {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  color: #344054;
+
+  transition: all 0.3s ease;
+}
+
+.candidate-visibility-card:hover .visibility-icon {
+  background: #eef2ff;
+  color: #ff9f00;
+}
+
+.visibility-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #667085;
+}
+
+.visibility-value {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  line-height: 24px;
+
+  color: #101828;
+}
+
+.visibility-card-footer {
+  margin-top: 24px;
+}
+.orange-newsletter {
+  background:#ffa300 !important;
+}
+
+.orange-newsletter .text-md-newsletter {
+  color: #ffffff !important;
+}
+
+.orange-newsletter .btn-default {
+  background: #08142f !important;
+  color: #ffffff !important;
+
+  min-width: 170px !important;
+  height: 52px !important;
+
+  padding: 0 24px !important;
+
+  font-size: 15px !important;
+  font-weight: 700 !important;
+
+  border-radius: 14px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  white-space: nowrap !important;
+
+  line-height: 1 !important;
+}
+
+.orange-newsletter .btn-default:hover {
+  background: #101828 !important;
+  color: #ffffff !important;
+}
+
+/* =========================================================
+   CANDIDATE PROFILE TAGS
+========================================================= */
+
+.candidate-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.candidate-profile-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 14px;
+
+  border-radius: 999px;
+
+  background: #eaf4ff;
+  border: 1px solid #b9dcff;
+
+  color: #1d4ed8;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.candidate-profile-tag:hover {
+  background: #1d4ed8;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+}

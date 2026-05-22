@@ -18,8 +18,8 @@ const TAB_ICONS = {
     Shortlisted: "fi-rr-star",
   },
   jobs: {
-    "Post a Job": "fi-rr-plus",
     "Job List": "fi-rr-briefcase",
+    "Post a Job": "fi-rr-plus",
     Applicants: "fi-rr-users",
   },
   "credits-wallets": {

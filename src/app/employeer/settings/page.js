@@ -10,11 +10,11 @@ const LANGUAGES = [
 ];
 
 const SETTINGS_SECTIONS = [
-  { key: "account", label: "Account Details",  },
-  { key: "language", label: "Language Preference", },
-  { key: "security", label: "Security", },
-  { key: "preferences", label: "Preferences", },
-  { key: "danger", label: "Delete Account", },
+  { key: "account",      label: "Account Details",      icon: "fi-rr-user"          },
+  { key: "language",     label: "Language Preference",  icon: "fi-rr-globe"         },
+  { key: "security",     label: "Security",             icon: "fi-rr-lock"          },
+  { key: "preferences",  label: "Preferences",          icon: "fi-rr-settings"      },
+  { key: "danger",       label: "Delete Account",       icon: "fi-rr-trash"         },
 ];
 
 const NOTIFICATION_PREFS = [
@@ -76,36 +76,49 @@ const EmployerSettingsPage = () => {
             </div>
 
             <div className="row">
-              {/* Sidebar nav */}
+              {/* Sidebar nav — styled to match candidate profile sidebar */}
               <div className="col-lg-3 col-md-12 mb-20">
-                <div className="card-grid-2">
-                  <div className="card-block-info" style={{ padding: "8px 0" }}>
-                    {SETTINGS_SECTIONS.map((sec) => (
-                      <button
-                        key={sec.key}
-                        type="button"
-                        onClick={() => setActiveSection(sec.key)}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          width: "100%",
-                          textAlign: "left",
-                          padding: "11px 18px",
-                          border: "none",
-                          background: activeSection === sec.key ? "#ffffff" : "transparent",
-                          color: activeSection === sec.key ? "#ff9900" : "#5a5855",
-                          fontWeight: activeSection === sec.key ? 700 : 400,
-                          fontSize: "13px",
-                          borderLeft: activeSection === sec.key ? "3px solid #ff9900" : "3px solid transparent",
-                          cursor: "pointer",
-                          transition: "all 0.15s",
-                        }}
-                      >
-                        <span>{sec.icon}</span>
-                        {sec.label}
-                      </button>
-                    ))}
+                <div style={{ background: "#fff", border: "1px solid #e8ecf0", borderRadius: 14, overflow: "hidden", position: "sticky", top: 90 }}>
+                  {/* Header banner — same navy gradient as candidate profile sidebar */}
+                  <div style={{ background: "linear-gradient(135deg, #122359 0%, #1e3a8a 100%)", padding: "24px 20px", textAlign: "center" }}>
+                    <div style={{ width: 56, height: 56, borderRadius: "50%", background: "rgba(255,255,255,0.15)", border: "2px solid #ff9900", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", fontSize: 22 }}>
+                      🏢
+                    </div>
+                    <div style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>Horizon Marine</div>
+                    <div style={{ color: "rgba(255,163,0,0.85)", fontSize: 12, marginTop: 3 }}>Employer Account</div>
+                  </div>
+                  {/* Nav items */}
+                  <div style={{ padding: "10px 0" }}>
+                    {SETTINGS_SECTIONS.map((sec) => {
+                      const isActive = activeSection === sec.key;
+                      const isDanger = sec.key === "danger";
+                      return (
+                        <button
+                          key={sec.key}
+                          type="button"
+                          onClick={() => setActiveSection(sec.key)}
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 12,
+                            padding: "11px 20px",
+                            border: "none",
+                            borderLeft: isActive ? "3px solid #ff9900" : "3px solid transparent",
+                            background: isActive ? "#fff8ec" : "transparent",
+                            color: isDanger ? "#e02020" : isActive ? "#ff9900" : "#4b5563",
+                            fontWeight: isActive ? 700 : 500,
+                            fontSize: 13,
+                            cursor: "pointer",
+                            textAlign: "left",
+                            transition: "all 0.15s",
+                          }}
+                        >
+                          <i className={sec.icon} style={{ fontSize: 15, width: 18, flexShrink: 0, color: isDanger ? "#e02020" : isActive ? "#ff9900" : "#9ca3af" }} />
+                          {sec.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
