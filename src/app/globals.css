@@ -1669,3 +1669,120 @@ textarea {
   background: #fff7ed;
   color: #ff9900;
 }
+
+/* Permission selectable tags */
+
+.permission-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.permission-tag:hover {
+  background: #1D4ED8 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.permission-checkbox:checked + .permission-tag {
+  background: #1D4ED8 !important;
+  color: #ffffff !important;
+  border-color: #1D4ED8 !important;
+  box-shadow: 0 8px 18px rgba(29,78,216,0.18);
+}
+
+/* =========================================
+   Premium Employer Dashboard Card Hover
+========================================= */
+
+.subuser-hover-card {
+  transition: all 0.35s ease !important;
+  border: 1px solid rgba(18, 35, 89, 0.08) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.subuser-hover-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 153, 0, 0.28) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 153, 0, 0.16),
+    0 20px 40px rgba(255, 153, 0, 0.12) !important;
+}
+
+/* smooth internal animations */
+.subuser-hover-card * {
+  transition: all 0.25s ease;
+}
+
+/* hover title effect */
+.subuser-hover-card:hover h5,
+.subuser-hover-card:hover h4 {
+  color: #ff9900 !important;
+}
+
+/* inner permission matrix cards */
+.subuser-hover-card .permission-matrix-item {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(18, 35, 89, 0.06);
+}
+
+.subuser-hover-card .permission-matrix-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 153, 0, 0.22);
+  box-shadow: 0 10px 24px rgba(255, 153, 0, 0.08);
+  background: #fffaf2 !important;
+}
+
+/* info alert */
+.subuser-hover-card .subuser-alert {
+  transition: all 0.3s ease;
+}
+
+.subuser-hover-card .subuser-alert:hover {
+  border-color: rgba(255, 153, 0, 0.35) !important;
+  box-shadow: 0 10px 22px rgba(255, 153, 0, 0.08);
+}
+
+/* buttons */
+.subuser-hover-card .btn {
+  transition: all 0.25s ease;
+}
+
+.subuser-hover-card .btn:hover {
+  transform: translateY(-2px);
+}
+/* Candidate style notification items */
+
+.candidate-notification-point {
+  transition: all 0.3s ease;
+}
+
+.candidate-notification-point:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,153,0,0.22) !important;
+  box-shadow:
+    0 10px 24px rgba(255,153,0,0.08);
+  background: #fffaf2 !important;
+}
+/* Employer notification cards */
+
+.notification-hover-card {
+  transition: all 0.35s ease;
+}
+
+.notification-hover-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255,153,0,0.28) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,153,0,0.16),
+    0 20px 40px rgba(255,153,0,0.12) !important;
+}
+
+.notification-hover-card * {
+  transition: all 0.25s ease;
+}
+
+.notification-hover-card:hover p:first-child {
+  color: #ff9900 !important;
+}

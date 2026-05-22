@@ -53,8 +53,8 @@ const EmployerNotificationsPage = () => {
   const togglePreference = (index) => {
     setPreferences((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, enabled: !item.enabled } : item
-      )
+        i === index ? { ...item, enabled: !item.enabled } : item,
+      ),
     );
 
     showToast("Preference updated", "info");
@@ -67,7 +67,7 @@ const EmployerNotificationsPage = () => {
 
   const markRead = (id) => {
     setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
   };
 
@@ -81,15 +81,12 @@ const EmployerNotificationsPage = () => {
       <section className="section-box mt-50 mb-50">
         <div className="container">
           <div className="content-page">
-
             {/* HEADER */}
             <div className="box-filters-job mb-30">
               <div className="row align-items-center">
                 <div className="col-xl-8">
                   <h3>Notifications</h3>
-                  <span>
-                    {unreadCount} unread
-                  </span>
+                  <span>{unreadCount} unread</span>
                 </div>
                 <div className="col-xl-4 text-end">
                   <button
@@ -122,75 +119,225 @@ const EmployerNotificationsPage = () => {
             {filtered.map((notif) => (
               <div
                 key={notif.id}
-                className="card-grid-2 mb-10"
+                className="notification-hover-card mb-15"
                 style={{
-                  background: notif.read ? "#fff" : "#ffffff",
+                  background: "#ffffff",
+                  borderRadius: "22px",
+                  border: notif.read
+                    ? "1px solid rgba(18,35,89,0.08)"
+                    : "1px solid rgba(255,153,0,0.22)",
+                  boxShadow: notif.read
+                    ? "0 4px 14px rgba(18,35,89,0.04)"
+                    : "0 10px 24px rgba(255,153,0,0.08)",
                   cursor: "pointer",
+                  overflow: "hidden",
+                  transition: "all .35s ease",
+                  position: "relative",
                 }}
                 onClick={() => markRead(notif.id)}
               >
-                <div className="card-block-info p-20">
-                  <p><strong>{notif.title}</strong></p>
-                  <p>{notif.message}</p>
-                  <small>{notif.time}</small>
+                <div
+                  className="card-block-info"
+                  style={{
+                    padding: "22px",
+                  }}
+                >
+                <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "12px",
+    marginBottom: "10px",
+    flexWrap: "wrap",
+  }}
+>
+  <p
+    style={{
+      margin: 0,
+      color: "#122359",
+      fontWeight: 700,
+      fontSize: "15px",
+    }}
+  >
+    {notif.title}
+  </p>
+
+  {!notif.read && (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "6px 12px",
+        borderRadius: "999px",
+        background: "#EAF4FF",
+        border: "1px solid #B9DCFF",
+        color: "#1D4ED8",
+        fontSize: "11px",
+        fontWeight: 600,
+      }}
+    >
+      New
+    </span>
+  )}
+</div>
+               <p
+  style={{
+    color: "#66789c",
+    fontSize: "14px",
+    lineHeight: 1.7,
+    marginBottom: "12px",
+  }}
+>
+  {notif.message}
+</p>
+              <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    color: "#94a3b8",
+    fontSize: "12px",
+    fontWeight: 500,
+  }}
+>
+  <i className="fi fi-rr-time-quarter-to" />
+  {notif.time}
+</div>
                 </div>
               </div>
             ))}
 
             {/* ✅ FIXED TOGGLE SECTION */}
-            <div className="card-grid-2 mt-20">
-              <div className="card-block-info p-20">
-                <h5>Notification Preferences</h5>
+            {/* Notification Preferences */}
+            <div
+              className="subuser-hover-card mt-20"
+              style={{
+                background: "#ffffff",
+                borderRadius: "24px",
+                border: "1px solid rgba(18,35,89,0.08)",
+                boxShadow: "0 4px 14px rgba(18,35,89,0.04)",
+                padding: "28px",
+                transition: "all .35s ease",
+              }}
+            >
+              <div className="d-flex align-items-center justify-content-between mb-20 flex-wrap gap-10">
+                <div>
+                  <h5
+                    style={{
+                      marginBottom: "4px",
+                      color: "#122359",
+                      fontWeight: 800,
+                    }}
+                  >
+                    Notification Preferences
+                  </h5>
 
-                <div className="row">
-                  {preferences.map((pref, index) => (
-                    <div className="col-lg-6 mb-10" key={pref.label}>
-                      <div
-                        onClick={() => togglePreference(index)}
-                        style={{
-                          border: "1px solid #eee",
-                          borderRadius: "8px",
-                          padding: "10px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <span>{pref.label}</span>
-
-                        {/* SWITCH */}
-                        <div
-                          style={{
-                            width: "40px",
-                            height: "22px",
-                            borderRadius: "20px",
-                            background: pref.enabled ? "#ffa300" : "#ddd",
-                            position: "relative",
-                            transition: "all 0.3s ease",
-                          }}
-                        >
-                          <div
-                            style={{
-                              width: "18px",
-                              height: "18px",
-                              borderRadius: "50%",
-                              background: "#fff",
-                              position: "absolute",
-                              top: "2px",
-                              left: pref.enabled ? "20px" : "2px",
-                              transition: "all 0.3s ease",
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  <p
+                    style={{
+                      marginBottom: 0,
+                      color: "#66789c",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Control which employer alerts you want to receive.
+                  </p>
                 </div>
 
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "6px 12px",
+                    borderRadius: "999px",
+                    background: "#EAF4FF",
+                    border: "1px solid #B9DCFF",
+                    color: "#1D4ED8",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {preferences.filter((p) => p.enabled).length} enabled
+                </span>
+              </div>
+
+              <div>
+                {preferences.map((pref, index) => (
+                  <div
+                    key={pref.label}
+                    className="candidate-notification-point"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: "14px",
+                      padding: "16px 18px",
+                      borderRadius: "18px",
+                      border: "1px solid rgba(18,35,89,0.06)",
+                      marginBottom: "12px",
+                      background: "#ffffff",
+                      transition: "all .3s ease",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          color: "#122359",
+                          fontWeight: 700,
+                          marginBottom: "4px",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {pref.label}
+                      </div>
+
+                      <div
+                        style={{
+                          color: "#66789c",
+                          fontSize: "12px",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        Receive alerts related to {pref.label.toLowerCase()}.
+                      </div>
+                    </div>
+
+                    {/* Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => togglePreference(index)}
+                      aria-label={`Toggle ${pref.label}`}
+                      style={{
+                        width: "46px",
+                        height: "26px",
+                        borderRadius: "999px",
+                        border: "none",
+                        background: pref.enabled ? "#ffa300" : "#dbe4f0",
+                        position: "relative",
+                        transition: "all .25s ease",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "50%",
+                          background: "#fff",
+                          position: "absolute",
+                          top: "3px",
+                          left: pref.enabled ? "23px" : "3px",
+                          transition: "all .25s ease",
+                          boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                        }}
+                      />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
-
           </div>
         </div>
       </section>

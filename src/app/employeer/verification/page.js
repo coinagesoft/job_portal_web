@@ -1,50 +1,52 @@
+"use client"; 
+
+// import Link from "next/link";
 const verificationBadges = [
   {
     badge: "GST Verified",
     status: "Approved",
-    statusClass: "badge bg-success",
-    icon: "OK",
+    icon: "fi fi-rr-check",
     detail: "GST registration confirmed by admin.",
     field: "badge_gst_verified",
   },
   {
     badge: "POE Licensed",
     status: "Approved",
-    statusClass: "badge bg-success",
-    icon: "OK",
-    detail: "Placement Organisation of Employers license verified.",
+    icon: "fi-rr-shield-check",
+    detail:
+      "Placement Organisation of Employers license verified.",
     field: "badge_poe_licensed",
   },
   {
     badge: "PAN Verified",
     status: "Pending",
-    statusClass: "badge bg-warning text-dark",
-    icon: "INR",
-    detail: "Document submitted and currently under admin review.",
+    icon: "fi-rr-time-check",
+    detail:
+      "Document submitted and currently under admin review.",
     field: "badge_pan_verified",
   },
   {
     badge: "ISO Certified",
     status: "Not submitted",
-    statusClass: "badge bg-secondary",
-    icon: "NEW",
-    detail: "Upload your ISO certificate to unlock this badge.",
+    icon: "fi-rr-document",
+    detail:
+      "Upload your ISO certificate to unlock this badge.",
     field: "badge_iso_certified",
   },
   {
     badge: "Background Check",
     status: "Not submitted",
-    statusClass: "badge bg-secondary",
-    icon: "NEW",
-    detail: "Third-party background check required.",
+    icon: "fi-rr-search-alt",
+    detail:
+      "Third-party background check required.",
     field: "badge_bg_check",
   },
   {
     badge: "Premium Member",
     status: "Locked",
-    statusClass: "badge bg-dark",
-    icon: "LOCK",
-    detail: "Requires at least 3 active badges and 6 months on platform.",
+    icon: "fi-rr-lock",
+    detail:
+      "Requires at least 3 active badges and 6 months on platform.",
     field: "badge_premium",
   },
 ];
@@ -54,26 +56,24 @@ const verificationDocuments = [
     name: "GST Certificate",
     uploaded: "12 Feb 2026",
     status: "Verified",
-    statusClass: "badge bg-success",
   },
   {
     name: "POE Licence",
     uploaded: "12 Feb 2026",
     status: "Verified",
-    statusClass: "badge bg-success",
   },
   {
     name: "PAN Card",
     uploaded: "01 Apr 2026",
     status: "Under review",
-    statusClass: "badge bg-warning text-dark",
   },
 ];
 
-export const metadata = {
-  title: "Verification & Badges - Job Portal",
-  description: "Manage verification documents and trust badges.",
-};
+// export const metadata = {
+//   title: "Verification & Badges - Job Portal",
+//   description:
+//     "Manage verification documents and trust badges.",
+// };
 
 const EmployerVerificationPage = () => {
   return (
@@ -81,164 +81,421 @@ const EmployerVerificationPage = () => {
       <section className="section-box mt-50 mb-50">
         <div className="container">
           <div className="content-page">
-            <div className="box-filters-job mb-30">
-              <div className="row align-items-center">
-                <div className="col-xl-8 col-lg-8">
-                  <h3 className="mb-5">Verification &amp; Badges</h3>
-                  <span className="font-sm color-text-paragraph-2">
-                    Build trust with candidates - verified employers get more
-                    applicants.
-                  </span>
-                </div>
-              </div>
+            {/* Header */}
+            <div className="mb-30">
+              <h3
+                style={{
+                  color: "#122359",
+                  fontWeight: 800,
+                  marginBottom: "6px",
+                }}
+              >
+                Verification & Badges
+              </h3>
+
+              <span className="font-sm color-text-paragraph-2">
+                Build trust with candidates — verified
+                employers get more applicants.
+              </span>
             </div>
 
-            <div className="card-grid-2 hover-up mb-30">
-              <div className="card-block-info pt-20 pb-20">
-                <h5 className="mb-20">Trust Badges</h5>
-                <div className="row">
-                  {verificationBadges.map((item) => (
+            {/* Trust Badges */}
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: "24px",
+                border:
+                  "1px solid rgba(18,35,89,0.06)",
+                boxShadow:
+                  "0 4px 14px rgba(18,35,89,0.04)",
+                padding: "28px",
+                marginBottom: "30px",
+              }}
+            >
+              <h5
+                style={{
+                  color: "#122359",
+                  fontWeight: 800,
+                  marginBottom: "24px",
+                }}
+              >
+                Trust Badges
+              </h5>
+
+              <div className="row">
+                {verificationBadges.map((item) => (
+                  <div
+                    className="col-lg-4 col-md-6 col-12 mb-20"
+                    key={item.field}
+                  >
                     <div
-                      className="col-lg-4 col-md-6 col-12 mb-20"
-                      key={item.field}
+                      style={{
+                        borderRadius: "22px",
+                        padding: "22px",
+                        border:
+                          "1px solid rgba(18,35,89,0.08)",
+                        background: "#ffffff",
+                        transition: "all .35s ease",
+                        boxShadow:
+                          "0 4px 14px rgba(18,35,89,0.04)",
+                        height: "100%",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(-8px)";
+                        e.currentTarget.style.borderColor =
+                          "rgba(255,153,0,0.32)";
+                        e.currentTarget.style.boxShadow =
+                          "0 0 0 1px rgba(255,153,0,0.18), 0 20px 40px rgba(255,153,0,0.12)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(0px)";
+                        e.currentTarget.style.borderColor =
+                          "rgba(18,35,89,0.08)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 14px rgba(18,35,89,0.04)";
+                      }}
                     >
                       <div
-                        className="card-grid-2"
                         style={{
-                          borderRadius: "10px",
-                          padding: "16px",
-                          border: "1px solid #ffc151",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: "14px",
+                          marginBottom: "16px",
                         }}
                       >
-                        <div className="d-flex align-items-center gap-10 mb-10">
-                          <span
+                        <div
+                          style={{
+                            width: "52px",
+                            height: "52px",
+                            borderRadius: "16px",
+                            background: "#fff7ea",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "#ff9900",
+                            fontSize: "20px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <i className={item.icon} />
+                        </div>
+
+                        <div style={{ flex: 1 }}>
+                          <div
                             style={{
-                              fontSize: "11px",
-                              width: "36px",
-                              height: "36px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              background: "#ffffff",
-                              borderRadius: "8px",
                               fontWeight: 700,
-                              color: "#ff9900",
+                              color: "#122359",
+                              marginBottom: "8px",
+                              fontSize: "16px",
                             }}
                           >
-                            {item.icon}
-                          </span>
-                          <div>
-                            <p className="font-sm fw-600 mb-0">{item.badge}</p>
-                            <span
-                              className={`btn btn-grey-small ${
-                                item.status === "Approved"
-                                  ? "tag-active"
-                                  : item.status === "Pending"
-                                    ? "tag-warning"
-                                    : "tag-muted"
-                              }`}
-                              style={{ fontSize: "10px", padding: "2px 8px" }}
-                            >
-                              {item.status}
-                            </span>
+                            {item.badge}
                           </div>
+
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              padding: "6px 12px",
+                              borderRadius: "999px",
+                              background:
+                                item.status === "Approved"
+                                  ? "#ecfdf3"
+                                  : item.status === "Pending"
+                                    ? "#fff7ea"
+                                    : "#f4f5f7",
+                              color:
+                                item.status === "Approved"
+                                  ? "#0BAB7C"
+                                  : item.status === "Pending"
+                                    ? "#ff9900"
+                                    : "#66789c",
+                              fontSize: "11px",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {item.status}
+                          </span>
                         </div>
-                        <p className="font-xs color-text-paragraph-2 mb-0">
-                          {item.detail}
-                        </p>
                       </div>
+
+                      <p
+                        style={{
+                          margin: 0,
+                          color: "#66789c",
+                          fontSize: "13px",
+                          lineHeight: 1.7,
+                        }}
+                      >
+                        {item.detail}
+                      </p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="card-grid-2 hover-up mb-30">
-              <div className="card-block-info pt-20 pb-20">
-                <div className="row align-items-center mb-15">
-                  <div className="col-8">
-                    <h5 className="mb-0">Uploaded Documents</h5>
-                  </div>
-                  <div className="col-4 text-end">
-                    <button
-                      className="btn btn-default btn-sm hover-up"
-                      type="button"
-                    >
-                      + Upload Document
-                    </button>
-                  </div>
-                </div>
-                <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Document</th>
-                        <th>Uploaded</th>
-                        <th>Status</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {verificationDocuments.map((doc) => (
-                        <tr key={doc.name}>
-                          <td className="font-sm fw-500">{doc.name}</td>
-                          <td className="font-xs color-text-paragraph-2">
-                            {doc.uploaded}
-                          </td>
-                          <td>
-                           <span
-  className={`btn btn-grey-small ${
-    doc.status === "Verified"
-      ? "tag-active"
-      : doc.status === "Under review"
-      ? "tag-warning"
-      : "tag-muted"
-  }`}
-  style={{ fontSize: "10px", padding: "2px 8px" }}
->
-  {doc.status}
-</span>
-                          </td>
-                          <td className="text-end">
-                            <button
-                              className="btn btn-grey-small btn-sm"
-                              type="button"
-                              style={{ padding: "4px 10px", fontSize: "11px" }}
-                            >
-                              View
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div className="card-grid-2 hover-up">
-              <div className="card-block-info pt-20 pb-20">
-                <h5 className="mb-15">Upload New Document</h5>
-                <div
+            {/* Uploaded Documents */}
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: "24px",
+                border:
+                  "1px solid rgba(18,35,89,0.06)",
+                boxShadow:
+                  "0 4px 14px rgba(18,35,89,0.04)",
+                padding: "28px",
+                marginBottom: "30px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "24px",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <h5
                   style={{
-                    border: "2px dashed #ffc151",
-                    borderRadius: "10px",
-                    padding: "40px",
-                    textAlign: "center",
-                    background: "#ffffff",
-                    cursor: "pointer",
+                    margin: 0,
+                    color: "#122359",
+                    fontWeight: 800,
                   }}
                 >
-                  <p className="font-sm color-text-paragraph-2 mb-5">
-                    Drag and drop your document here
-                  </p>
-                  <p className="font-xs color-text-paragraph-2 mb-15">
-                    Accepted: PDF, JPG, PNG - Max 5 MB
-                  </p>
-                  <button className="btn btn-border btn-sm" type="button">
-                    Browse File
-                  </button>
+                  Uploaded Documents
+                </h5>
+
+                <button
+                  className="btn btn-default btn-sm"
+                  style={{
+                    borderRadius: "12px",
+                    padding: "10px 18px",
+                    fontWeight: 700,
+                    boxShadow:
+                      "0 8px 20px rgba(255,163,0,0.18)",
+                  }}
+                  type="button"
+                >
+                  <i
+                    className="fi fi-rr-upload"
+                    style={{ marginRight: "6px" }}
+                  />
+                  Upload Document
+                </button>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "14px",
+                }}
+              >
+                {verificationDocuments.map((doc) => (
+                  <div
+                    key={doc.name}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent:
+                        "space-between",
+                      flexWrap: "wrap",
+                      gap: "14px",
+                      padding: "18px 22px",
+                      borderRadius: "18px",
+                      border:
+                        "1px solid rgba(18,35,89,0.08)",
+                      background: "#ffffff",
+                      transition: "all .35s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(-4px)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,153,0,0.32)";
+                      e.currentTarget.style.boxShadow =
+                        "0 12px 28px rgba(255,163,0,0.10)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(0px)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(18,35,89,0.08)";
+                      e.currentTarget.style.boxShadow =
+                        "none";
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          color: "#122359",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        {doc.name}
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: "13px",
+                          color: "#66789c",
+                        }}
+                      >
+                        Uploaded: {doc.uploaded}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: "6px 12px",
+                          borderRadius: "999px",
+                          background:
+                            doc.status === "Verified"
+                              ? "#ecfdf3"
+                              : "#fff7ea",
+                          color:
+                            doc.status === "Verified"
+                              ? "#0BAB7C"
+                              : "#ff9900",
+                          fontSize: "11px",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {doc.status}
+                      </span>
+
+                      <button
+                        className="btn btn-border btn-sm"
+                        style={{
+                          borderRadius: "10px",
+                          fontWeight: 700,
+                        }}
+                        type="button"
+                      >
+                        <i
+                          className="fi fi-rr-eye"
+                          style={{
+                            marginRight: "5px",
+                          }}
+                        />
+                        View
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Upload Area */}
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: "24px",
+                border:
+                  "1px solid rgba(18,35,89,0.06)",
+                boxShadow:
+                  "0 4px 14px rgba(18,35,89,0.04)",
+                padding: "28px",
+              }}
+            >
+              <h5
+                style={{
+                  color: "#122359",
+                  fontWeight: 800,
+                  marginBottom: "22px",
+                }}
+              >
+                Upload New Document
+              </h5>
+
+              <div
+                style={{
+                  border:
+                    "2px dashed rgba(255,163,0,0.35)",
+                  borderRadius: "24px",
+                  padding: "50px 30px",
+                  textAlign: "center",
+                  background: "#fffdf9",
+                  cursor: "pointer",
+                  transition: "all .35s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor =
+                    "#ffa300";
+                  e.currentTarget.style.background =
+                    "#fff7ea";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor =
+                    "rgba(255,163,0,0.35)";
+                  e.currentTarget.style.background =
+                    "#fffdf9";
+                }}
+              >
+                <div
+                  style={{
+                    width: "72px",
+                    height: "72px",
+                    borderRadius: "22px",
+                    background: "#fff7ea",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 18px",
+                    color: "#ff9900",
+                    fontSize: "28px",
+                  }}
+                >
+                  <i className="fi fi-rr-cloud-upload" />
                 </div>
+
+                <p
+                  style={{
+                    fontSize: "15px",
+                    color: "#122359",
+                    fontWeight: 700,
+                    marginBottom: "8px",
+                  }}
+                >
+                  Drag & drop documents here
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#66789c",
+                    marginBottom: "20px",
+                  }}
+                >
+                  Accepted: PDF, JPG, PNG — Max 5 MB
+                </p>
+
+                <button
+                  className="btn btn-border btn-sm"
+                  style={{
+                    borderRadius: "12px",
+                    padding: "10px 18px",
+                    fontWeight: 700,
+                  }}
+                  type="button"
+                >
+                  Browse Files
+                </button>
               </div>
             </div>
           </div>

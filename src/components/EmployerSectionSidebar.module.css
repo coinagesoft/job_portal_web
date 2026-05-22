@@ -4,6 +4,9 @@
   top: 140px;
   z-index: 80;
   width: 258px;
+
+  /* add spacing so shadow does not overlap content */
+  padding-right: 18px;
 }
 
 .sidebarCard {
