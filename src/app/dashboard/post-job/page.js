@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./post-job.module.css";
 
@@ -24,8 +27,6 @@ const employmentTypes = [
   "Part-Time Employment",
   "Full-Time Employment",
 ];
-
-const hotVisibilityOptions = ["7 Days", "15 Days", "30 Days"];
 
 const suggestedSkills = [
   "Java",
@@ -55,12 +56,16 @@ const screeningQuestions = [
     answerType: "Yes / No",
     required: true,
   },
-  {
-    id: "notice-period",
-    question: "What is your current notice period in days?",
-    answerType: "Number",
-    required: false,
-  },
+];
+
+const jobSections = [
+  { id: "job-details", step: "01", title: "Job Details" },
+  { id: "compensation", step: "02", title: "Compensation" },
+  { id: "skills-priority", step: "03", title: "Skills & JD" },
+  { id: "openings-eligibility", step: "04", title: "Eligibility" },
+  { id: "location-compliance", step: "05", title: "Location" },
+  { id: "screening-questions", step: "06", title: "Questions" },
+  { id: "publishing", step: "07", title: "Publishing" },
 ];
 
 function Field({ label, required, hint, children }) {
@@ -68,127 +73,336 @@ function Field({ label, required, hint, children }) {
     <div className={styles.field}>
       <label className={styles.label}>
         {label}
-        {required ? <span className={styles.required}>*</span> : null}
+        {required && (
+          <span className={styles.required}>*</span>
+        )}
       </label>
+
       {children}
-      {hint ? <p className={styles.hint}>{hint}</p> : null}
+
+      {hint && (
+        <p className={styles.hint}>{hint}</p>
+      )}
     </div>
   );
 }
 
-function SectionHeading({ step, title, subtitle }) {
+function SectionHeading({
+  step,
+  title,
+  subtitle,
+}) {
   return (
     <div className={styles.sectionHeading}>
-      <span className={styles.sectionStep}>{step}</span>
+      <span className={styles.sectionStep}>
+        {step}
+      </span>
+
       <div>
-        <h5 className={styles.sectionTitle}>{title}</h5>
-        {subtitle ? <p className={styles.sectionSub}>{subtitle}</p> : null}
+        <h5 className={styles.sectionTitle}>
+          {title}
+        </h5>
+
+        {subtitle && (
+          <p className={styles.sectionSub}>
+            {subtitle}
+          </p>
+        )}
       </div>
     </div>
   );
 }
 
+function StepProgressBar({ activeStep }) {
+  return (
+    <div className={styles.stepWrapper}>
+      {jobSections.map((section, index) => {
+        const stepNumber = index + 1;
+
+        return (
+          <React.Fragment key={section.id}>
+            <div className={styles.stepItem}>
+              <div
+                className={`${styles.stepCircle}
+                ${
+                  stepNumber < activeStep
+                    ? styles.stepCompleted
+                    : ""
+                }
+                ${
+                  stepNumber === activeStep
+                    ? styles.stepActive
+                    : ""
+                }`}
+              >
+                {stepNumber < activeStep
+                  ? "✓"
+                  : section.step}
+              </div>
+
+              <span
+                className={`${styles.stepLabel}
+                ${
+                  stepNumber === activeStep
+                    ? styles.stepLabelActive
+                    : ""
+                }`}
+              >
+                {section.title}
+              </span>
+            </div>
+
+            {index < jobSections.length - 1 && (
+              <div
+                className={`${styles.stepLine}
+                ${
+                  stepNumber < activeStep
+                    ? styles.stepLineActive
+                    : ""
+                }`}
+              />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+function SectionCard({
+  id,
+  step,
+  title,
+  subtitle,
+  children,
+  isActive,
+  onContinue,
+  onBack,
+  isLast,
+}) {
+  return (
+    <details
+      id={id}
+      className={styles.sectionCard}
+      open={isActive}
+    >
+      <summary className={styles.sectionSummary}>
+        <SectionHeading
+          step={step}
+          title={title}
+          subtitle={subtitle}
+        />
+
+        <span className={styles.sectionChevron} />
+      </summary>
+
+      <div className={styles.sectionBody}>
+        {children}
+
+        <div className={styles.stepActions}>
+          {step !== "01" && (
+            <button
+              type="button"
+              className={`btn btn-border ${styles.backBtn}`}
+              onClick={onBack}
+            >
+              Back
+            </button>
+          )}
+
+          <button
+            type="button"
+            className={`btn btn-default ${styles.continueBtn}`}
+            onClick={onContinue}
+          >
+            {isLast
+              ? "Save & Publish"
+              : "Save & Continue"}
+          </button>
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export default function DashboardPostJobPage() {
+  const [activeStep, setActiveStep] =
+    useState(1);
+
+  const nextStep = () => {
+    if (activeStep < jobSections.length) {
+      setActiveStep((prev) => prev + 1);
+
+      const nextSection =
+        document.getElementById(
+          jobSections[activeStep].id
+        );
+
+      if (nextSection) {
+        nextSection.open = true;
+
+        nextSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
+  };
+
+  const prevStep = () => {
+    if (activeStep > 1) {
+      setActiveStep((prev) => prev - 1);
+
+      const prevSection =
+        document.getElementById(
+          jobSections[activeStep - 2].id
+        );
+
+      if (prevSection) {
+        prevSection.open = true;
+
+        prevSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
+  };
+
   return (
     <main className="main">
-      <section className={`section-box mt-50 mb-50 ${styles.pageSection}`}>
+      <section
+        className={`section-box mt-50 mb-50 ${styles.pageSection}`}
+      >
         <div className={`container ${styles.layout}`}>
           <div className={styles.content}>
             <div className="box-filters-job">
               <div className="row align-items-center">
                 <div className="col-xl-8 col-lg-8">
-                  <h3 className="mb-5">Post a Job</h3>
+                  <h3 className="mb-5">
+                    Post a Job
+                  </h3>
+
                   <span className="font-sm color-text-paragraph-2">
-                    Create normal, hot vacancy, and classified posts in the same employer workflow.
+                    Create normal, hot vacancy,
+                    and classified posts in the
+                    same employer workflow.
                   </span>
                 </div>
+
                 <div className="col-xl-4 col-lg-4 text-lg-end mt-sm-15">
-                  <div className={styles.headerActions}>
-                    <button className={`btn btn-default btn-sm ${styles.btnSoft}`} type="button">
+                  <div
+                    className={
+                      styles.headerActions
+                    }
+                  >
+                    <button
+                      className={`btn btn-default btn-sm ${styles.btnSoft}`}
+                    >
                       Save Draft
                     </button>
-                    <button className="btn btn-default btn-sm" type="button">
-                      Preview & Publish
+
+                    <button className="btn btn-default btn-sm">
+                      Preview
                     </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-15">
-              <span className="badge bg-light text-dark mr-5 mb-5">Required fields: 34</span>
-              <span className="badge bg-light text-dark mr-5 mb-5">Formats: Normal | Hot | Classified</span>
-              <span className="badge bg-light text-dark mr-5 mb-5">Category focus: Skilled workforce</span>
+            <div className={styles.progressContainer}>
+              <StepProgressBar
+                activeStep={activeStep}
+              />
             </div>
 
             <div className={styles.body}>
-              <div className={styles.formPanel}>
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="01"
-                    title="Job Details"
-                    subtitle="Core role definition and description"
-                  />
+              <div
+                className={styles.fullFormPanel}
+              >
+                {/* STEP 1 */}
 
+                <SectionCard
+                  id="job-details"
+                  step="01"
+                  title="Job Details"
+                  subtitle="Core role information"
+                  isActive={activeStep === 1}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
                   <Field
                     label="Job Title"
                     required
-                    hint="Autocomplete from trade taxonomy"
                   >
                     <input
                       className={styles.control}
-                      defaultValue="Welder 6G"
-                      placeholder="e.g. Welder 6G"
+                      placeholder="Welder 6G"
                     />
                   </Field>
 
                   <div className={styles.grid2}>
-                    <Field label="Role / Category of the Job" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Welding"
-                      >
-                        {roleCategories.map((item) => (
-                          <option key={item} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
-                    <Field label="Experience (Years)" required>
-                      <input
-                        className={styles.control}
-                        type="number"
-                        min="0"
-                        defaultValue="5"
-                      />
-                    </Field>
                     <Field
-                      label="Job Post Type"
+                      label="Role Category"
                       required
-                      hint="Select listing priority in employer plan."
                     >
                       <select
                         className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Hot Vacancy"
                       >
-                        {jobPostTypes.map((item) => (
-                          <option key={item} value={item}>
-                            {item}
-                          </option>
-                        ))}
+                        {roleCategories.map(
+                          (item) => (
+                            <option key={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Field>
-                    <Field label="Employment Type" required>
+
+                    <Field
+                      label="Experience"
+                      required
+                    >
+                      <input
+                        type="number"
+                        className={
+                          styles.control
+                        }
+                        defaultValue="5"
+                      />
+                    </Field>
+
+                    <Field
+                      label="Job Type"
+                      required
+                    >
                       <select
                         className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Contract"
                       >
-                        {employmentTypes.map((item) => (
-                          <option key={item} value={item}>
-                            {item}
-                          </option>
-                        ))}
+                        {jobPostTypes.map(
+                          (item) => (
+                            <option key={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Field>
+
+                    <Field
+                      label="Employment Type"
+                      required
+                    >
+                      <select
+                        className={`${styles.control} ${styles.selectControl}`}
+                      >
+                        {employmentTypes.map(
+                          (item) => (
+                            <option key={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Field>
                   </div>
@@ -196,489 +410,443 @@ export default function DashboardPostJobPage() {
                   <Field
                     label="Job Description"
                     required
-                    hint="Minimum 100 characters for posting"
                   >
                     <textarea
                       className={styles.textarea}
-                      defaultValue="We are looking for skilled professionals for immediate joining. Candidate should have relevant role experience, safety awareness, and ability to work in shifts."
+                      defaultValue="We are looking for skilled professionals for immediate joining."
                     />
                   </Field>
+                </SectionCard>
 
-                  <div className={styles.inlinePanel}>
-                    <div className={styles.inlinePanelHead}>
-                      <h6 className={styles.inlinePanelTitle}>Hot Vacancy Controls</h6>
-                      <span className={styles.inlinePanelBadge}>Premium Listing</span>
-                    </div>
-                    <p className={styles.inlinePanelText}>
-                      Recruiter can prioritize this job at the top of listing results and in highlighted sections.
-                    </p>
-                    <div className={styles.grid2}>
-                      <Field label="Visibility Duration" required>
-                        <select
-                          className={`${styles.control} ${styles.selectControl}`}
-                          defaultValue="15 Days"
-                        >
-                          {hotVisibilityOptions.map((item) => (
-                            <option key={item} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </select>
-                      </Field>
-                      <Field label="Premium Fee (Static)" required>
-                        <input className={styles.control} defaultValue="INR 2,999 + GST" readOnly />
-                      </Field>
-                    </div>
-                    <div className={styles.tagGroup}>
-                      <span className={styles.pillHot}>Hot Job</span>
-                      <span className={styles.pillUrgent}>Urgent Hiring</span>
-                      <span className={styles.pillNeutral}>Priority ranking above normal jobs</span>
-                    </div>
-                  </div>
-                </div>
+                {/* STEP 2 */}
 
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="02"
-                    title="Compensation"
-                    subtitle="Salary range and display preference"
-                  />
+                <SectionCard
+                  id="compensation"
+                  step="02"
+                  title="Compensation"
+                  subtitle="Salary information"
+                  isActive={activeStep === 2}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
                   <div className={styles.grid2}>
-                    <Field label="Min Salary" required>
+                    <Field
+                      label="Min Salary"
+                      required
+                    >
                       <input
-                        className={styles.control}
-                        type="number"
+                        className={
+                          styles.control
+                        }
                         defaultValue="30000"
                       />
                     </Field>
-                    <Field label="Max Salary" required>
+
+                    <Field
+                      label="Max Salary"
+                      required
+                    >
                       <input
-                        className={styles.control}
-                        type="number"
+                        className={
+                          styles.control
+                        }
                         defaultValue="45000"
                       />
                     </Field>
-                    <Field label="Currency" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="INR"
-                      >
-                        <option value="INR">INR</option>
-                        <option value="USD">USD</option>
-                        <option value="AED">AED</option>
-                        <option value="SAR">SAR</option>
-                      </select>
-                    </Field>
-                    <Field label="Salary Display Option" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Range"
-                      >
-                        <option value="Range">Show range</option>
-                        <option value="Starting">Starting from min</option>
-                        <option value="Fixed">Fixed salary</option>
-                      </select>
-                    </Field>
+
                     <Field
-                      label="Candidate Salary Visibility"
+                      label="Currency"
                       required
-                      hint="Hide salary details from candidates when needed."
                     >
                       <select
                         className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Hide salary from candidates"
                       >
-                        <option>Show salary to candidates</option>
-                        <option>Hide salary from candidates</option>
+                        <option>INR</option>
+                        <option>USD</option>
+                      </select>
+                    </Field>
+
+                    <Field
+                      label="Salary Visibility"
+                      required
+                    >
+                      <select
+                        className={`${styles.control} ${styles.selectControl}`}
+                      >
+                        <option>
+                          Show salary
+                        </option>
+
+                        <option>
+                          Hide salary
+                        </option>
                       </select>
                     </Field>
                   </div>
-                </div>
+                </SectionCard>
 
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="03"
-                    title="Skills, Priority & JD"
-                    subtitle="Autosuggestion, primary/secondary skill marking and JD tools"
-                  />
+                {/* STEP 3 */}
+
+                <SectionCard
+                  id="skills-priority"
+                  step="03"
+                  title="Skills & JD"
+                  subtitle="Skills and description"
+                  isActive={activeStep === 3}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
                   <Field
                     label="Key Skills"
                     required
-                    hint="Type skill keywords and select multiple options from suggestions."
                   >
                     <input
                       className={styles.control}
                       defaultValue="Java, Spring Boot"
-                      placeholder="Start typing skills..."
-                      list="skill-suggestion-list"
                     />
-                    <datalist id="skill-suggestion-list">
-                      {suggestedSkills.map((item) => (
-                        <option key={item} value={item} />
-                      ))}
-                    </datalist>
                   </Field>
 
                   <div className={styles.chipRow}>
-                    {suggestedSkills.map((item) => (
-                      <button key={item} type="button" className="btn btn-border btn-sm mr-10 mb-10">
-                        {item}
-                      </button>
-                    ))}
+                    {suggestedSkills.map(
+                      (item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          className="btn btn-border btn-sm mr-10 mb-10"
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
                   </div>
 
-                  <div className={styles.skillPriorityList}>
-                    {selectedSkills.map((skill) => (
-                      <div key={skill.name} className={styles.skillPriorityItem}>
-                        <div>
-                          <strong className={styles.skillName}>{skill.name}</strong>
-                          <p className={styles.skillHint}>Selected from key skills</p>
-                        </div>
-                        <span
+                  <div
+                    className={
+                      styles.skillPriorityList
+                    }
+                  >
+                    {selectedSkills.map(
+                      (skill) => (
+                        <div
+                          key={skill.name}
                           className={
-                            skill.priority === "primary"
-                              ? styles.skillPrimaryBadge
-                              : styles.skillSecondaryBadge
+                            styles.skillPriorityItem
                           }
                         >
-                          {skill.priority === "primary"
-                            ? "Filled Star - Primary Skill"
-                            : "Outline Star - Secondary Skill"}
-                        </span>
-                      </div>
-                    ))}
+                          <div>
+                            <strong
+                              className={
+                                styles.skillName
+                              }
+                            >
+                              {skill.name}
+                            </strong>
+
+                            <p
+                              className={
+                                styles.skillHint
+                              }
+                            >
+                              Selected Skill
+                            </p>
+                          </div>
+
+                          <span
+                            className={
+                              skill.priority ===
+                              "primary"
+                                ? styles.skillPrimaryBadge
+                                : styles.skillSecondaryBadge
+                            }
+                          >
+                            {skill.priority}
+                          </span>
+                        </div>
+                      )
+                    )}
                   </div>
 
+                  <Field
+                    label="Job Description"
+                    required
+                  >
+                    <textarea
+                      className={styles.textarea}
+                    />
+                  </Field>
+                </SectionCard>
+
+                {/* STEP 4 */}
+
+                <SectionCard
+                  id="openings-eligibility"
+                  step="04"
+                  title="Eligibility"
+                  subtitle="Candidate eligibility"
+                  isActive={activeStep === 4}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
                   <div className={styles.grid2}>
                     <Field
-                      label="JD Suggestion"
+                      label="Vacancies"
                       required
-                      hint="Use suggestion as base and customize before publish."
                     >
-                      <textarea
-                        className={styles.textarea}
-                        defaultValue="Looking for candidates with Java and Spring Boot experience, strong debugging skills, and ability to join immediate hiring cycles."
-                      />
-                    </Field>
-                    <Field label="Upload JD Document" required>
-                      <input className={`${styles.control} ${styles.fileControl}`} type="file" />
-                    </Field>
-                  </div>
-
-                  <div className={styles.chipRow}>
-                    <button type="button" className="btn btn-default btn-sm mr-10 mb-10">
-                      Suggest JD
-                    </button>
-                    <button type="button" className="btn btn-border btn-sm mr-10 mb-10">
-                      Re-generate JD
-                    </button>
-                  </div>
-                </div>
-
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="04"
-                    title="Openings & Eligibility"
-                    subtitle="Experience, age, education and candidate filters"
-                  />
-                  <div className={styles.grid2}>
-                    <Field label="Vacancies" required>
                       <input
-                        className={styles.control}
-                        type="number"
-                        min="1"
+                        className={
+                          styles.control
+                        }
                         defaultValue="3"
                       />
                     </Field>
-                    <Field label="Education" required>
+
+                    <Field
+                      label="Education"
+                      required
+                    >
                       <select
                         className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="ITI / Diploma"
                       >
-                        <option>8th Pass</option>
-                        <option>10th Pass</option>
-                        <option>12th Pass</option>
-                        <option>ITI / Diploma</option>
-                        <option>Graduate</option>
-                        <option>Any</option>
+                        <option>
+                          ITI / Diploma
+                        </option>
+
+                        <option>
+                          Graduate
+                        </option>
                       </select>
                     </Field>
-                    <Field label="Min Age" required>
+
+                    <Field
+                      label="Min Age"
+                      required
+                    >
                       <input
-                        className={styles.control}
-                        type="number"
+                        className={
+                          styles.control
+                        }
                         defaultValue="21"
                       />
                     </Field>
-                    <Field label="Max Age" required>
+
+                    <Field
+                      label="Max Age"
+                      required
+                    >
                       <input
-                        className={styles.control}
-                        type="number"
+                        className={
+                          styles.control
+                        }
                         defaultValue="40"
                       />
                     </Field>
-                    <Field label="License / Certifications" required>
-                      <input
-                        className={styles.control}
-                        defaultValue="6G Certificate, Safety Card"
-                        placeholder="Comma separated"
-                      />
-                    </Field>
-                    <Field label="Language Preference" required>
-                      <input
-                        className={styles.control}
-                        defaultValue="Hindi, English"
-                        placeholder="Comma separated"
-                      />
-                    </Field>
-                    <Field label="Gender" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Any"
-                      >
-                        <option>Any</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                      </select>
-                    </Field>
-                    <Field label="Disability" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Open to all"
-                      >
-                        <option>Open to all</option>
-                        <option>Open to PwD</option>
-                        <option>Not applicable</option>
-                      </select>
-                    </Field>
                   </div>
-                </div>
+                </SectionCard>
 
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="05"
-                    title="Location & Compliance"
-                    subtitle="Onshore/offshore setup and passport rules"
-                  />
+                {/* STEP 5 */}
 
-                  <Field label="Location Type" required>
-                    <div className={styles.radioGrid}>
-                      <label className={styles.radioCard}>
-                        <input type="radio" name="locationType" defaultChecked />
-                        <span>Onshore</span>
-                      </label>
-                      <label className={styles.radioCard}>
-                        <input type="radio" name="locationType" />
-                        <span>Offshore</span>
-                      </label>
-                    </div>
-                  </Field>
-
+                <SectionCard
+                  id="location-compliance"
+                  step="05"
+                  title="Location"
+                  subtitle="Job location"
+                  isActive={activeStep === 5}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
                   <div className={styles.grid2}>
-                    <Field label="Onshore City / Offshore Region" required>
+                    <Field
+                      label="City"
+                      required
+                    >
                       <input
-                        className={styles.control}
+                        className={
+                          styles.control
+                        }
                         defaultValue="Mumbai"
-                        placeholder="City or region"
                       />
                     </Field>
-                    <Field label="State / Country" required>
+
+                    <Field
+                      label="Country"
+                      required
+                    >
                       <input
-                        className={styles.control}
-                        defaultValue="Maharashtra, India"
+                        className={
+                          styles.control
+                        }
+                        defaultValue="India"
                       />
                     </Field>
                   </div>
+                </SectionCard>
 
-                  <div className={styles.grid2}>
-                    <Field label="is_international" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="No"
-                      >
-                        <option>No</option>
-                        <option>Yes</option>
-                      </select>
-                    </Field>
-                    <Field label="passport_required" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="No"
-                      >
-                        <option>No</option>
-                        <option>Yes</option>
-                      </select>
-                    </Field>
-                  </div>
+                {/* STEP 6 */}
 
-                  <div className={styles.grid2}>
-                    <Field label="validity_months" required>
-                      <input
-                        className={styles.control}
-                        type="number"
-                        min="0"
-                        defaultValue="6"
-                      />
-                    </Field>
-                    <Field label="Company Visibility" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Show company name"
-                      >
-                        <option>Show company name</option>
-                        <option>Confidential client</option>
-                      </select>
-                    </Field>
-                  </div>
-                </div>
-
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="06"
-                    title="Screening Questions"
-                    subtitle="Candidates must answer required questions during apply flow"
-                  />
-                  <div className={styles.questionList}>
-                    {screeningQuestions.map((question, index) => (
-                      <div key={question.id} className={styles.questionCard}>
-                        <div className={styles.questionCardHead}>
-                          <h6 className={styles.questionCardTitle}>Question {index + 1}</h6>
-                          <span
+                <SectionCard
+                  id="screening-questions"
+                  step="06"
+                  title="Questions"
+                  subtitle="Screening questions"
+                  isActive={activeStep === 6}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                >
+                  <div
+                    className={
+                      styles.questionList
+                    }
+                  >
+                    {screeningQuestions.map(
+                      (
+                        question,
+                        index
+                      ) => (
+                        <div
+                          key={question.id}
+                          className={
+                            styles.questionCard
+                          }
+                        >
+                          <div
                             className={
-                              question.required ? styles.questionRequired : styles.questionOptional
+                              styles.questionCardHead
                             }
                           >
-                            {question.required ? "Mandatory" : "Optional"}
-                          </span>
-                        </div>
-                        <p className={styles.questionCardText}>{question.question}</p>
-                        <div className={styles.grid2}>
-                          <Field label="Answer Type" required>
-                            <input className={styles.control} defaultValue={question.answerType} readOnly />
-                          </Field>
-                          <Field label="Candidate Rule" required>
-                            <input
-                              className={styles.control}
-                              defaultValue={
-                                question.required
-                                  ? "Cannot submit without answer"
-                                  : "Answer can be skipped"
+                            <h6
+                              className={
+                                styles.questionCardTitle
                               }
-                              readOnly
-                            />
-                          </Field>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <p className={styles.inlineNotice}>
-                    Recruiters can filter applicants later based on these answers in the Applicants panel.
-                  </p>
-                </div>
+                            >
+                              Question{" "}
+                              {index + 1}
+                            </h6>
 
-                <div className={styles.section}>
-                  <SectionHeading
-                    step="07"
-                    title="Publishing"
-                    subtitle="Deadline, status and publish schedule"
-                  />
-                  <div className={styles.grid2}>
-                    <Field label="Application Deadline" required>
-                      <input
-                        className={styles.control}
-                        type="date"
-                        defaultValue="2026-05-15"
-                      />
-                    </Field>
-                    <Field label="Job Status" required>
-                      <select
-                        className={`${styles.control} ${styles.selectControl}`}
-                        defaultValue="Active"
-                      >
-                        <option>Draft</option>
-                        <option>Active</option>
-                        <option>Paused</option>
-                      </select>
-                    </Field>
-                    <Field label="publish_at" required>
-                      <input
-                        className={styles.control}
-                        type="datetime-local"
-                        defaultValue="2026-04-18T10:00"
-                      />
-                    </Field>
+                            <span
+                              className={
+                                question.required
+                                  ? styles.questionRequired
+                                  : styles.questionOptional
+                              }
+                            >
+                              {question.required
+                                ? "Mandatory"
+                                : "Optional"}
+                            </span>
+                          </div>
+
+                          <p
+                            className={
+                              styles.questionCardText
+                            }
+                          >
+                            {
+                              question.question
+                            }
+                          </p>
+
+                          <input
+                            className={
+                              styles.control
+                            }
+                            defaultValue={
+                              question.answerType
+                            }
+                          />
+                        </div>
+                      )
+                    )}
                   </div>
+                </SectionCard>
+
+                {/* STEP 7 */}
+
+                <SectionCard
+                  id="publishing"
+                  step="07"
+                  title="Publishing"
+                  subtitle="Publish your job"
+                  isActive={activeStep === 7}
+                  onContinue={nextStep}
+                  onBack={prevStep}
+                  isLast
+                >
+                  <div
+                    className={
+                      styles.inlinePanel
+                    }
+                  >
+                    <div
+                      className={
+                        styles.inlinePanelHead
+                      }
+                    >
+                      <h6
+                        className={
+                          styles.inlinePanelTitle
+                        }
+                      >
+                        Ready to Publish
+                      </h6>
+
+                      <span
+                        className={
+                          styles.inlinePanelBadge
+                        }
+                      >
+                        Final Step
+                      </span>
+                    </div>
+
+                    <p
+                      className={
+                        styles.inlinePanelText
+                      }
+                    >
+                      Review all details
+                      before publishing.
+                    </p>
+
+                    <div
+                      className={
+                        styles.tagGroup
+                      }
+                    >
+                      <span
+                        className={
+                          styles.pillHot
+                        }
+                      >
+                        Hot Job
+                      </span>
+
+                      <span
+                        className={
+                          styles.pillUrgent
+                        }
+                      >
+                        Urgent Hiring
+                      </span>
+
+                      <span
+                        className={
+                          styles.pillNeutral
+                        }
+                      >
+                        Premium Listing
+                      </span>
+                    </div>
+                  </div>
+                </SectionCard>
+
+                <div
+                  className={styles.bottomLink}
+                >
+                  <Link href="/dashboard">
+                    Back to Dashboard
+                  </Link>
                 </div>
               </div>
-
-              <aside className={styles.summaryPanel}>
-                <h6 className={styles.summaryTitle}>Live Summary</h6>
-                <div className={styles.summaryRows}>
-                  <div className={styles.summaryRow}>
-                    <span>Role</span>
-                    <strong>Welder 6G</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Post Type</span>
-                    <strong>Hot Vacancy</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Employment Type</span>
-                    <strong>Contract</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Salary</span>
-                    <strong>Hidden from candidates</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Vacancies</span>
-                    <strong>3</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Hot Visibility</span>
-                    <strong>15 Days</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Primary Skill</span>
-                    <strong>Java</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Location</span>
-                    <strong>Mumbai (Onshore)</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Deadline</span>
-                    <strong>15 May 2026</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Screening</span>
-                    <strong>3 Questions (2 Mandatory)</strong>
-                  </div>
-                  <div className={styles.summaryRow}>
-                    <span>Status</span>
-                    <strong>Active</strong>
-                  </div>
-                </div>
-
-                <div className={styles.summaryActions}>
-                  <button className={`btn btn-default btn-sm ${styles.btnSoft}`}>
-                    Preview as Candidate
-                  </button>
-                  <button className="btn btn-default btn-brand btn-sm">
-                    Publish Job
-                  </button>
-                </div>
-
-                <p className={styles.summaryMeta}>
-                  Posting actions are connected to your employer workflow and can be extended with API integration.
-                </p>
-              </aside>
-            </div>
-
-            <div className={styles.bottomLink}>
-              <Link href="/register" className="font-sm color-brand-2">
-                Go to Employer Registration
-              </Link>
             </div>
           </div>
         </div>

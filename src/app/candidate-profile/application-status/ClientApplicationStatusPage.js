@@ -1,12 +1,14 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 // import CandidateProfileInnerNav from '../components/CandidateProfileInnerNav';
+import { useToast } from '@/components/Toast';
 import { mockApplicationStatuses } from '../components/data';
 
 const FILTERS = ['All', 'Applied', 'In Review', 'Shortlisted', 'Interview', 'Rejected'];
+const ACK_STORAGE_KEY = 'candidate_application_message_acknowledged';
 
 const STATUS_CLASS_MAP = {
   Applied: 'applied',
@@ -28,11 +30,95 @@ const BLUE_PILL_STYLE = {
   border: '1px solid #c7dcff'
 };
 
-const ApplicationStatusCard = ({ application }) => {
+const JOB_LIST_TAG_WRAP_STYLE = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-end',
+  gap: 8,
+  marginTop: 24,
+  marginBottom: 14
+};
+
+const JOB_LIST_CARD_STYLE = {
+  border: '1px solid rgba(18, 35, 89, 0.08)',
+  borderRadius: '24px',
+  overflow: 'hidden',
+  transition: 'all 0.35s ease',
+  background: '#ffffff',
+  boxShadow: '0 4px 14px rgba(18,35,89,0.04)'
+};
+
+const JOB_LIST_TAG_STYLE = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '6px 12px',
+  borderRadius: 999,
+  background: '#EAF4FF',
+  border: '1px solid #B9DCFF',
+  color: '#1D4ED8',
+  fontSize: 12,
+  fontWeight: 600,
+  lineHeight: 1,
+  transition: 'all 0.25s ease',
+  cursor: 'pointer'
+};
+
+const handleTagHoverEnter = (event) => {
+  event.currentTarget.style.background = '#1D4ED8';
+  event.currentTarget.style.color = '#ffffff';
+  event.currentTarget.style.transform = 'translateY(-1px)';
+};
+
+const handleTagHoverLeave = (event) => {
+  event.currentTarget.style.background = '#EAF4FF';
+  event.currentTarget.style.color = '#1D4ED8';
+  event.currentTarget.style.transform = 'translateY(0px)';
+};
+
+const handleCardHoverEnter = (event) => {
+  event.currentTarget.style.transform = 'translateY(-8px)';
+  event.currentTarget.style.border = '1px solid rgba(255, 153, 0, 0.22)';
+  event.currentTarget.style.boxShadow = '0 20px 40px rgba(255,153,0,0.12)';
+};
+
+const handleCardHoverLeave = (event) => {
+  event.currentTarget.style.transform = 'translateY(0px)';
+  event.currentTarget.style.border = '1px solid rgba(18, 35, 89, 0.08)';
+  event.currentTarget.style.boxShadow = '0 4px 14px rgba(18,35,89,0.04)';
+};
+
+const SAVED_JOB_ACTION_BUTTON_STYLE = {
+  color: '#ffffff',
+  background: '#ff9900',
+  border: '1px solid #ff9900',
+  transition: 'all 0.25s ease'
+};
+
+const handleSavedJobButtonHoverEnter = (event) => {
+  event.currentTarget.style.background = '#e68f00';
+  event.currentTarget.style.border = '1px solid #e68f00';
+  event.currentTarget.style.transform = 'translateY(-1px)';
+  event.currentTarget.style.boxShadow = '0 8px 18px rgba(255,153,0,0.22)';
+};
+
+const handleSavedJobButtonHoverLeave = (event) => {
+  event.currentTarget.style.background = '#ff9900';
+  event.currentTarget.style.border = '1px solid #ff9900';
+  event.currentTarget.style.transform = 'translateY(0px)';
+  event.currentTarget.style.boxShadow = 'none';
+};
+
+const ApplicationStatusCard = ({ application, isAcknowledged, onAcknowledge }) => {
   const statusClass = STATUS_CLASS_MAP[application.status] || 'applied';
 
   return (
-    <div className="card-grid-2 hover-up candidate-status-card">
+    <div
+      className="card-grid-2 hover-up candidate-status-card"
+      style={JOB_LIST_CARD_STYLE}
+      onMouseEnter={handleCardHoverEnter}
+      onMouseLeave={handleCardHoverLeave}
+    >
       <div className="row">
         <div className="col-lg-7 col-md-7 col-sm-12">
           <div className="card-grid-2-image-left">
@@ -48,9 +134,14 @@ const ApplicationStatusCard = ({ application }) => {
           </div>
         </div>
         <div className="col-lg-5 col-md-5 col-sm-12 text-start text-md-end">
-          <div className="candidate-status-tags">
+          <div className="candidate-status-tags" style={JOB_LIST_TAG_WRAP_STYLE}>
             {application.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="btn btn-grey-small mr-5" style={BLUE_BADGE_STYLE}>
+              <span
+                key={tag}
+                style={JOB_LIST_TAG_STYLE}
+                onMouseEnter={handleTagHoverEnter}
+                onMouseLeave={handleTagHoverLeave}
+              >
                 {tag}
               </span>
             ))}
@@ -92,6 +183,20 @@ const ApplicationStatusCard = ({ application }) => {
                 <span className="candidate-status-note-date">Updated {application.updatedOn}</span>
               </div>
               <p className="candidate-status-note-text">{application.recruiterNote}</p>
+              <div className="candidate-status-ack-row">
+                <span className={`candidate-status-ack-badge ${isAcknowledged ? 'acknowledged' : 'pending'}`}>
+                  {isAcknowledged ? 'Acknowledged' : 'Awaiting acknowledgment'}
+                </span>
+                {!isAcknowledged && (
+                  <button
+                    type="button"
+                    className="candidate-status-ack-btn"
+                    onClick={() => onAcknowledge(application.id, application.company)}
+                  >
+                    Acknowledge Message
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -103,7 +208,13 @@ const ApplicationStatusCard = ({ application }) => {
               <span className="text-muted">{application.priceUnit}</span> */}
             </div>
             <div className="col-lg-5 col-5 text-end">
-              <Link className="btn btn-apply-now" href="/job-details" style={{ color: '#ffffff' }}>
+              <Link
+                className="btn btn-apply-now"
+                href="/job-details"
+                style={SAVED_JOB_ACTION_BUTTON_STYLE}
+                onMouseEnter={handleSavedJobButtonHoverEnter}
+                onMouseLeave={handleSavedJobButtonHoverLeave}
+              >
                 View Job
               </Link>
             </div>
@@ -115,7 +226,11 @@ const ApplicationStatusCard = ({ application }) => {
 };
 
 const ClientApplicationStatusPage = () => {
+  const showToast = useToast();
   const [activeFilter, setActiveFilter] = useState('All');
+  const [acknowledgedMessages, setAcknowledgedMessages] = useState({});
+  const [ackStateReady, setAckStateReady] = useState(false);
+  const reminderSignatureRef = useRef('');
 
   const statusSummary = useMemo(() => {
     const activeCount = mockApplicationStatuses.filter((item) =>
@@ -137,6 +252,63 @@ const ClientApplicationStatusPage = () => {
     return mockApplicationStatuses.filter((item) => item.status === activeFilter);
   }, [activeFilter]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const stored = window.localStorage.getItem(ACK_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed === 'object') {
+          setAcknowledgedMessages(parsed);
+        }
+      }
+    } catch (error) {
+      // If storage parsing fails, continue with empty acknowledgment state.
+    } finally {
+      setAckStateReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!ackStateReady || typeof window === 'undefined') return;
+    window.localStorage.setItem(ACK_STORAGE_KEY, JSON.stringify(acknowledgedMessages));
+  }, [ackStateReady, acknowledgedMessages]);
+
+  const handleAcknowledge = (applicationId, companyName) => {
+    setAcknowledgedMessages((prev) => {
+      if (prev[applicationId]) return prev;
+      return { ...prev, [applicationId]: true };
+    });
+    showToast(`Recruiter note acknowledged for ${companyName}.`, 'success');
+  };
+
+  useEffect(() => {
+    if (!ackStateReady) return;
+    const pending = filteredApplications.filter((application) => !acknowledgedMessages[application.id]);
+
+    if (!pending.length) {
+      reminderSignatureRef.current = '';
+      return;
+    }
+
+    const signature = `${activeFilter}:${pending.map((item) => item.id).join(',')}`;
+    if (reminderSignatureRef.current === signature) return;
+    reminderSignatureRef.current = signature;
+
+    if (pending.length === 1) {
+      showToast(
+        `Reminder: Please acknowledge recruiter message from ${pending[0].company}.`,
+        'warning'
+      );
+      return;
+    }
+
+    showToast(
+      `Reminder: ${pending.length} recruiter messages are waiting for acknowledgment.`,
+      'warning'
+    );
+  }, [ackStateReady, acknowledgedMessages, activeFilter, filteredApplications, showToast]);
+
   const statusCounts = useMemo(() => {
     return FILTERS.reduce((acc, filterName) => {
       if (filterName === 'All') {
@@ -153,7 +325,7 @@ const ClientApplicationStatusPage = () => {
       <section className="section-box mt-50 mb-50">
         <div className="container">
           {/* <CandidateProfileInnerNav /> */}
-          <div className="candidate-inner-panel">
+          <div className="candidate-inner-panel candidate-application-status-shell">
             <h3 className="mt-0 color-brand-1 mb-20">My Application Status</h3>
             <p className="font-md color-text-paragraph-2 mb-30">
               Track every application stage from submission to interview and final decision.
@@ -187,7 +359,11 @@ const ClientApplicationStatusPage = () => {
             <div className="row display-list">
               {filteredApplications.map((application) => (
                 <div key={application.id} className="col-xl-12 col-12">
-                  <ApplicationStatusCard application={application} />
+                  <ApplicationStatusCard
+                    application={application}
+                    isAcknowledged={Boolean(acknowledgedMessages[application.id])}
+                    onAcknowledge={handleAcknowledge}
+                  />
                 </div>
               ))}
             </div>

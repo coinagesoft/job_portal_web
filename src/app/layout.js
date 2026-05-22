@@ -13,7 +13,11 @@ import { ToastProvider } from '@/components/Toast'
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning={true}
+    >
       <head>
   <link rel="stylesheet" href="/assets/css/style.css" />
 

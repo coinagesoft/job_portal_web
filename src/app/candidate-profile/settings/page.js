@@ -47,7 +47,7 @@ const CandidateSettingsPage = () => {
     <main className="main">
       <section className="section-box mt-50 mb-50">
         <div className="container">
-          <div className="candidate-inner-panel">
+          <div className="candidate-inner-panel candidate-settings-shell">
             <h3 className="mt-0 color-brand-1 mb-20">Settings</h3>
             <p className="font-md color-text-paragraph-2 mb-30">
               Manage your account preferences, security, and candidate communication options.

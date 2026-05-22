@@ -26,7 +26,7 @@ const SavedJobsTab = () => {
           <div
             key={job.id}
             className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
-            style={{ marginBottom: "30px" }}
+            style={{ marginBottom: "0px", display: "flex" }}
           >
             <ProfileJobCard job={job} isListView={false} applyToDetails />
           </div>

@@ -3,14 +3,84 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const BLUE_BADGE_STYLE = {
-  backgroundColor: "#e8f0fe",
-  color: "#1a56c4",
-  border: "1px solid #c7dcff"
+const JOB_LIST_CARD_STYLE = {
+  border: "1px solid rgba(18, 35, 89, 0.08)",
+  borderRadius: "24px",
+  overflow: "hidden",
+  transition: "all 0.35s ease",
+  background: "#ffffff",
+  boxShadow: "0 4px 14px rgba(18,35,89,0.04)"
 };
 
-const WHITE_ACTION_TEXT_STYLE = {
-  color: "#ffffff"
+const JOB_LIST_TAG_WRAP_STYLE = {
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "flex-end",
+  gap: 8,
+  marginTop: 24,
+  marginBottom: 14
+};
+
+const JOB_LIST_TAG_STYLE = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "6px 12px",
+  borderRadius: 999,
+  background: "#EAF4FF",
+  border: "1px solid #B9DCFF",
+  color: "#1D4ED8",
+  fontSize: 12,
+  fontWeight: 600,
+  whiteSpace: "nowrap",
+  lineHeight: 1,
+  transition: "all 0.25s ease",
+  cursor: "pointer"
+};
+
+const SAVED_JOB_ACTION_BUTTON_STYLE = {
+  color: "#ffffff",
+  background: "#ff9900",
+  border: "1px solid #ff9900",
+  transition: "all 0.25s ease"
+};
+
+const handleCardHoverEnter = (event) => {
+  event.currentTarget.style.transform = "translateY(-8px)";
+  event.currentTarget.style.border = "1px solid rgba(255, 153, 0, 0.22)";
+  event.currentTarget.style.boxShadow = "0 20px 40px rgba(255,153,0,0.12)";
+};
+
+const handleCardHoverLeave = (event) => {
+  event.currentTarget.style.transform = "translateY(0px)";
+  event.currentTarget.style.border = "1px solid rgba(18, 35, 89, 0.08)";
+  event.currentTarget.style.boxShadow = "0 4px 14px rgba(18,35,89,0.04)";
+};
+
+const handleTagHoverEnter = (event) => {
+  event.currentTarget.style.background = "#1D4ED8";
+  event.currentTarget.style.color = "#ffffff";
+  event.currentTarget.style.transform = "translateY(-1px)";
+};
+
+const handleTagHoverLeave = (event) => {
+  event.currentTarget.style.background = "#EAF4FF";
+  event.currentTarget.style.color = "#1D4ED8";
+  event.currentTarget.style.transform = "translateY(0px)";
+};
+
+const handleSavedJobButtonHoverEnter = (event) => {
+  event.currentTarget.style.background = "#e68f00";
+  event.currentTarget.style.border = "1px solid #e68f00";
+  event.currentTarget.style.transform = "translateY(-1px)";
+  event.currentTarget.style.boxShadow = "0 8px 18px rgba(255,153,0,0.22)";
+};
+
+const handleSavedJobButtonHoverLeave = (event) => {
+  event.currentTarget.style.background = "#ff9900";
+  event.currentTarget.style.border = "1px solid #ff9900";
+  event.currentTarget.style.transform = "translateY(0px)";
+  event.currentTarget.style.boxShadow = "none";
 };
 
 const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
@@ -21,10 +91,14 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
   };
 
   const displayPrice = formatSalary(job.price);
+  const visibleTags = applyToDetails ? job.tags.slice(0, 2) : job.tags;
 
   return (
     <div
       className={`card-grid-2 hover-up${isListView ? "" : " no-padding"}${applyToDetails ? " candidate-saved-job-card" : ""}`}
+      style={applyToDetails ? JOB_LIST_CARD_STYLE : undefined}
+      onMouseEnter={applyToDetails ? handleCardHoverEnter : undefined}
+      onMouseLeave={applyToDetails ? handleCardHoverLeave : undefined}
     >
       {!applyToDetails && <span className="flash"></span>}
       <div className="row">
@@ -49,26 +123,34 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
           </div>
         </div>
         {!isListView && (
-          <div className="col-lg-6 text-start text-md-end pr-60 col-md-6 col-sm-12">
-            <div className="pl-15 mb-15 mt-30">
-              {job.tags.slice(0, 2).map((tag, index) => (
-                <a
+          <div
+            className={`col-lg-6 text-start text-md-end col-md-6 col-sm-12 ${
+              applyToDetails ? "candidate-saved-job-tags-col" : "pr-60"
+            }`}
+          >
+            <div
+              style={applyToDetails ? JOB_LIST_TAG_WRAP_STYLE : undefined}
+              className={applyToDetails ? "candidate-saved-job-tags-wrap" : "pl-15 mb-15 mt-30"}
+            >
+              {visibleTags.map((tag, index) => (
+                <span
                   key={index}
-                  className="btn btn-grey-small mr-5"
-                  style={applyToDetails ? BLUE_BADGE_STYLE : undefined}
-                  href="#"
+                  className={applyToDetails ? undefined : "btn btn-grey-small mr-5"}
+                  style={applyToDetails ? JOB_LIST_TAG_STYLE : undefined}
                   title={tag}
                   data-bs-toggle="tooltip"
+                  onMouseEnter={applyToDetails ? handleTagHoverEnter : undefined}
+                  onMouseLeave={applyToDetails ? handleTagHoverLeave : undefined}
                 >
                   {tag}
-                </a>
+                </span>
               ))}
             </div>
           </div>
         )}
       </div>
       <div className={`card-block-info${applyToDetails ? " candidate-saved-job-card-info" : ""}`}>
-        <h4>
+        <h4 className={applyToDetails ? "candidate-saved-job-title" : undefined}>
           <Link href="/job-details">{job.title}</Link>
         </h4>
         <div className="mt-5">
@@ -102,17 +184,18 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
               {applyToDetails ? (
                 <Link
                   className="btn btn-apply-now"
-                  style={WHITE_ACTION_TEXT_STYLE}
+                  style={SAVED_JOB_ACTION_BUTTON_STYLE}
                   href="/job-details"
                   title="View job details"
                   data-bs-toggle="tooltip"
+                  onMouseEnter={handleSavedJobButtonHoverEnter}
+                  onMouseLeave={handleSavedJobButtonHoverLeave}
                 >
                   View Job
                 </Link>
               ) : (
                 <div
                   className="btn btn-apply-now"
-                  style={applyToDetails ? WHITE_ACTION_TEXT_STYLE : undefined}
                   data-bs-toggle="modal"
                   data-bs-target="#ModalApplyJobForm"
                   title="Apply to this job"

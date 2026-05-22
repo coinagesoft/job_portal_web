@@ -333,6 +333,50 @@ const CANDIDATE_ACTION_BUTTON_STYLE = {
   whiteSpace: "nowrap",
 };
 
+const createProfileHighlightTags = (candidate) => {
+  const tags = [];
+
+  if (candidate.matchScore >= 85) {
+    tags.push({ label: "Top Match", tone: "standout" });
+  }
+  if (candidate.availability === "available") {
+    tags.push({ label: "Ready to Join", tone: "ready" });
+  }
+  if (candidate.itiCertified) {
+    tags.push({ label: "ITI Certified", tone: "verified" });
+  }
+  if (candidate.passportValid) {
+    tags.push({ label: "Passport Valid", tone: "verified" });
+  }
+  if (candidate.offshoreExperience) {
+    tags.push({ label: "Offshore Ready", tone: "expertise" });
+  }
+  if (candidate.yearsExp >= 10) {
+    tags.push({ label: "10+ Years", tone: "expertise" });
+  }
+  if (candidate.isUnlocked) {
+    tags.push({ label: "Unlocked", tone: "standout" });
+  }
+
+  candidate.certifications
+    .filter((certification) =>
+      !["ITI Certified", "Passport Valid"].includes(certification),
+    )
+    .slice(0, 2)
+    .forEach((certification) => {
+      tags.push({ label: certification, tone: "neutral" });
+    });
+
+  const dedupe = new Set();
+  return tags
+    .filter((tag) => {
+      if (dedupe.has(tag.label)) return false;
+      dedupe.add(tag.label);
+      return true;
+    })
+    .slice(0, 6);
+};
+
 export const metadata = {
   title: "Employer CV Search - Job Portal",
   description: "Search and unlock candidate profiles.",
@@ -593,166 +637,156 @@ const EmployerCvSearchPage = async ({ searchParams }) => {
 
                   {filteredCandidates.map((candidate) => (
                     <div className="col-xl-12 col-12" key={candidate.id}>
-                      <div
-                        className="card-grid-2 hover-up"
-                        style={
-                          candidate.isUnlocked
-                            ? { borderColor: "#ffc151", background: "#ffffff" }
-                            : undefined
-                        }
-                      >
-                        <div className="row">
-                          <div className="col-lg-7 col-md-7 col-sm-12">
-                            <div className="card-grid-2-image-left">
-                              <div className="image-box">
-                                <img
-                                  src="/assets/imgs/page/candidates/candidate-profile.png"
-                                  alt={candidate.name}
-                                />
+                      {(() => {
+                        const profileHighlightTags =
+                          createProfileHighlightTags(candidate);
+
+                        return (
+                          <div
+                            className={`card-grid-2 hover-up cv-search-candidate-card ${
+                              candidate.isUnlocked ? "is-unlocked" : ""
+                            }`}
+                          >
+                            <div className="row">
+                              <div className="col-lg-7 col-md-7 col-sm-12">
+                                <div className="card-grid-2-image-left">
+                                  <div className="image-box">
+                                    <img
+                                      src="/assets/imgs/page/candidates/candidate-profile.png"
+                                      alt={candidate.name}
+                                    />
+                                  </div>
+                                  <div className="right-info">
+                                    <Link
+                                      className="name-job"
+                                      href="/employeer/candidate-profile"
+                                    >
+                                      {candidate.name} - {candidate.trade}
+                                    </Link>
+
+                                    <span className="location-small d-block">
+                                      {formatExperience(candidate)} -{" "}
+                                      {formatLocation(candidate)}
+                                    </span>
+
+                                    {candidate.availability === "available" && (
+                                      <span className="available-now-text">
+                                        Available now
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="right-info">
-                                <Link
-                                  className="name-job"
-                                  href="/employeer/candidate-profile"
-                                >
-                                  {candidate.name} - {candidate.trade}
-                                </Link>
-
-                                <span className="location-small d-block">
-                                  {formatExperience(candidate)} -{" "}
-                                  {formatLocation(candidate)}
-                                </span>
-
-                                {candidate.availability === "available" && (
-                                  <span className="available-now-text">
-                                    Available now
-                                  </span>
-                                )}
+                              <div className="col-lg-5 text-start text-md-end pr-60 col-md-5 col-sm-12">
+                                <div className="cv-search-profile-tags">
+                                  {profileHighlightTags.map((tag) => (
+                                    <span
+                                      key={`${candidate.id}-${tag.label}`}
+                                      className={`cv-search-highlight-tag cv-search-highlight-tag-${tag.tone}`}
+                                    >
+                                      {tag.label}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-lg-5 text-start text-md-end pr-60 col-md-5 col-sm-12">
-                            <div className="pl-15 mb-15 mt-30">
-                              {[
-                               
-                                candidate.itiCertified && "ITI",
-                                candidate.passportValid && "Passport",
-                                candidate.offshoreExperience && "Offshore",
-                              ]
-                                .filter(Boolean)
-                                .map((tag, index) => (
+
+                            <div className="card-block-info">
+                              <h4>
+                                <Link href="/employeer/candidate-profile">
+                                  {candidate.trade} Candidate Profile
+                                </Link>
+                              </h4>
+
+                              <div className="mt-5">
+                                <span className="card-briefcase">
+                                  {formatExperience(candidate)}
+                                </span>
+                                <span className="card-time">
+                                  <span>{formatLocation(candidate)}</span>
+                                </span>
+                              </div>
+
+                              <div className="cv-search-skill-tags mt-10 mb-10">
+                                <span className="cv-search-skill-tag cv-search-skill-tag-primary">
+                                  Primary: {candidate.primarySkill}
+                                </span>
+                                {candidate.secondarySkills.map((skill) => (
                                   <span
-                                    key={index}
-                                    className="btn btn-grey-small mr-5"
+                                    key={`${candidate.id}-${skill}`}
+                                    className="cv-search-skill-tag cv-search-skill-tag-secondary"
                                   >
-                                    {tag}
+                                    {skill}
                                   </span>
                                 ))}
-                            </div>
-                            {/* {candidate.availability === "available" ? (
-                              <p
-                                className="font-sm fw-600 color-brand-1 mt-5"
-                                title="Candidate is ready to join immediately"
-                              >
-                                Available now
-                              </p>
-                            ) : null} */}
-                          </div>
-                        </div>
-
-                        <div className="card-block-info">
-                          <h4>
-                            <Link href="/employeer/candidate-profile">
-                              {candidate.trade} Candidate Profile
-                            </Link>
-                          </h4>
-
-                          <div className="mt-5">
-                            <span className="card-briefcase">
-                              {formatExperience(candidate)}
-                            </span>
-                            <span className="card-time">
-                              <span>{formatLocation(candidate)}</span>
-                            </span>
-                          </div>
-
-                          <p className="font-sm color-text-paragraph mt-10 mb-5">
-                            <i className="fi-rr-star mr-5" />
-                            Primary skill: {candidate.primarySkill}
-                          </p>
-                          <p className="font-xs color-text-paragraph-2 mb-10">
-                            <i className="fi-rs-star mr-5" />
-                            Secondary skills:{" "}
-                            {candidate.secondarySkills.join(", ")}
-                          </p>
-
-                          {candidate.matchedKeywords.length > 0 ? (
-                            <div className="mb-10">
-                              {candidate.matchedKeywords.map((keyword) => (
-                                <span
-                                  key={`${candidate.id}-${keyword}`}
-                                  className="badge bg-light text-dark mr-5 mb-5"
-                                >
-                                  <i className="fi-rr-search mr-5" />
-                                  {keyword}
-                                </span>
-                              ))}
-                            </div>
-                          ) : null}
-
-                          <div className="card-2-bottom mt-20">
-                            <div className="row align-items-center">
-                              <div className="col-lg-7 col-7">
-                                <span className="card-text-price">
-                                  Keyword match: {candidate.matchScore}%
-                                </span>
-                                <span className="font-xs color-text-mutted ml-10">
-                                  {candidate.band} - {candidate.credits} cr
-                                </span>
                               </div>
-                              <div className="col-lg-5 col-5 text-end">
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "flex-end",
-                                    alignItems: "center",
-                                    gap: 8,
-                                  }}
-                                >
-                                  <button
-                                    className="btn btn-border"
-                                    type="button"
-                                    style={CANDIDATE_ACTION_BUTTON_STYLE}
-                                  >
-                                    Download CV
-                                  </button>
-                                  {candidate.canUnlock ? (
-                                    <Link
-                                      className="btn btn-apply-now"
-                                      href="/employeer/candidate-profile"
+
+                              {candidate.matchedKeywords.length > 0 ? (
+                                <div className="mb-10">
+                                  {candidate.matchedKeywords.map((keyword) => (
+                                    <span
+                                      key={`${candidate.id}-${keyword}`}
+                                      className="badge bg-light text-dark mr-5 mb-5"
+                                    >
+                                      <i className="fi-rr-search mr-5" />
+                                      {keyword}
+                                    </span>
+                                  ))}
+                                </div>
+                              ) : null}
+
+                              <div className="card-2-bottom mt-20">
+                                <div className="row align-items-center">
+                                  <div className="col-lg-7 col-7">
+                                    <span className="card-text-price">
+                                      Keyword match: {candidate.matchScore}%
+                                    </span>
+                                    <span className="font-xs color-text-mutted ml-10">
+                                      {candidate.band} - {candidate.credits} cr
+                                    </span>
+                                  </div>
+                                  <div className="col-lg-5 col-5 text-end">
+                                    <div
                                       style={{
-                                        ...CANDIDATE_ACTION_BUTTON_STYLE,
-                                        color: "#ffffff",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "flex-end",
+                                        alignItems: "center",
+                                        gap: 8,
                                       }}
                                     >
-                                      {candidate.unlockText}
-                                    </Link>
-                                  ) : (
-                                    <button
-                                      className="btn btn-grey-small"
-                                      type="button"
-                                      style={CANDIDATE_ACTION_BUTTON_STYLE}
-                                    >
-                                      {candidate.unlockText}
-                                    </button>
-                                  )}
+                                      <button
+                                        className="btn btn-border"
+                                        type="button"
+                                        style={CANDIDATE_ACTION_BUTTON_STYLE}
+                                      >
+                                        Download CV
+                                      </button>
+                                      {candidate.canUnlock ? (
+                                        <Link
+                                          className="btn btn-apply-now cv-search-unlock-btn"
+                                          href="/employeer/candidate-profile"
+                                          style={CANDIDATE_ACTION_BUTTON_STYLE}
+                                        >
+                                          {candidate.unlockText}
+                                        </Link>
+                                      ) : (
+                                        <button
+                                          className="btn btn-grey-small"
+                                          type="button"
+                                          style={CANDIDATE_ACTION_BUTTON_STYLE}
+                                        >
+                                          {candidate.unlockText}
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        );
+                      })()}
                     </div>
                   ))}
                 </div>
