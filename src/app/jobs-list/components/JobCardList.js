@@ -2,7 +2,45 @@
 import React from "react";
 import Link from "next/link";
 
+const COMPANY_RELATED_TAGS = new Set([
+  "Verified Employer",
+  "Licensed Contractor",
+  "IMO Certified",
+  "ISO Approved",
+  "Urgent Hiring",
+  "Passport Required",
+]);
+
+const COMPANY_BADGE_BY_POSTED_BY = {
+  Company: "Verified Employer",
+  Recruiter: "Recruiter Managed",
+  Consultant: "Consultant Managed",
+};
+
+const toSafeTags = (value) =>
+  Array.isArray(value) ? value.filter((tag) => Boolean(tag)) : [];
+
 const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
+  const tags = toSafeTags(job.tags);
+  const companyTagsFromData = toSafeTags(job.companyTags);
+  const jobTagsFromData = toSafeTags(job.jobTags);
+  const derivedCompanyBadge = COMPANY_BADGE_BY_POSTED_BY[job.postedBy];
+
+  const companyTags =
+    companyTagsFromData.length > 0
+      ? companyTagsFromData
+      : [
+          ...tags.filter((tag) => COMPANY_RELATED_TAGS.has(tag)),
+          ...(derivedCompanyBadge && !tags.includes(derivedCompanyBadge)
+            ? [derivedCompanyBadge]
+            : []),
+        ].slice(0, 4);
+
+  const jobTags =
+    jobTagsFromData.length > 0
+      ? jobTagsFromData
+      : tags.filter((tag) => !COMPANY_RELATED_TAGS.has(tag));
+
   const formatHourlyPrice = (value) => {
     const text = String(value || "").trim();
     if (!text) return "";
@@ -59,49 +97,51 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
             </div>
           </div>
           <div className="col-lg-6 text-start text-md-end pr-60 col-md-6 col-sm-12">
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "flex-end",
-                gap: 8,
-                marginTop: 24,
-                marginBottom: 14,
-              }}
-            >
-              {job.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "6px 12px",
-                    borderRadius: 999,
-                    background: "#EAF4FF",
-                    border: "1px solid #B9DCFF",
-                    color: "#1D4ED8",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: 1,
-                    transition: "all 0.25s ease",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#1D4ED8";
-                    e.currentTarget.style.color = "#ffffff";
-                    e.currentTarget.style.transform = "translateY(-1px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#EAF4FF";
-                    e.currentTarget.style.color = "#1D4ED8";
-                    e.currentTarget.style.transform = "translateY(0px)";
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {companyTags.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-end",
+                  gap: 8,
+                  marginTop: 24,
+                  marginBottom: 14,
+                }}
+              >
+                {companyTags.map((tag, index) => (
+                  <span
+                    key={`company-tag-${job.id}-${index}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "6px 12px",
+                      borderRadius: 999,
+                      background: "#EAF4FF",
+                      border: "1px solid #B9DCFF",
+                      color: "#1D4ED8",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      lineHeight: 1,
+                      transition: "all 0.25s ease",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "#1D4ED8";
+                      e.currentTarget.style.color = "#ffffff";
+                      e.currentTarget.style.transform = "translateY(-1px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "#EAF4FF";
+                      e.currentTarget.style.color = "#1D4ED8";
+                      e.currentTarget.style.transform = "translateY(0px)";
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="card-block-info">
@@ -182,6 +222,37 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
                 Openings: <strong>{job.openings || 1}</strong> - Experience:{" "}
                 <strong>{job.experience}</strong>
               </span>
+              {jobTags.length > 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 8,
+                    marginTop: 12,
+                  }}
+                >
+                  {jobTags.map((tag, index) => (
+                    <span
+                      key={`job-tag-${job.id}-${index}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "6px 12px",
+                        borderRadius: 999,
+                        background: "#F3FFF5",
+                        border: "1px solid #B7E8C2",
+                        color: "#15803D",
+                        fontSize: 12,
+                        fontWeight: 600,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           <div className="card-2-bottom mt-20">

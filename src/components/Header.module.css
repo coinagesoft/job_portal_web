@@ -33,6 +33,14 @@
   padding: 0;
   text-align: left;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.profileToggle:hover :global(.info-member strong),
+.profileToggle:hover :global(.icon-down),
+.profileToggle[aria-expanded="true"] :global(.info-member strong),
+.profileToggle[aria-expanded="true"] :global(.icon-down) {
+  color: #ff9900 !important;
 }
 
 .profileBlock img {
@@ -56,6 +64,20 @@
 .profileBlock :global(.icon-down) {
   display: inline-flex;
   align-items: center;
+}
+
+.profileBlock :global(.dropdown-menu .dropdown-item) {
+  border-radius: 8px;
+  color: #122359;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profileBlock :global(.dropdown-menu .dropdown-item:hover),
+.profileBlock :global(.dropdown-menu .dropdown-item:focus),
+.profileBlock :global(.dropdown-menu .dropdown-item.active),
+.profileBlock :global(.dropdown-menu .dropdown-item:active) {
+  background: #fff4df !important;
+  color: #ff9900 !important;
 }
 
 .headerActionGroup :global(.btn-notify) {

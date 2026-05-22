@@ -1600,6 +1600,26 @@ function EmployerForm() {
       </Alert>
       <div
         style={{
+          marginTop: 12,
+          marginBottom: 14,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "8px 12px",
+          borderRadius: 8,
+          border: "1px solid rgba(255, 163, 0, 0.32)",
+          background: "#fff8ee",
+          color: "#8a5a00",
+          fontSize: "var(--font-xs)",
+          fontWeight: 600,
+        }}
+      >
+        <i className="fi fi-rr-lock" />
+        Documents uploaded for verification are private and are not shared with
+        candidates.
+      </div>
+      <div
+        style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: 14,

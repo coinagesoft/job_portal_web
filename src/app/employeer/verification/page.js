@@ -485,6 +485,25 @@ const EmployerVerificationPage = () => {
                   Accepted: PDF, JPG, PNG — Max 5 MB
                 </p>
 
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 12px",
+                    borderRadius: "12px",
+                    background: "#fff7ea",
+                    border: "1px solid rgba(255,163,0,0.28)",
+                    color: "#8a5a00",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    marginBottom: "18px",
+                  }}
+                >
+                  <i className="fi fi-rr-lock" />
+                  Documents uploaded here are private and are not shared with candidates.
+                </div>
+
                 <button
                   className="btn btn-border btn-sm"
                   style={{
