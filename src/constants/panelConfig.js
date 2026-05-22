@@ -31,8 +31,8 @@ export const EMPLOYER_HEADER_TABS = [
     key: "jobs",
     label: "Jobs",
     links: [
-      { label: "Post a Job", href: "/dashboard/post-job" },
       { label: "Job List", href: "/employeer/job-list" },
+      { label: "Post a Job", href: "/dashboard/post-job" },
       { label: "Applicants", href: "/employeer/applicants" },
     ],
   },
