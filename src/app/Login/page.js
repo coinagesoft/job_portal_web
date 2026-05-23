@@ -97,7 +97,7 @@ export default function LoginPage() {
 
   return (
     <main
-      className="main"
+      className="main content-page"
       style={{
         minHeight: "100vh",
         background: "#ffffff",
@@ -179,12 +179,14 @@ export default function LoginPage() {
       >
         {/* Card */}
         <div
+          className="auth-shadow-card"
           style={{
             background: "#ffffff",
-            border: "1px solid var(--color-border-tertiary)",
-            borderRadius: 18,
+            border: "none",
+            borderRadius: 24,
             padding: "38px 34px",
-            boxShadow: "0 10px 35px rgba(0,0,0,0.05)",
+            overflow: "hidden",
+            marginBottom: 0,
           }}
         >
           {/* Header */}

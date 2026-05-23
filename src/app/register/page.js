@@ -2086,11 +2086,14 @@ function RegisterPageInner() {
 
         {/* Card */}
         <div
+          className="auth-shadow-card"
           style={{
-            background: "var(--color-background-primary)",
-            border: "0.5px solid var(--color-border-tertiary)",
-            borderRadius: 16,
-            padding: "32px 36px",
+            background: "#ffffff",
+            border: "none",
+            borderRadius: 24,
+            padding: "38px 34px",
+            overflow: "hidden",
+            marginBottom: 0,
             boxSizing: "border-box",
           }}
         >

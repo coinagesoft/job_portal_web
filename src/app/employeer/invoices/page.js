@@ -41,7 +41,7 @@ const EmployerInvoicesPage = () => {
       <section className="section-box mt-50 mb-50">
         <div className="container">
           <div className="content-page">
-            <div className="box-filters-job">
+            <div className="box-filters-job employer-cv-surface-card">
               <div className="row align-items-center">
                 <div className="col-xl-8 col-lg-8">
                   <h3 className="mb-5">Invoices & Transactions</h3>
@@ -58,7 +58,7 @@ const EmployerInvoicesPage = () => {
               </div>
             </div>
 
-            <div className="card-grid-2 hover-up mt-20">
+            <div className="card-grid-2 hover-up cv-search-candidate-card mt-20">
               <div className="card-block-info pt-20">
                 <div className="row align-items-end">
                   <div className="col-md-4 col-sm-12">
@@ -78,7 +78,7 @@ const EmployerInvoicesPage = () => {
               </div>
             </div>
 
-            <div className="card-grid-2 hover-up mt-20">
+            <div className="card-grid-2 hover-up cv-search-candidate-card mt-20">
               <div className="card-block-info pt-20">
                 <div className="table-responsive">
                   <table className="table table-striped">

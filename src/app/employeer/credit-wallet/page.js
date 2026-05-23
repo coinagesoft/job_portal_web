@@ -25,7 +25,7 @@ const EmployerCreditWalletPage = () => {
       <section className="section-box mt-50 mb-50">
         <div className="container">
           <div className="content-page">
-            <div className="box-filters-job">
+            <div className="box-filters-job employer-cv-surface-card">
               <div className="row align-items-center">
                 <div className="col-xl-7 col-lg-7">
                   <h3 className="mb-5">Credit Wallet</h3>
@@ -42,7 +42,7 @@ const EmployerCreditWalletPage = () => {
               </div>
             </div>
 
-            <div className="card-grid-2 hover-up">
+            <div className="card-grid-2 hover-up cv-search-candidate-card">
               <div className="card-block-info pt-20">
                 <div className="row align-items-center">
                   <div className="col-lg-8 col-md-12 col-sm-12">
@@ -60,7 +60,7 @@ const EmployerCreditWalletPage = () => {
             <div className="row mt-20">
               {walletMetrics.map((metric) => (
                 <div className="col-lg-4 col-md-6 col-sm-12" key={metric.label}>
-                  <div className="card-grid-2 hover-up">
+                  <div className="card-grid-2 hover-up cv-search-candidate-card">
                     <div className="card-block-info pt-20 pb-20 text-center">
                       <p className="font-xs color-text-paragraph-2 mb-10">{metric.label}</p>
                       <h4 className="color-brand-1 mb-0">{metric.value}</h4>
@@ -70,7 +70,7 @@ const EmployerCreditWalletPage = () => {
               ))}
             </div>
 
-            <div className="card-grid-2 hover-up mt-10">
+            <div className="card-grid-2 hover-up cv-search-candidate-card mt-10">
               <div className="card-block-info pt-20">
                 <h5 className="mb-15">Transaction History</h5>
                 <div className="table-responsive">

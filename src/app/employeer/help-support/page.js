@@ -9,7 +9,7 @@ const EmployerHelpSupportPage = () => {
       title="Help & Support"
       description="Raise support issues for postings, applicant flow, wallet, and invoices. Admin replies appear in ticket threads."
     >
-      <div className="candidate-help-support-page">
+      <div className="candidate-help-support-page employer-help-support-page">
         <SupportTicketCenter
           audience="employer"
           title="Employer Support Desk"

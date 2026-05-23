@@ -589,32 +589,9 @@ onMouseLeave={(e) => {
       {recruitmentCards.map((job) => (
         <div className="col-xl-12 col-12" key={job.id}>
           <div
-            className="card-grid-2 hover-up"
+            className="card-grid-2 hover-up cv-search-candidate-card"
             style={{
               marginBottom: "20px",
-              borderRadius: "24px",
-              border: "1px solid rgba(18,35,89,0.08)",
-              background: "#ffffff",
-              overflow: "hidden",
-              transition: "all .35s ease",
-              boxShadow: "0 4px 14px rgba(18,35,89,0.04)",
-              position: "relative",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform =
-                "translateY(-8px)";
-              e.currentTarget.style.borderColor =
-                "rgba(255,153,0,0.32)";
-              e.currentTarget.style.boxShadow =
-                "0 0 0 1px rgba(255,153,0,0.18), 0 20px 40px rgba(255,153,0,0.12)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform =
-                "translateY(0px)";
-              e.currentTarget.style.borderColor =
-                "rgba(18,35,89,0.08)";
-              e.currentTarget.style.boxShadow =
-                "0 4px 14px rgba(18,35,89,0.04)";
             }}
           >
             <div
@@ -900,14 +877,13 @@ onMouseLeave={(e) => {
                     {people.map((p) => (
                       <div
                         key={p.name}
+                        className="employer-cv-surface-card"
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "16px",
                           padding: "16px 20px",
-                          border: "1px solid #e5e7eb",
-                          borderRadius: "10px",
-                          background: "#fafafa",
+                          borderRadius: "16px",
                         }}
                       >
                         <div
@@ -965,7 +941,7 @@ onMouseLeave={(e) => {
 
             {/* Sidebar */}
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
-              <div className="sidebar-border">
+              <div className="sidebar-border employer-cv-surface-card">
                 <div className="sidebar-heading">
                   <div className="avatar-sidebar">
                     <div className="sidebar-info pl-0">

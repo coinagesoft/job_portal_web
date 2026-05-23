@@ -97,7 +97,7 @@ const EmployerBuyCreditsPage = () => {
             <div className="content-page">
               <div className="row justify-content-center">
                 <div className="col-lg-6 col-md-10">
-                  <div className="card-grid-2 hover-up text-center">
+                  <div className="card-grid-2 hover-up cv-search-candidate-card text-center">
                     <div className="card-block-info pt-30 pb-30">
                       <div style={{ fontSize: "52px", marginBottom: "16px" }}>🎉</div>
                       <h4 className="color-brand-1 mb-10">Payment Successful!</h4>
@@ -155,7 +155,7 @@ const EmployerBuyCreditsPage = () => {
           <div className="content-page">
 
             {/* Page header */}
-            <div className="box-filters-job mb-10">
+            <div className="box-filters-job employer-cv-surface-card mb-10">
               <div className="row align-items-center">
                 <div className="col-xl-8 col-lg-8">
                   <h3 className="mb-5">Buy Credits</h3>
@@ -186,7 +186,7 @@ const EmployerBuyCreditsPage = () => {
                   {CREDIT_PACKS.map((pack) => (
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-10 d-flex" key={pack.id}>
                       <div
-                        className={`box-pricing-item${selected.id === pack.id ? " active" : ""} d-flex flex-column h-100`}
+                        className={`box-pricing-item employer-cv-surface-card${selected.id === pack.id ? " active" : ""} d-flex flex-column h-100`}
                         onClick={() => setSelected(pack)}
                         style={{ cursor: "pointer" }}
                       >
@@ -245,7 +245,7 @@ const EmployerBuyCreditsPage = () => {
             {/* Order summary + pay */}
             <div className="row justify-content-center mt-20">
               <div className="col-lg-6 col-md-10 col-sm-12">
-                <div className="card-grid-2 hover-up">
+                <div className="card-grid-2 hover-up cv-search-candidate-card">
                   <div className="card-block-info pt-20">
                     <h5 className="mb-15">Order Summary</h5>
                     <div className="d-flex justify-content-between mb-10">
