@@ -15,7 +15,7 @@ const CompanySidebar = () => {
   return (
     <>
       {/* ── Company Card ─────────────────────────────────── */}
-      <div className="sidebar-border">
+      <div className="sidebar-border employer-cv-surface-card">
         <div className="sidebar-heading">
           <div className="avatar-sidebar">
             <figure>
@@ -39,7 +39,7 @@ const CompanySidebar = () => {
       </div>
 
       {/* ── Similar Jobs ──────────────────────────────────── */}
-      <div className="sidebar-border">
+      <div className="sidebar-border employer-cv-surface-card">
         <h6 className="f-18" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <i className="fa-solid fa-clone" style={{ color: 'var(--color-brand-1)', fontSize: '15px' }}></i>
           Similar Jobs

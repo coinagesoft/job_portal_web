@@ -32,7 +32,7 @@ const JobContent = () => {
     <div className="content-single">
       {/* Company Verification Checks */}
       {hasAnyVerification && (
-        <div style={{ marginBottom: '20px', padding: '14px 18px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #e5e7eb' }}>
+        <div style={{ marginBottom: '20px', padding: '14px 18px', background: '#f9fafb', borderRadius: '16px', border: '1px solid rgba(18,35,89,0.06)', boxShadow: '0 4px 14px rgba(18,35,89,0.04)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <span style={{ fontSize: '13px', fontWeight: 700, color: '#122359' }}>Company Verification</span>
             {/* AI Matching Badge */}

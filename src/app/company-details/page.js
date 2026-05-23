@@ -200,7 +200,7 @@ const CompanyDetailsPage = () => {
                 <div className="box-list-jobs display-list">
                   {latestJobs.map((job) => (
                     <div className="col-xl-12 col-12" key={job.id}>
-                      <div className="card-grid-2 hover-up">
+                      <div className="card-grid-2 hover-up cv-search-candidate-card">
                         <span className="flash"></span>
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-12">
@@ -266,7 +266,7 @@ const CompanyDetailsPage = () => {
             </div>
 
             <div className="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
-              <div className="sidebar-border">
+              <div className="sidebar-border employer-cv-surface-card">
                 <div className="sidebar-heading">
                   <div className="avatar-sidebar">
                     <div className="sidebar-info pl-0">

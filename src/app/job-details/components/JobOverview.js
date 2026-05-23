@@ -32,7 +32,7 @@ const JobOverview = () => {
   ];
 
   return (
-    <div className="job-overview">
+    <div className="job-overview" style={{ border: 'none', background: '#ffffff', borderRadius: '20px', boxShadow: '0 4px 14px rgba(18,35,89,0.06)', padding: '24px 30px 30px', marginBottom: '50px' }}>
       <h5 className="border-bottom pb-15 mb-30">Employment Information</h5>
       <div className="row">
         {infoItems.map((item, index) => (
@@ -52,4 +52,3 @@ const JobOverview = () => {
 };
 
 export default JobOverview;
-

@@ -25,7 +25,7 @@ const FeaturedJobs = () => {
               <div className="swiper-wrapper pb-10 pt-5">
                 {featuredJobs.map((job) => (
                   <div key={job.id} className="swiper-slide">
-                    <div className="card-grid-2 hover-up">
+                    <div className="card-grid-2 hover-up cv-search-candidate-card">
                       <div className="card-grid-2-image-left">
                         <span className="flash"></span>
                         <div className="image-box">
@@ -89,4 +89,3 @@ const FeaturedJobs = () => {
 };
 
 export default FeaturedJobs;
-

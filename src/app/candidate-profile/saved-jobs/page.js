@@ -10,7 +10,7 @@ const CandidateSavedJobsPage = () => {
     <main className="main">
       <section className="section-box mt-50 mb-50">
         <div className="container">
-          <div className="candidate-inner-panel">
+          <div className="candidate-inner-panel" style={{ border: 'none', boxShadow: 'none', background: 'transparent', padding: '0' }}>
             <SavedJobsTab />
           </div>
         </div>

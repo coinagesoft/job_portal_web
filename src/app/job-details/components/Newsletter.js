@@ -5,7 +5,13 @@ const Newsletter = () => {
   return (
     <section className="section-box mt-50 mb-20">
       <div className="container">
-        <div className="box-newsletter">
+        <div
+          className="box-newsletter"
+          style={{
+            background: 'linear-gradient(135deg, #ff9900 0%, #ffb733 60%, #ffa300 100%)',
+            boxShadow: '0 20px 60px rgba(255,153,0,0.28)',
+          }}
+        >
           <div className="row">
             <div className="col-xl-3 col-12 text-center d-none d-xl-block">
               <img src="/assets/imgs/template/newsletter-left.png" alt="jobBox" />
@@ -38,4 +44,3 @@ const Newsletter = () => {
 };
 
 export default Newsletter;
-
