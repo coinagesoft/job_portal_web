@@ -28,7 +28,7 @@ export default function LinkedInCallback() {
         const response = await linkedInLogin({
           linkedInCode: code,
           redirectUri:
-            "http://localhost:3000/linkedin/callback",
+            "https://job-portal-web-phi.vercel.app/linkedin/callback",
           userType: "Recruiter",
         });
 
@@ -57,8 +57,10 @@ export default function LinkedInCallback() {
         );
 
         router.replace(
-          data.redirectTo
+          "/employeer/cv-search"
         );
+
+     
       } catch (err) {
         console.error(
           "LINKEDIN LOGIN ERROR",

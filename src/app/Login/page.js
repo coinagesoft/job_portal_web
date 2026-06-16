@@ -189,7 +189,7 @@ const handleLinkedInLogin = () => {
 
   const redirectUri =
     encodeURIComponent(
-      "http://localhost:3000/linkedin/callback"
+      "https://job-portal-web-phi.vercel.app/linkedin/callback"
     );
 
   const scope =
