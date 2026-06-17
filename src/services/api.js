@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://103.224.246.190:5010",
+  baseURL: "https://jobportal.coinage.in",
 //  baseURL:"https://localhost:7011",
   headers: {
     "Content-Type": "application/json",
