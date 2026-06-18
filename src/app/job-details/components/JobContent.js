@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import ApplyJobModal from '@/app/Homepage/components/ApplyJobModal';
 import { detailedJob } from '../data.js';
 
+import { saveJob } from "@/services/candidate/savedJobsService";
+import { useToast } from "@/components/Toast";
+
 const verificationBadges = [
   { key: 'gst', label: '✔ GST Verified', style: { background: '#d1fae5', color: '#065f46', border: '1px solid #6ee7b7' } },
   { key: 'recruitmentLicense', label: '✔ Recruitment Licensed', style: { background: '#dbeafe', color: '#1e40af', border: '1px solid #93c5fd' } },
@@ -24,6 +27,53 @@ const badgeStyle = {
 const JobContent = () => {
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => setShowModal(!showModal);
+
+  const showToast = useToast();
+
+  const candidateId =
+    "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
+
+  const handleSaveJob = async () => {
+    try {
+      const jobId = detailedJob.jobId;
+
+      if (!jobId) {
+        showToast(
+          "Job id is missing. Please open this job from the jobs list.",
+          "error"
+        );
+        return;
+      }
+
+      const response = await saveJob(
+        jobId,
+        candidateId
+      );
+
+      if (response?.data?.success) {
+        showToast(
+          response.data.message || "Job saved successfully!",
+          "success"
+        );
+        return;
+      }
+
+      showToast(
+        response?.data?.message || "Unable to save job",
+        "error"
+      );
+    } catch (error) {
+      const backendMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to save job";
+
+      showToast(
+        backendMessage,
+        "error"
+      );
+    }
+  };
 
   const verifications = detailedJob.verifications || {};
   const hasAnyVerification = Object.values(verifications).some(Boolean);
@@ -65,7 +115,13 @@ const JobContent = () => {
               event.preventDefault();
               toggleModal();
             }}>Apply now</a>
-            <a className="btn btn-border" href="#">Save job</a>
+            <button
+              type="button"
+              className="btn btn-border"
+              onClick={handleSaveJob}
+            >
+              Save job
+            </button>
           </div>
           <div className="col-md-7 text-lg-end social-share">
             <h6 className="color-text-paragraph-2 d-inline-block d-baseline mr-10">Share this</h6>

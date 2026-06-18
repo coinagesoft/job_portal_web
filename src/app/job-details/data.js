@@ -2,6 +2,7 @@
 
 export const detailedJob = {
   id: 99,
+  jobId: "9151d8d7-7367-4aaf-b986-0b99a55f03f7",
   title: "Senior Marine Electrician",
   company: "Horizon Marine Services",
   companyFull: "Horizon Marine Services Pvt. Ltd.",

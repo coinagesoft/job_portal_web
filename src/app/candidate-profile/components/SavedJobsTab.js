@@ -26,15 +26,18 @@ const SavedJobsTab = () => {
       if (response?.data?.success) {
         const formattedJobs = response.data.savedJobs.map((job) => ({
           id: job.savedJobId,
-          logo: "/assets/imgs/page/dashboard/company-logo.png",
+          jobId: job.jobId,
+          logo: job.companyLogoUrl || "/assets/imgs/page/dashboard/company-logo.png",
 
           company: job.companyName,
-          location: job.locationDisplay,
+          location:
+            job.locationDisplay ||
+            [job.city, job.state].filter(Boolean).join(", "),
 
           title: job.jobTitle,
           type: job.employmentType,
 
-          experience: job.experienceDisplay,
+          experience: job.experienceDisplay || "Experience not specified",
 
           description: job.role || "",
 

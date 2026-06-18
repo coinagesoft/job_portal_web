@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  createTicket,
+  getTicketSummary,
+  getTickets,
+  getThread,
+  replyTicket,
+  resolveTicket as resolveTicketApi,
+} from "@/services/settingCandidate/supportTicketService";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/Toast";
 import {
   CANDIDATE_FAQ_ITEMS,
   EMPLOYER_FAQ_ITEMS,
   SUPPORT_TICKET_CATEGORIES
 } from "@/constants/supportTicketsData";
-import {
-  addNewSupportTicket,
-  addTicketMessage,
-  loadSupportTickets,
-  resolveTicket,
-  saveSupportTickets
-} from "@/lib/supportTicketStore";
+
+const CANDIDATE_ID = "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
 
 const formatDateTime = (value) => {
   if (!value) return "-";
@@ -34,6 +38,65 @@ const statusClass = (status) => {
   return "open";
 };
 
+const CATEGORY_TO_API = {
+  "Profile & Resume": "ProfileAndResume",
+  "Job Application": "JobApplication",
+  "Payment & Billing": "PaymentAndBilling",
+  "Account Access": "AccountAccess",
+  "Technical Issue": "TechnicalIssue",
+  Other: "Other",
+};
+
+const CATEGORY_LABELS = {
+  ProfileAndResume: "Profile & Resume",
+  JobApplication: "Job Application",
+  PaymentAndBilling: "Payment & Billing",
+  AccountAccess: "Account Access",
+  TechnicalIssue: "Technical Issue",
+  Other: "Other",
+};
+
+const formatCategory = (category) => CATEGORY_LABELS[category] || category;
+
+const normalizeReply = (reply) => {
+  const sender = String(reply.senderType || "").toLowerCase() === "admin" ? "admin" : "candidate";
+
+  return {
+    id: reply.replyId,
+    sender,
+    senderLabel: sender === "admin" ? "Support Team" : "You",
+    createdOn: reply.createdAt,
+    text: reply.message || "",
+  };
+};
+
+const normalizeTicket = (ticket, audience) => {
+  const initialMessage = ticket.description
+    ? [{
+      id: `${ticket.ticketId}-description`,
+      sender: audience,
+      senderLabel: "You",
+      createdOn: ticket.createdAt,
+      text: ticket.description,
+    }]
+    : [];
+
+  return {
+    id: ticket.ticketId,
+    audience,
+    subject: ticket.subject || "",
+    category: ticket.category || "",
+    description: ticket.description || "",
+    status: ticket.status || "Open",
+    createdOn: ticket.createdAt,
+    updatedOn: ticket.resolvedAt || ticket.createdAt,
+    messages: [
+      ...initialMessage,
+      ...(Array.isArray(ticket.replies) ? ticket.replies.map(normalizeReply) : []),
+    ],
+  };
+};
+
 const getLatestAdminReply = (messages = []) => {
   const adminMessages = messages.filter((item) => item.sender === "admin");
   return adminMessages.length ? adminMessages[adminMessages.length - 1] : null;
@@ -50,20 +113,75 @@ const SupportTicketCenter = ({
   const [newReplyTextByTicket, setNewReplyTextByTicket] = useState({});
   const [form, setForm] = useState({ subject: "", category: "", description: "" });
   const [errors, setErrors] = useState({});
+  const [ticketSummary, setTicketSummary] = useState({
+    totalTickets: 0,
+    open: 0,
+    inProgress: 0,
+    resolved: 0,
+  });
 
-  useEffect(() => {
-    setAllTickets(loadSupportTickets());
-  }, []);
+const loadTickets = useCallback(async () => {
+  try {
+    const response = await getTickets(
+      CANDIDATE_ID
+    );
 
-  useEffect(() => {
-    if (!allTickets.length) return;
-    saveSupportTickets(allTickets);
-  }, [allTickets]);
+    if (response?.data?.tickets) {
+      setAllTickets(
+        response.data.tickets.map((ticket) =>
+          normalizeTicket(ticket, audience)
+        )
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}, [audience]);
 
-  const tickets = useMemo(
-    () => allTickets.filter((ticket) => ticket.audience === audience),
-    [allTickets, audience]
-  );
+const loadTicketSummary = useCallback(async () => {
+  try {
+    const response = await getTicketSummary(CANDIDATE_ID);
+
+    if (response?.data) {
+      setTicketSummary({
+        totalTickets: response.data.totalTickets || 0,
+        open: response.data.open || 0,
+        inProgress: response.data.inProgress || 0,
+        resolved: response.data.resolved || 0,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}, []);
+
+useEffect(() => {
+  loadTickets();
+  loadTicketSummary();
+}, [loadTickets, loadTicketSummary]);
+
+const loadTicketThread = async (ticketId) => {
+  try {
+    const response = await getThread(ticketId, CANDIDATE_ID);
+
+    if (response?.data?.success) {
+      const nextTicket = normalizeTicket(response.data, audience);
+
+      setAllTickets((prev) =>
+        prev.map((ticket) =>
+          ticket.id === ticketId ? nextTicket : ticket
+        )
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    showToast("Failed to load ticket thread", "error");
+  }
+};
+
+ 
+
+  const tickets = useMemo(() => allTickets, [allTickets]);
 
   const faqItems = audience === "employer" ? EMPLOYER_FAQ_ITEMS : CANDIDATE_FAQ_ITEMS;
 
@@ -75,40 +193,98 @@ const SupportTicketCenter = ({
     return nextErrors;
   };
 
-  const handleSubmit = () => {
-    const nextErrors = validate();
-    if (Object.keys(nextErrors).length > 0) {
-      setErrors(nextErrors);
-      return;
-    }
+  const handleSubmit = async () => {
+  const nextErrors = validate();
 
-    const updated = addNewSupportTicket(
-      {
-        audience,
-        subject: form.subject,
-        category: form.category,
-        description: form.description
-      },
-      allTickets
+  if (Object.keys(nextErrors).length > 0) {
+    setErrors(nextErrors);
+    return;
+  }
+ 
+  try {
+    const payload = {
+      subject: form.subject,
+      category: CATEGORY_TO_API[form.category] || form.category,
+      description: form.description,
+    };
+
+     console.log("Ticket Payload:", payload);
+
+    const response = await createTicket(
+      CANDIDATE_ID,
+      payload
     );
 
-    setAllTickets(updated);
-    setForm({ subject: "", category: "", description: "" });
-    setErrors({});
-    showToast("Support ticket submitted successfully!", "success");
-    setExpandedTicketId(updated[0]?.id || "");
-  };
+    if (response?.data?.success) {
+      await loadTickets();
+      await loadTicketSummary();
 
-  const addReply = (ticketId) => {
+      setForm({
+        subject: "",
+        category: "",
+        description: "",
+      });
+
+      showToast(
+        "Support ticket submitted successfully!",
+        "success"
+      );
+    }
+  } catch (error) {
+  console.log(
+    "Backend Error:",
+    error?.response?.data
+  );
+
+  console.error(error);
+
+  showToast(
+    "Failed to create ticket",
+    "error"
+  );
+}
+};
+
+  const addReply = async (ticketId) => {
     const replyText = newReplyTextByTicket[ticketId] || "";
     if (!replyText.trim()) return;
 
-    setAllTickets((prev) => addTicketMessage({ ticketId, sender: audience, text: replyText }, prev));
-    setNewReplyTextByTicket((prev) => ({ ...prev, [ticketId]: "" }));
+    try {
+      const response = await replyTicket(ticketId, CANDIDATE_ID, {
+        message: replyText,
+      });
+
+      if (response?.data?.success) {
+        setNewReplyTextByTicket((prev) => ({ ...prev, [ticketId]: "" }));
+        await loadTicketThread(ticketId);
+        showToast("Reply sent", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("Failed to send reply", "error");
+    }
   };
 
-  const handleResolve = (ticketId) => {
-    setAllTickets((prev) => resolveTicket(ticketId, prev));
+  const handleResolve = async (ticketId) => {
+    try {
+      await resolveTicketApi(ticketId);
+      await loadTickets();
+      await loadTicketSummary();
+      showToast("Ticket marked resolved", "success");
+    } catch (error) {
+      console.error(error);
+      showToast("Failed to resolve ticket", "error");
+    }
+  };
+
+  const handleToggleThread = async (ticketId, isExpanded) => {
+    if (isExpanded) {
+      setExpandedTicketId("");
+      return;
+    }
+
+    setExpandedTicketId(ticketId);
+    await loadTicketThread(ticketId);
   };
 
   return (
@@ -212,12 +388,12 @@ const SupportTicketCenter = ({
           <div className="candidate-settings-card mb-20">
             <h5 className="mb-5">Support Tickets</h5>
             <p className="font-sm color-text-paragraph-2 mb-15 support-ticket-count">
-              {tickets.length} ticket{tickets.length !== 1 ? "s" : ""} total
+              {ticketSummary.totalTickets} ticket{ticketSummary.totalTickets !== 1 ? "s" : ""} total
             </p>
 
             <div className="candidate-ticket-list">
               {tickets.map((ticket) => {
-                const latestAdminReply = getLatestAdminReply(ticket.messages);
+                const latestAdminReply = getLatestAdminReply(ticket.messages || []);
                 const isExpanded = expandedTicketId === ticket.id;
 
                 return (
@@ -228,7 +404,7 @@ const SupportTicketCenter = ({
                           <strong>{ticket.subject}</strong>
                           <p>
                             {ticket.id}
-                            {ticket.category ? ` | ${ticket.category}` : ""}
+                            {ticket.category ? ` | ${formatCategory(ticket.category)}` : ""}
                           </p>
                         </div>
                         <div className="candidate-ticket-meta">
@@ -258,7 +434,7 @@ const SupportTicketCenter = ({
                         <button
                           type="button"
                           className="btn btn-grey-small"
-                          onClick={() => setExpandedTicketId(isExpanded ? "" : ticket.id)}
+                          onClick={() => handleToggleThread(ticket.id, isExpanded)}
                         >
                           {isExpanded ? "Hide Thread" : "View Thread"}
                         </button>
@@ -282,7 +458,7 @@ const SupportTicketCenter = ({
                           }}
                         >
                           <div style={{ maxHeight: "220px", overflow: "auto", paddingRight: "4px" }}>
-                            {ticket.messages.map((message) => (
+                            {(ticket.messages || []).map((message) => (
                               <div
                                 key={message.id}
                                 className={`support-ticket-message ${message.sender === "admin" ? "is-admin" : "is-user"}`}
