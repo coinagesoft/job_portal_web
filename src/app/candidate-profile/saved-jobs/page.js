@@ -1,22 +1,22 @@
-import SavedJobsTab from '../components/SavedJobsTab';
+  import SavedJobsTab from '../components/SavedJobsTab';
 
-export const metadata = {
-  title: 'Saved Jobs - Job Portal',
-  description: 'Candidate saved jobs page'
-};
+  export const metadata = {
+    title: 'Saved Jobs - Job Portal',
+    description: 'Candidate saved jobs page'
+  };
 
-const CandidateSavedJobsPage = () => {
-  return (
-    <main className="main">
-      <section className="section-box mt-50 mb-50">
-        <div className="container">
-          <div className="candidate-inner-panel" style={{ border: 'none', boxShadow: 'none', background: 'transparent', padding: '0' }}>
-            <SavedJobsTab />
+  const CandidateSavedJobsPage = () => {
+    return (
+      <main className="main">
+        <section className="section-box mt-50 mb-50">
+          <div className="container">
+            <div className="candidate-inner-panel" style={{ border: 'none', boxShadow: 'none', background: 'transparent', padding: '0' }}>
+              <SavedJobsTab />
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
-  );
-};
+        </section>
+      </main>
+    );
+  };
 
-export default CandidateSavedJobsPage;
+  export default CandidateSavedJobsPage;
