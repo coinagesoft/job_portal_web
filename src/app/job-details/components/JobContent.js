@@ -36,6 +36,8 @@ const JobContent = () => {
   const handleSaveJob = async () => {
     try {
       const jobId = detailedJob.jobId;
+            console.log("Job ID:", jobId);
+console.log("Candidate ID:", candidateId);
 
       if (!jobId) {
         showToast(
@@ -63,16 +65,16 @@ const JobContent = () => {
         "error"
       );
     } catch (error) {
-      const backendMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to save job";
+  console.log("ERROR RESPONSE:", error.response);
+  console.log("ERROR DATA:", error.response?.data);
 
-      showToast(
-        backendMessage,
-        "error"
-      );
-    }
+  showToast(
+    error.response?.data?.message ||
+    error.message ||
+    "Failed to save job",
+    "error"
+  );
+}
   };
 
   const verifications = detailedJob.verifications || {};
@@ -115,8 +117,9 @@ const JobContent = () => {
               event.preventDefault();
               toggleModal();
             }}>Apply now</a>
+      
             <button
-              type="button"
+              type="button" 
               className="btn btn-border"
               onClick={handleSaveJob}
             >

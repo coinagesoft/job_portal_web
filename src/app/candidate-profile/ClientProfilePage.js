@@ -3,6 +3,7 @@
 import { getProfileCompletion } from "@/services/candidate/profileCompletionService";
 
 
+
 import {
   getSkills,
   createSkill,
@@ -32,11 +33,15 @@ import {
   deleteLanguage,
 } from "@/services/candidate/languagesService";
 
+
+
 import axios from "axios";
 
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { mockProfile } from "./components/data.js";
 import { useToast } from "@/components/Toast";
+
+
 
 // ─── Theme tokens (matches site globals.css) ────────────────────────────────
 const T = {
@@ -858,6 +863,9 @@ const formatFileSize = (bytes) => {
 
 const CandidateProfilePage = () => {
   const showToast = useToast();
+
+  const [itiInfo, setItiInfo] = useState(null);
+
   const [profileData, setProfileData] = useState(() => ({
     ...mockProfile,
     avatar: getStoredProfilePhotoPreview() || mockProfile.avatar,
@@ -865,6 +873,62 @@ const CandidateProfilePage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [done, setDone] = useState(false);
   const [profileCompletion, setProfileCompletion] = useState(null);
+
+  //load ITI info from API
+  const loadITIInfo = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/candidate/profile/iti-info`,
+      {
+        params: {
+          candidateId: CANDIDATE_ID,
+        },
+      }
+    );
+
+    if (response.data.success) {
+      setItiInfo(response.data.data);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+useEffect(() => {
+  loadITIInfo();
+}, []);
+
+
+useEffect(() => {
+  if (!itiInfo) return;
+
+  setProfileData((prev) => ({
+    ...prev,
+    documents: {
+      ...prev.documents,
+
+      itiCertificate: {
+        label: "ITI Certificate",
+        status: itiInfo.itiCertified
+          ? "verified"
+          : "missing",
+
+        type: "readonly",
+
+        description:
+          itiInfo.itiTrade || "ITI Trade",
+
+        metaLines: [
+          `Primary Trade: ${itiInfo.primaryTrade}`,
+          `Marks: ${itiInfo.itiMarks}`,
+          `College: ${itiInfo.itiCollege}`,
+        ],
+
+        file: null,
+      },
+    },
+  }));
+}, [itiInfo]);
 
   const loadProfileCompletion = useCallback(async () => {
     try {

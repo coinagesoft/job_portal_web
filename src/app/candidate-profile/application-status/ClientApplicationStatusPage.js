@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 // import CandidateProfileInnerNav from '../components/CandidateProfileInnerNav';
 import { useToast } from '@/components/Toast';
-import { mockApplicationStatuses } from '../components/data';
+// import { mockApplicationStatuses } from '../components/data';
+import { getMyApplications } from "@/services/candidate/myApplicationsService";
 
 const FILTERS = ['All', 'Applied', 'In Review', 'Shortlisted', 'Interview', 'Rejected'];
 const ACK_STORAGE_KEY = 'candidate_application_message_acknowledged';
@@ -231,26 +232,35 @@ const ClientApplicationStatusPage = () => {
   const [acknowledgedMessages, setAcknowledgedMessages] = useState({});
   const [ackStateReady, setAckStateReady] = useState(false);
   const reminderSignatureRef = useRef('');
+  const [applications, setApplications] = useState([]);
+const [loading, setLoading] = useState(false);
+
+const candidateId =
+  "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
 
   const statusSummary = useMemo(() => {
-    const activeCount = mockApplicationStatuses.filter((item) =>
+    const activeCount = applications.filter((item) =>
       ['Applied', 'In Review', 'Shortlisted'].includes(item.status)
     ).length;
-    const interviewCount = mockApplicationStatuses.filter((item) => item.status === 'Interview').length;
-    const rejectedCount = mockApplicationStatuses.filter((item) => item.status === 'Rejected').length;
+    const interviewCount = applications.filter((item) => item.status === 'Interview').length;
+    const rejectedCount = applications.filter((item) => item.status === 'Rejected').length;
 
     return [
-      { id: 'total', label: 'Total Applications', value: mockApplicationStatuses.length, tone: 'brand' },
+      { id: 'total', label: 'Total Applications', value: applications.length, tone: 'brand' },
       { id: 'active', label: 'Active Pipeline', value: activeCount, tone: 'active' },
       { id: 'interview', label: 'Interviews', value: interviewCount, tone: 'interview' },
       { id: 'closed', label: 'Closed', value: rejectedCount, tone: 'closed' }
     ];
-  }, []);
-
+  }, [applications]);
   const filteredApplications = useMemo(() => {
-    if (activeFilter === 'All') return mockApplicationStatuses;
-    return mockApplicationStatuses.filter((item) => item.status === activeFilter);
-  }, [activeFilter]);
+  if (activeFilter === "All") {
+    return applications;
+  }
+
+  return applications.filter(
+    (item) => item.status === activeFilter
+  );
+}, [activeFilter, applications]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -268,6 +278,48 @@ const ClientApplicationStatusPage = () => {
       setAckStateReady(true);
     }
   }, []);
+
+  useEffect(() => {
+  loadApplications();
+}, []);
+
+const loadApplications = async () => {
+  try {
+    setLoading(true);
+
+    const response =
+      await getMyApplications(candidateId);
+
+    const jobs =
+      response?.data?.applications || [];
+
+    const mappedData = jobs.map((item) => ({
+      id: item.applicationId,
+      company: item.companyName,
+      title: item.jobTitle,
+      location: `${item.city || ""}, ${item.state || ""}`,
+      type: item.employmentType,
+      appliedOn: item.appliedTimeAgo,
+      updatedOn: item.appliedTimeAgo,
+      status: item.applicationStatus,
+      stage: item.applicationStatus,
+      tags: item.tags || [],
+      description: item.salaryDisplay,
+      logo:
+        item.companyLogoUrl ||
+       "/assets/imgs/brands/brand-10.png",
+    }));
+
+    setApplications(mappedData);
+  } catch (error) {
+    console.error(
+      "Failed to load applications",
+      error
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     if (!ackStateReady || typeof window === 'undefined') return;
@@ -312,9 +364,9 @@ const ClientApplicationStatusPage = () => {
   const statusCounts = useMemo(() => {
     return FILTERS.reduce((acc, filterName) => {
       if (filterName === 'All') {
-        acc[filterName] = mockApplicationStatuses.length;
+        acc[filterName] = applications.length;
       } else {
-        acc[filterName] = mockApplicationStatuses.filter((item) => item.status === filterName).length;
+        acc[filterName] = applications.filter((item) => item.status === filterName).length;
       }
       return acc;
     }, {});
