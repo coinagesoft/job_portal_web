@@ -1,8 +1,47 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import { getProfileCompletion } from "@/services/candidate/profileCompletionService";
+
+
+
+import {
+  getSkills,
+  createSkill,
+  updateSkill as updateCandidateSkill,
+  deleteSkill,
+} from "@/services/candidate/skillsService";
+
+import {
+  getWorkExperience,
+  createWorkExperience,
+  updateWorkExperience,
+  deleteWorkExperience,
+} from "@/services/candidate/workExperienceService";
+
+
+import {
+  getEducation,
+  createEducation,
+  updateEducation,
+  deleteEducation,
+} from "@/services/candidate/educationService";
+
+import {
+  getLanguages,
+  createLanguage,
+  updateLanguage,
+  deleteLanguage,
+} from "@/services/candidate/languagesService";
+
+
+
+import axios from "axios";
+
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { mockProfile } from "./components/data.js";
 import { useToast } from "@/components/Toast";
+
+
 
 // ─── Theme tokens (matches site globals.css) ────────────────────────────────
 const T = {
@@ -31,6 +70,21 @@ const STEPS = [
 ];
 
 const TOTAL = STEPS.length;
+const CANDIDATE_ID = "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
+const PROFILE_PHOTO_PREVIEW_KEY = `candidate-profile-photo-preview-${CANDIDATE_ID}`;
+const DEFAULT_PROFILE_PHOTO = "/assets/imgs/page/candidates/candidate-profile.png";
+
+const getStoredProfilePhotoPreview = () => {
+  if (typeof window === "undefined") return "";
+
+  return window.localStorage.getItem(PROFILE_PHOTO_PREVIEW_KEY) || "";
+};
+
+const storeProfilePhotoPreview = (previewUrl) => {
+  if (typeof window === "undefined" || !previewUrl) return;
+
+  window.localStorage.setItem(PROFILE_PHOTO_PREVIEW_KEY, previewUrl);
+};
 
 // ─── Shared UI ────────────────────────────────────────────────────────────────
 const Field = ({ label, required, children, hint }) => (
@@ -95,8 +149,8 @@ const Btn = ({ children, variant = "primary", onClick, disabled, style = {}, typ
   const variants = {
     primary: { background: T.orange, color: T.white, border: "none" },
     outline: { background: T.white, color: T.navy, border: `1.5px solid ${T.border}` },
-    ghost:   { background: T.bg,    color: T.navy, border: `1.5px solid ${T.border}` },
-    danger:  { background: T.errorBg, color: T.error, border: `1px solid ${T.error}` },
+    ghost: { background: T.bg, color: T.navy, border: `1.5px solid ${T.border}` },
+    danger: { background: T.errorBg, color: T.error, border: `1px solid ${T.error}` },
     success: { background: T.successBg, color: T.success, border: `1px solid ${T.success}` },
   };
   return (
@@ -181,17 +235,33 @@ const StepBar = ({ current }) => (
 );
 
 // ─── STEP 1 — Personal Information ───────────────────────────────────────────
-const StepPersonal = ({ data, onChange }) => {
-  const [avatarPreview, setAvatarPreview] = useState(data.avatar || "/assets/imgs/page/candidates/candidate-profile.png");
+const StepPersonal = ({ data,
+  onChange,
+  onPhotoUpload, }) => {
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const avatarSrc = avatarPreview || data.avatar || DEFAULT_PROFILE_PHOTO;
 
-  const handleAvatar = (e) => {
+  const handleAvatar = async (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
+
     const reader = new FileReader();
-    reader.onloadend = () => setAvatarPreview(reader.result);
+
+    reader.onloadend = async () => {
+      const previewUrl = reader.result;
+
+      setAvatarPreview(previewUrl);
+      storeProfilePhotoPreview(previewUrl);
+      onChange("avatar", previewUrl);
+
+      console.log("Selected file:", file);
+
+      await onPhotoUpload(file, previewUrl);
+    };
+
     reader.readAsDataURL(file);
   };
-
   return (
     <div>
       <h4 style={{ color: T.navy, marginBottom: 6, marginTop: 0 }}>Personal Information</h4>
@@ -200,7 +270,14 @@ const StepPersonal = ({ data, onChange }) => {
       {/* Avatar */}
       <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 28, padding: "16px 20px", background: T.bg, borderRadius: 12 }}>
         <div style={{ width: 72, height: 72, borderRadius: "50%", overflow: "hidden", border: `3px solid ${T.orangeLight}`, flexShrink: 0 }}>
-          <img src={avatarPreview} alt="Profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img
+            src={avatarSrc}
+            alt="Profile"
+            onError={(e) => {
+              e.currentTarget.src = getStoredProfilePhotoPreview() || DEFAULT_PROFILE_PHOTO;
+            }}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         </div>
         <div>
           <p style={{ margin: "0 0 8px", fontWeight: 600, fontSize: 14, color: T.navy }}>Profile Photo</p>
@@ -252,7 +329,7 @@ const StepPersonal = ({ data, onChange }) => {
         <Field label="State">
           <Sel value={data.state || ""} onChange={e => onChange("state", e.target.value)}>
             <option value="">Select state</option>
-            {["Andhra Pradesh","Bihar","Delhi","Gujarat","Haryana","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Punjab","Rajasthan","Tamil Nadu","Telangana","Uttar Pradesh","West Bengal","Other"].map(s => <option key={s}>{s}</option>)}
+            {["Andhra Pradesh", "Bihar", "Delhi", "Gujarat", "Haryana", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Punjab", "Rajasthan", "Tamil Nadu", "Telangana", "Uttar Pradesh", "West Bengal", "Other"].map(s => <option key={s}>{s}</option>)}
           </Sel>
         </Field>
         <Field label="PIN Code">
@@ -298,12 +375,22 @@ const StepWork = ({ data, onUpdate, onAdd, onRemove }) => {
   const [newEntry, setNewEntry] = useState({ title: "", company: "", location: "", startDate: "", endDate: "", current: false, description: "" });
   const showToast = useToast();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!newEntry.title || !newEntry.company) {
       showToast("Role and company name are required.", "error");
       return;
     }
-    onAdd(newEntry);
+    if (!newEntry.startDate) {
+      showToast("Start date is required.", "error");
+      return;
+    }
+    if (!newEntry.current && !newEntry.endDate) {
+      showToast("End date is required unless this is your current job.", "error");
+      return;
+    }
+    const saved = await onAdd(newEntry);
+    if (!saved) return;
+
     setNewEntry({ title: "", company: "", location: "", startDate: "", endDate: "", current: false, description: "" });
     setShowForm(false);
   };
@@ -705,7 +792,14 @@ const ProfileMini = ({ data, percent, currentStep, onJump }) => (
     {/* Header banner */}
     <div style={{ background: `linear-gradient(135deg, ${T.navy} 0%, #1e3a8a 100%)`, padding: "24px 20px", textAlign: "center" }}>
       <div style={{ width: 68, height: 68, borderRadius: "50%", overflow: "hidden", border: `3px solid ${T.orange}`, margin: "0 auto 12px", background: T.bg }}>
-        <img src={data.avatar || "/assets/imgs/page/candidates/candidate-profile.png"} alt="Profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img
+          src={data.avatar || DEFAULT_PROFILE_PHOTO}
+          alt="Profile"
+          onError={(e) => {
+            e.currentTarget.src = getStoredProfilePhotoPreview() || DEFAULT_PROFILE_PHOTO;
+          }}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
       </div>
       <div style={{ color: T.white, fontWeight: 700, fontSize: 15 }}>{data.firstName} {data.lastName}</div>
       <div style={{ color: T.orangeLight, fontSize: 12, marginTop: 4 }}>{data.trade}</div>
@@ -750,6 +844,17 @@ const ProfileMini = ({ data, percent, currentStep, onJump }) => (
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 const createId = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+const buildProfilePhotoUrl = (photoUrl) => {
+  if (!photoUrl) return DEFAULT_PROFILE_PHOTO;
+
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+  const absoluteUrl = photoUrl.startsWith("http")
+    ? photoUrl
+    : `${baseUrl}${photoUrl}`;
+  const separator = absoluteUrl.includes("?") ? "&" : "?";
+
+  return `${absoluteUrl}${separator}t=${Date.now()}`;
+};
 const formatFileSize = (bytes) => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
@@ -758,9 +863,331 @@ const formatFileSize = (bytes) => {
 
 const CandidateProfilePage = () => {
   const showToast = useToast();
-  const [profileData, setProfileData] = useState(mockProfile);
+
+  const [itiInfo, setItiInfo] = useState(null);
+
+  const [profileData, setProfileData] = useState(() => ({
+    ...mockProfile,
+    avatar: getStoredProfilePhotoPreview() || mockProfile.avatar,
+  }));
   const [currentStep, setCurrentStep] = useState(1);
   const [done, setDone] = useState(false);
+  const [profileCompletion, setProfileCompletion] = useState(null);
+
+  //load ITI info from API
+  const loadITIInfo = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/candidate/profile/iti-info`,
+      {
+        params: {
+          candidateId: CANDIDATE_ID,
+        },
+      }
+    );
+
+    if (response.data.success) {
+      setItiInfo(response.data.data);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+useEffect(() => {
+  loadITIInfo();
+}, []);
+
+
+useEffect(() => {
+  if (!itiInfo) return;
+
+  setProfileData((prev) => ({
+    ...prev,
+    documents: {
+      ...prev.documents,
+
+      itiCertificate: {
+        label: "ITI Certificate",
+        status: itiInfo.itiCertified
+          ? "verified"
+          : "missing",
+
+        type: "readonly",
+
+        description:
+          itiInfo.itiTrade || "ITI Trade",
+
+        metaLines: [
+          `Primary Trade: ${itiInfo.primaryTrade}`,
+          `Marks: ${itiInfo.itiMarks}`,
+          `College: ${itiInfo.itiCollege}`,
+        ],
+
+        file: null,
+      },
+    },
+  }));
+}, [itiInfo]);
+
+  const loadProfileCompletion = useCallback(async () => {
+    try {
+      const response = await getProfileCompletion(
+        CANDIDATE_ID
+      );
+
+      if (response.data.success) {
+        setProfileCompletion(
+          response.data.data
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load profile completion",
+        error
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadProfileCompletion();
+  }, [loadProfileCompletion]);
+
+  //Loading profile data from API
+  const loadPersonalInfo = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/candidate/profile/personal-info`,
+        {
+          params: {
+            candidateId: CANDIDATE_ID,
+          },
+        }
+      );
+
+      console.log("PROFILE DATA", response.data);
+
+      if (response.data.success) {
+        const profile = response.data.data;
+        console.log("profilePhotoUrl =", profile.profilePhotoUrl);
+        const names = profile.fullName
+          ? profile.fullName.split(" ")
+          : [];
+
+        setProfileData((prev) => ({
+          ...prev,
+
+          firstName: names[0] || "",
+          lastName: names.slice(1).join(" ") || "",
+
+          mobile: profile.mobileNumber || "",
+          email: profile.email || "",
+
+          dob: profile.dateOfBirth
+            ? profile.dateOfBirth.split("T")[0]
+            : "",
+
+          gender: profile.gender || "",
+
+          city: profile.currentCity || "",
+          state: profile.currentState || "",
+          pin: profile.pincode || "",
+
+          summary:
+            profile.professionalSummary || "",
+
+          yearsOfExperience:
+            profile.totalExperienceYears || 0,
+
+          avatar:
+            getStoredProfilePhotoPreview() ||
+            (profile.profilePhotoUrl
+              ? buildProfilePhotoUrl(profile.profilePhotoUrl)
+              : prev.avatar || DEFAULT_PROFILE_PHOTO)
+        }));
+        console.log(
+          "Final Avatar URL:",
+          profile.profilePhotoUrl
+            ? buildProfilePhotoUrl(profile.profilePhotoUrl)
+            : "default-image"
+        );
+
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load profile",
+        error
+      );
+    }
+
+  }, []);
+
+  useEffect(() => {
+    console.log("API URL =", process.env.NEXT_PUBLIC_API_URL);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadPersonalInfo();
+  }, [loadPersonalInfo]);
+
+  //Update profile data to API
+  const savePersonalInfo = async () => {
+    try {
+      const payload = {
+        fullName: `${profileData.firstName} ${profileData.lastName}`.trim(),
+        dateOfBirth: profileData.dob || null,
+        gender: profileData.gender || "",
+        email: profileData.email || "",
+        currentCity: profileData.city || "",
+        currentState: profileData.state || "",
+        pincode: profileData.pin || "",
+        professionalSummary: profileData.summary || "",
+        about: profileData.about || "",
+        noticePeriod: profileData.noticePeriod || "",
+        totalExperienceYears:
+          Number(profileData.yearsOfExperience) || 0,
+        newsletterOptIn:
+          profileData.newsletterOptIn || false,
+      };
+
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/candidate/profile/personal-info`,
+        payload,
+        {
+          params: {
+            candidateId: CANDIDATE_ID,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        showToast(response.data.message, "success");
+
+        console.log(
+          "Profile Completion:",
+          response.data.profileCompletionPct
+        );
+
+        return true;   // <-- ADD THIS
+      }
+
+      return false;    // <-- ADD THIS
+    } catch (error) {
+      console.error(error);
+
+      showToast(
+        "Failed to update profile",
+        "error"
+      );
+
+      return false;    // <-- ADD THIS
+    }
+  };
+
+  // Upload profile photo to API
+  const uploadProfile = async (file, previewUrl) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("photo", file);
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/candidate/profile/profile-photo`,
+        formData,
+        {
+          params: {
+            candidateId: CANDIDATE_ID,
+          },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("PHOTO UPLOADED", response.data);
+
+      const uploadedPhotoUrl =
+        response.data?.data?.profilePhotoUrl ||
+        response.data?.profilePhotoUrl ||
+        response.data?.data?.photoUrl ||
+        response.data?.photoUrl;
+
+      if (uploadedPhotoUrl) {
+        const uploadedAvatar = buildProfilePhotoUrl(uploadedPhotoUrl);
+
+        setProfileData((prev) => ({
+          ...prev,
+          avatar: getStoredProfilePhotoPreview() || uploadedAvatar,
+        }));
+      } else if (previewUrl) {
+        storeProfilePhotoPreview(previewUrl);
+
+        setProfileData((prev) => ({
+          ...prev,
+          avatar: previewUrl,
+        }));
+      }
+
+      showToast(
+        "Profile photo uploaded successfully",
+        "success"
+      );
+    } catch (error) {
+      console.error("UPLOAD ERROR", error);
+
+      console.log("Response Data:", error.response?.data);
+      console.log("Status:", error.response?.status);
+
+      showToast("Photo upload failed", "error");
+    }
+  };
+
+  // Load work experience from API
+  const loadWorkExperience = useCallback(async () => {
+    try {
+      const response = await getWorkExperience(
+        CANDIDATE_ID
+      );
+
+      if (response.data.success) {
+        setProfileData((prev) => ({
+          ...prev,
+          workHistory: response.data.data.map(
+            (item) => ({
+              id: item.workId,
+              title: item.jobTitle,
+              company: item.companyName,
+              location: item.workLocation,
+              startDate: item.startDate
+                ? item.startDate.split("T")[0]
+                : "",
+              endDate: item.endDate
+                ? item.endDate.split("T")[0]
+                : "",
+              current: item.isCurrent,
+              description:
+                item.jobDescription || "",
+              isOffshore:
+                item.isOffshore || false,
+            })
+          ),
+        }));
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load work experience",
+        error
+      );
+    }
+  }, []);
+
+  // Work
+
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadWorkExperience();
+  }, [loadWorkExperience]);
+
 
   const completionPercent = useMemo(() => {
     const checks = [
@@ -781,23 +1208,640 @@ const CandidateProfilePage = () => {
   const updateField = useCallback((field, value) => setProfileData(p => ({ ...p, [field]: value })), []);
 
   // Work handlers
-  const updateWork = useCallback((id, field, value) => setProfileData(p => ({ ...p, workHistory: p.workHistory.map(e => e.id === id ? { ...e, [field]: value } : e) })), []);
-  const addWork = useCallback((entry) => setProfileData(p => ({ ...p, workHistory: [...p.workHistory, { ...entry, id: createId("work") }] })), []);
-  const removeWork = useCallback((id) => { setProfileData(p => ({ ...p, workHistory: p.workHistory.filter(e => e.id !== id) })); showToast("Work entry removed.", "info"); }, [showToast]);
+  // Update existing work experience
+  const updateWork = (
+    id,
+    field,
+    value
+  ) => {
+    setProfileData((prev) => ({
+      ...prev,
+      workHistory: prev.workHistory.map(
+        (work) =>
+          work.id === id
+            ? {
+              ...work,
+              [field]: value,
+            }
+            : work
+      ),
+    }));
+  };
+
+  const saveWork = async (work) => {
+    if (!validateWorkPayload(work)) {
+      return false;
+    }
+
+    if (!work?.id || String(work.id).startsWith("work-")) {
+      showToast(
+        "Please add this work experience again so it can be saved to the server.",
+        "error"
+      );
+
+      return false;
+    }
+
+    try {
+      await updateWorkExperience(
+        work.id,
+        CANDIDATE_ID,
+        buildWorkPayload(work)
+      );
+
+      showToast(
+        "Work experience updated",
+        "success"
+      );
+
+      await loadWorkExperience();
+      return true;
+    } catch (error) {
+      console.log(
+        "Failed to update work experience",
+        error.response?.data || error.message
+      );
+      showToast(
+        "Failed to update work experience",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  // Add new work experience
+
+  const addWork = async (entry) => {
+    if (!validateWorkPayload(entry)) {
+      return false;
+    }
+
+    try {
+      const payload = buildWorkPayload(entry);
+
+      await createWorkExperience(
+        CANDIDATE_ID,
+        payload
+      );
+
+      await loadWorkExperience();
+
+      showToast(
+        "Work experience added",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(
+        "Failed to add work experience",
+        error.response?.data || error.message
+      );
+      showToast(
+        "Failed to add work experience",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  // Remove work experience
+  const removeWork = async (workId) => {
+    try {
+      await deleteWorkExperience(
+        workId,
+        CANDIDATE_ID
+      );
+
+      await loadWorkExperience();
+
+      showToast(
+        "Work experience removed",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(
+        "Failed to remove work experience",
+        error.response?.data || error.message
+      );
+      showToast(
+        "Failed to remove work experience",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  const buildWorkPayload = (work) => ({
+    jobTitle: work.title || "",
+    companyName: work.company || "",
+    workLocation: work.location || "",
+    startDate: work.startDate || null,
+    endDate: work.current ? null : work.endDate || null,
+    isCurrent: !!work.current,
+    jobDescription: work.description || "",
+    isOffshore: work.isOffshore || false,
+  });
+
+  const validateWorkPayload = (work) => {
+    if (!work.title || !work.company) {
+      showToast("Role and company name are required.", "error");
+      return false;
+    }
+
+    if (!work.startDate) {
+      showToast("Start date is required.", "error");
+      return false;
+    }
+
+    if (!work.current && !work.endDate) {
+      showToast("End date is required unless this is your current job.", "error");
+      return false;
+    }
+
+    return true;
+  };
+
+
+  // Load education from API
+  const loadEducation = useCallback(
+    async () => {
+      try {
+        const response =
+          await getEducation(
+            CANDIDATE_ID
+          );
+
+        if (response.data.success) {
+          setProfileData((prev) => ({
+            ...prev,
+            education:
+              response.data.data.map(
+                (item) => ({
+                  id: item.educationId,
+                  title:
+                    item.qualificationDegree,
+                  institution:
+                    item.instituteName,
+                  meta:
+                    item.yearDetails || "",
+                  certificateNumber:
+                    item.certificateNumber ||
+                    "",
+                  verified:
+                    item.isAiVerified,
+                })
+              ),
+          }));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    []
+  );
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadEducation();
+  }, [loadEducation]);
 
   // Education handlers
-  const updateEdu = useCallback((id, field, value) => setProfileData(p => ({ ...p, education: p.education.map(e => e.id === id ? { ...e, [field]: value } : e) })), []);
-  const addEdu = useCallback((entry) => { setProfileData(p => ({ ...p, education: [...p.education, { ...entry, id: createId("edu"), verified: false }] })); showToast("Qualification added.", "success"); }, [showToast]);
-  const removeEdu = useCallback((id) => { setProfileData(p => ({ ...p, education: p.education.filter(e => e.id !== id) })); showToast("Education entry removed.", "info"); }, [showToast]);
 
+  // Update existing education entry
+  const updateEdu = (
+    id,
+    field,
+    value
+  ) => {
+    setProfileData((prev) => ({
+      ...prev,
+      education: prev.education.map(
+        (edu) =>
+          edu.id === id
+            ? {
+              ...edu,
+              [field]: value,
+            }
+            : edu
+      ),
+    }));
+  };
+  const saveEducation = async (
+    education
+  ) => {
+    try {
+      await updateEducation(
+        education.id,
+        CANDIDATE_ID,
+        {
+          qualificationDegree:
+            education.title,
+          instituteName:
+            education.institution,
+          yearDetails:
+            education.meta,
+          isAiVerified:
+            education.verified || false,
+          passoutYear:
+            Number(
+              education.passoutYear
+            ) || 0,
+          certificateNumber:
+            education.certificateNumber ||
+            "",
+        }
+      );
+
+      showToast(
+        "Education updated",
+        "success"
+      );
+
+      await loadEducation();
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+      console.error(error);
+    }
+  };
+
+  // Add new education entry
+  const addEdu = async (entry) => {
+    try {
+      await createEducation(
+        CANDIDATE_ID,
+        {
+          qualificationDegree: entry.title,
+          instituteName: entry.institution,
+          yearDetails: entry.meta,
+          isAiVerified: false,
+          passoutYear: 0,
+          certificateNumber: "",
+        }
+      );
+
+      await loadEducation();
+
+      showToast(
+        "Education added",
+        "success"
+      );
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+      console.error(error);
+    }
+  };
+
+  // Remove education entry
+  const removeEdu = async (
+    educationId
+  ) => {
+    try {
+      await deleteEducation(
+        educationId,
+        CANDIDATE_ID
+      );
+
+      await loadEducation();
+
+      showToast(
+        "Education removed",
+        "success"
+      );
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+      console.error(error);
+    }
+  };
+
+
+  const loadSkills = useCallback(async () => {
+    try {
+      const response = await getSkills(
+        CANDIDATE_ID
+      );
+
+      if (response.data.success) {
+        const skills =
+          response.data.data.skills || [];
+
+        setProfileData((prev) => ({
+          ...prev,
+
+          selectedSkills: skills.map(
+            (s) => s.skillName
+          ),
+
+          skillMatrix: skills.map(
+            (s) => ({
+              id: s.skillId,
+              name: s.skillName,
+              proficiency:
+                s.proficiencyLevel ||
+                "Beginner",
+              years:
+                s.yearsOfExperience || 0,
+            })
+          ),
+        }));
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load skills",
+        error
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadSkills();
+  }, [loadSkills]);
+
+
+  //Add new skill to API
+  const addSkill = async (
+    skillName
+  ) => {
+    try {
+      await createSkill(
+        CANDIDATE_ID,
+        {
+          skillName,
+          proficiencyLevel:
+            "Beginner",
+          yearsOfExperience: 1,
+        }
+      );
+
+      await loadSkills();
+
+      showToast(
+        "Skill added",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+
+      showToast(
+        "Failed to add skill",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  //Update existing skill in API
+  const saveSkill = async (
+    skill
+  ) => {
+    try {
+      await updateCandidateSkill(
+        skill.id,
+        CANDIDATE_ID,
+        {
+          skillName: skill.name,
+          proficiencyLevel:
+            skill.proficiency || "Beginner",
+          yearsOfExperience:
+            Number(skill.years) || 0,
+        }
+      );
+
+      showToast(
+        "Skill updated",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+
+      showToast(
+        "Failed to update skill",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  //Remove skill from API
+  const removeSkill = async (
+    skillId
+  ) => {
+    try {
+      await deleteSkill(
+        skillId,
+        CANDIDATE_ID
+      );
+
+      await loadSkills();
+
+      showToast(
+        "Skill removed",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(
+        error.response?.data
+      );
+
+      showToast(
+        "Failed to remove skill",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  const loadLanguages = useCallback(async () => {
+    try {
+      const response = await getLanguages(
+        CANDIDATE_ID
+      );
+
+      if (response.data.success) {
+        const languages = Array.isArray(response.data.data)
+          ? response.data.data
+          : response.data.data?.languages || [];
+
+        setProfileData((prev) => ({
+          ...prev,
+          languages: languages.map(
+            (item) => ({
+              id:
+                item.languageId ||
+                item.candidateLanguageId ||
+                item.id ||
+                item.skillId,
+              name: item.languageName,
+              proficiency:
+                item.proficiencyLevel ||
+                "Conversational",
+              reading: !!item.canRead,
+              writing: !!item.canWrite,
+              speaking: !!item.canSpeak,
+            })
+          ),
+        }));
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load languages",
+        error
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadLanguages();
+  }, [loadLanguages]);
+
+  // Add new language to API
+  const addLanguage = async (lang) => {
+    try {
+      await createLanguage(
+        CANDIDATE_ID,
+        {
+          languageName: lang.name,
+          proficiencyLevel:
+            lang.proficiency,
+          canRead: lang.reading,
+          canWrite: lang.writing,
+          canSpeak: lang.speaking,
+        }
+      );
+
+      await loadLanguages();
+
+      showToast(
+        "Language added",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      const errorData = error.response?.data;
+      console.log(errorData);
+
+      if (error.response?.status === 409) {
+        await loadLanguages();
+        showToast(
+          errorData?.message || "Language already added",
+          "info"
+        );
+        return true;
+      }
+
+      showToast(
+        "Failed to add language",
+        "error"
+      );
+      return false;
+    }
+  };
+
+
+  const saveLanguage = async (lang) => {
+    if (!lang.id || String(lang.id).startsWith("language-")) {
+      return addLanguage(lang);
+    }
+
+    try {
+      await updateLanguage(
+        lang.id,
+        CANDIDATE_ID,
+        {
+          languageName: lang.name,
+          proficiencyLevel:
+            lang.proficiency,
+          canRead: lang.reading,
+          canWrite: lang.writing,
+          canSpeak: lang.speaking,
+        }
+      );
+
+      await loadLanguages();
+
+      showToast(
+        "Language updated",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(error.response?.data);
+      showToast(
+        "Failed to update language",
+        "error"
+      );
+      return false;
+    }
+  };
+
+  // Remove language from API
+  const removeLanguage = async (
+    languageId
+  ) => {
+    try {
+      await deleteLanguage(
+        languageId,
+        CANDIDATE_ID
+      );
+
+      await loadLanguages();
+
+      showToast(
+        "Language removed",
+        "success"
+      );
+      return true;
+    } catch (error) {
+      console.log(error.response?.data);
+      showToast(
+        "Failed to remove language",
+        "error"
+      );
+      return false;
+    }
+  };
   // Skills
-  const toggleSkill = useCallback((skill) => setProfileData(p => {
-    const selected = (p.selectedSkills || []).includes(skill);
-    const nextSkills = selected ? p.selectedSkills.filter(s => s !== skill) : [...(p.selectedSkills || []), skill];
-    const nextMatrix = selected ? (p.skillMatrix || []).filter(e => e.name !== skill) : (p.skillMatrix || []).some(e => e.name === skill) ? p.skillMatrix : [...(p.skillMatrix || []), { id: createId("skill"), name: skill, proficiency: "Beginner", years: 1 }];
-    return { ...p, selectedSkills: nextSkills, skillMatrix: nextMatrix };
-  }), []);
-  const updateSkill = useCallback((id, field, value) => setProfileData(p => ({ ...p, skillMatrix: p.skillMatrix.map(e => e.id === id ? { ...e, [field]: value } : e) })), []);
+  const toggleSkill = async (skill) => {
+    const existing = (profileData.skillMatrix || []).find(
+      (entry) => entry.name === skill
+    );
+
+    if (existing) {
+      if (existing.id && !String(existing.id).startsWith("skill-")) {
+        await removeSkill(existing.id);
+        return;
+      }
+
+      setProfileData(p => ({
+        ...p,
+        selectedSkills: (p.selectedSkills || []).filter(s => s !== skill),
+        skillMatrix: (p.skillMatrix || []).filter(e => e.name !== skill),
+      }));
+      return;
+    }
+
+    await addSkill(skill);
+  };
+  const updateSkillState = useCallback((id, field, value) => {
+    setProfileData(p => ({
+      ...p,
+      skillMatrix: p.skillMatrix.map(e => e.id === id ? { ...e, [field]: value } : e),
+    }));
+  }, []);
 
   // Documents
   const uploadDoc = useCallback((docKey, file, fieldKey = "file") => {
@@ -822,15 +1866,81 @@ const CandidateProfilePage = () => {
   }, [showToast]);
 
   // Languages
-  const addLang = useCallback((lang) => { setProfileData(p => ({ ...p, languages: [...(p.languages || []), lang] })); showToast(`${lang.name} added.`, "success"); }, [showToast]);
-  const removeLang = useCallback((name) => { setProfileData(p => ({ ...p, languages: (p.languages || []).filter(l => l.name !== name) })); showToast("Language removed.", "info"); }, [showToast]);
+  const addLang = async (lang) => {
+    await addLanguage(lang);
+  };
+  const removeLang = async (name) => {
+    const existing = (profileData.languages || []).find(l => l.name === name);
+
+    if (existing?.id && !String(existing.id).startsWith("language-")) {
+      await removeLanguage(existing.id);
+      return;
+    }
+
+    setProfileData(p => ({ ...p, languages: (p.languages || []).filter(l => l.name !== name) }));
+    showToast("Language removed.", "info");
+  };
   const updateLang = useCallback((name, field, value) => setProfileData(p => ({ ...p, languages: (p.languages || []).map(l => l.name === name ? { ...l, [field]: value } : l) })), []);
 
-  const handleSaveStep = () => {
-    const names = ["Personal Information", "Documents", "Work Experience", "Education", "Skills", "Languages"];
-    showToast(`${names[currentStep - 1]} saved!`, "success");
+  const handleSaveStep = async () => {
+    if (currentStep === 1) {
+      const saved = await savePersonalInfo();
+
+      if (!saved) return;
+    }
+
+    if (currentStep === 3) {
+      const serverWorkEntries = profileData.workHistory.filter(
+        (work) => work.id && !String(work.id).startsWith("work-")
+      );
+
+      const results = await Promise.all(
+        serverWorkEntries.map((work) => saveWork(work))
+      );
+
+      if (results.some((saved) => !saved)) return;
+    }
+
+    if (currentStep === 5) {
+      const results = await Promise.all(
+        (profileData.skillMatrix || []).map((skill) => {
+          if (!skill.id || String(skill.id).startsWith("skill-")) {
+            return addSkill(skill.name);
+          }
+
+          return saveSkill(skill);
+        })
+      );
+
+      if (results.some((saved) => !saved)) return;
+    }
+
+    if (currentStep === 6) {
+      const results = await Promise.all(
+        (profileData.languages || []).map((language) =>
+          saveLanguage(language)
+        )
+      );
+
+      if (results.some((saved) => !saved)) return;
+    }
+
+    const names = [
+      "Personal Information",
+      "Documents",
+      "Work Experience",
+      "Education",
+      "Skills",
+      "Languages",
+    ];
+
+    showToast(
+      `${names[currentStep - 1]} saved!`,
+      "success"
+    );
+
     if (currentStep < TOTAL) {
-      setCurrentStep(s => s + 1);
+      setCurrentStep((s) => s + 1);
     } else {
       setDone(true);
     }
@@ -838,11 +1948,19 @@ const CandidateProfilePage = () => {
 
   const stepContent = () => {
     switch (currentStep) {
-      case 1: return <StepPersonal data={profileData} onChange={updateField} />;
+      case 1: return <StepPersonal
+        data={profileData}
+        onChange={updateField}
+        onPhotoUpload={uploadProfile}
+      />;
       case 2: return <StepDocuments data={profileData} onUpload={uploadDoc} onClear={clearDoc} />;
       case 3: return <StepWork data={profileData} onUpdate={updateWork} onAdd={addWork} onRemove={removeWork} />;
       case 4: return <StepEducation data={profileData} onUpdate={updateEdu} onAdd={addEdu} onRemove={removeEdu} />;
-      case 5: return <StepSkills data={profileData} onToggle={toggleSkill} onUpdateSkill={updateSkill} />;
+      case 5: return <StepSkills
+        data={profileData}
+        onToggle={toggleSkill}
+        onUpdateSkill={updateSkillState}
+      />
       case 6: return <StepLanguages data={profileData} onAdd={addLang} onRemove={removeLang} onUpdate={updateLang} />;
       default: return null;
     }

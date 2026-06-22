@@ -1,9 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getJobs } from '@/services/jobList/jobsService';
 import JobCardList from './JobCardList';
 import { mockJobs } from './data';
 import ApplyJobModal from '@/app/Homepage/components/ApplyJobModal';
 import Pagination from './Pagination';
+import { getJobDetails } from "@/services/candidate/jobDetailsService";
 
 const toSafeArray = (value) => (Array.isArray(value) ? value : []);
 
@@ -51,10 +53,11 @@ const extractSalaryLpa = (salaryRange) => {
   return { min: values[0], max: values[1] };
 };
 
-const JobList = ({ jobs = mockJobs, filters = {} }) => {
+const JobList = ({ filters = {} }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
-  const [totalFilteredCount, setTotalFilteredCount] = useState(jobs.length);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+const [totalFilteredCount, setTotalFilteredCount] = useState(0);
+const [loading, setLoading] = useState(false);
   const [showPerPage, setShowPerPage] = useState(12);
   const [sortBy, setSortBy] = useState('Newest Post');
   const [viewMode, setViewMode] = useState('list');
@@ -65,147 +68,192 @@ const JobList = ({ jobs = mockJobs, filters = {} }) => {
     setCurrentPage(1);
   }, [filters, sortBy, showPerPage]);
 
-  React.useEffect(() => {
-    let result = [...jobs];
-    const keyword = String(filters.keyword || '').trim().toLowerCase();
+  // React.useEffect(() => {
+  //   let result = [...jobs];
+  //   const keyword = String(filters.keyword || '').trim().toLowerCase();
 
-    if (keyword) {
-      result = result.filter((job) => {
-        const haystack = [
-          job.title,
-          job.company,
-          job.location,
-          job.type,
-          job.desc,
-          job.role,
-          job.department,
-          ...(job.tags || []),
-          ...(job.industries || [])
-        ]
-          .join(' ')
-          .toLowerCase();
+  //   if (keyword) {
+  //     result = result.filter((job) => {
+  //       const haystack = [
+  //         job.title,
+  //         job.company,
+  //         job.location,
+  //         job.type,
+  //         job.desc,
+  //         job.role,
+  //         job.department,
+  //         ...(job.tags || []),
+  //         ...(job.industries || [])
+  //       ]
+  //         .join(' ')
+  //         .toLowerCase();
 
-        return haystack.includes(keyword);
-      });
-    }
+  //       return haystack.includes(keyword);
+  //     });
+  //   }
 
-    if (toSafeArray(filters.workMode).length > 0) {
-      result = result.filter((job) => filters.workMode.includes(job.workMode));
-    }
+  //   if (toSafeArray(filters.workMode).length > 0) {
+  //     result = result.filter((job) => filters.workMode.includes(job.workMode));
+  //   }
 
-    if (toSafeArray(filters.department).length > 0) {
-      result = result.filter((job) => filters.department.includes(job.department));
-    }
+  //   if (toSafeArray(filters.department).length > 0) {
+  //     result = result.filter((job) => filters.department.includes(job.department));
+  //   }
 
-    if (toSafeArray(filters.experience).length > 0) {
-      result = result.filter((job) => filters.experience.includes(job.experience));
-    }
+  //   if (toSafeArray(filters.experience).length > 0) {
+  //     result = result.filter((job) => filters.experience.includes(job.experience));
+  //   }
 
-    if (toSafeArray(filters.salary).length > 0) {
-      result = result.filter((job) => filters.salary.includes(job.salaryRange));
-    }
+  //   if (toSafeArray(filters.salary).length > 0) {
+  //     result = result.filter((job) => filters.salary.includes(job.salaryRange));
+  //   }
 
-    if (toSafeArray(filters.companies).length > 0) {
-      result = result.filter((job) => filters.companies.includes(job.company));
-    }
+  //   if (toSafeArray(filters.companies).length > 0) {
+  //     result = result.filter((job) => filters.companies.includes(job.company));
+  //   }
 
-    if (toSafeArray(filters.industries).length > 0) {
-      result = result.filter((job) =>
-        filters.industries.some(
-          (industry) =>
-            (job.industries || []).some((jobIndustry) => jobIndustry === industry) ||
-            (job.tags || []).some((tag) =>
-              tag.toLowerCase().includes(industry.toLowerCase().split(' / ')[0].toLowerCase())
-            )
-        )
-      );
-    }
+  //   if (toSafeArray(filters.industries).length > 0) {
+  //     result = result.filter((job) =>
+  //       filters.industries.some(
+  //         (industry) =>
+  //           (job.industries || []).some((jobIndustry) => jobIndustry === industry) ||
+  //           (job.tags || []).some((tag) =>
+  //             tag.toLowerCase().includes(industry.toLowerCase().split(' / ')[0].toLowerCase())
+  //           )
+  //       )
+  //     );
+  //   }
 
-    if (toSafeArray(filters.role).length > 0) {
-      result = result.filter((job) => filters.role.includes(job.role));
-    }
+  //   if (toSafeArray(filters.role).length > 0) {
+  //     result = result.filter((job) => filters.role.includes(job.role));
+  //   }
 
-    if (toSafeArray(filters.location).length > 0) {
-      result = result.filter((job) => filters.location.some((location) => job.location.includes(location)));
-    }
+  //   if (toSafeArray(filters.location).length > 0) {
+  //     result = result.filter((job) => filters.location.some((location) => job.location.includes(location)));
+  //   }
 
-    if (toSafeArray(filters.education).length > 0) {
-      result = result.filter((job) => filters.education.includes(inferEducation(job)));
-    }
+  //   if (toSafeArray(filters.education).length > 0) {
+  //     result = result.filter((job) => filters.education.includes(inferEducation(job)));
+  //   }
 
-    if (toSafeArray(filters.postedBy).length > 0) {
-      result = result.filter((job) => filters.postedBy.includes(job.postedBy));
-    }
+  //   if (toSafeArray(filters.postedBy).length > 0) {
+  //     result = result.filter((job) => filters.postedBy.includes(job.postedBy));
+  //   }
 
-    if (toSafeArray(filters.freshness).length > 0) {
-      const freshnessThresholdByLabel = {
-        'Last 24 hours': 1,
-        'Last 3 days': 3,
-        'Last 7 days': 7,
-        'Last 30 days': 30,
-      };
+  //   if (toSafeArray(filters.freshness).length > 0) {
+  //     const freshnessThresholdByLabel = {
+  //       'Last 24 hours': 1,
+  //       'Last 3 days': 3,
+  //       'Last 7 days': 7,
+  //       'Last 30 days': 30,
+  //     };
 
-      result = result.filter((job) => {
-        const ageInDays = parseRelativeAgeInDays(job.time);
-        return filters.freshness.some((label) => {
-          const threshold = freshnessThresholdByLabel[label];
-          return typeof threshold === 'number' ? ageInDays <= threshold : false;
-        });
-      });
-    }
+  //     result = result.filter((job) => {
+  //       const ageInDays = parseRelativeAgeInDays(job.time);
+  //       return filters.freshness.some((label) => {
+  //         const threshold = freshnessThresholdByLabel[label];
+  //         return typeof threshold === 'number' ? ageInDays <= threshold : false;
+  //       });
+  //     });
+  //   }
 
-    if (filters.locationSingle) {
-      result = result.filter((job) => job.location.includes(filters.locationSingle));
-    }
+  //   if (filters.locationSingle) {
+  //     result = result.filter((job) => job.location.includes(filters.locationSingle));
+  //   }
 
-    if (toSafeArray(filters.industry).length > 0) {
-      result = result.filter((job) =>
-        filters.industry.some((industry) =>
-          (job.tags || []).some((tag) => tag.toLowerCase().includes(industry.toLowerCase()))
-        )
-      );
-    }
+  //   if (toSafeArray(filters.industry).length > 0) {
+  //     result = result.filter((job) =>
+  //       filters.industry.some((industry) =>
+  //         (job.tags || []).some((tag) => tag.toLowerCase().includes(industry.toLowerCase()))
+  //       )
+  //     );
+  //   }
 
-    if (toSafeArray(filters.salaryRanges).length > 0) {
-      result = result.filter((job) =>
-        filters.salaryRanges.some(
-          (range) => job.salaryRange?.includes(range.split('$')[1]) || range === 'All'
-        )
-      );
-    }
+  //   if (toSafeArray(filters.salaryRanges).length > 0) {
+  //     result = result.filter((job) =>
+  //       filters.salaryRanges.some(
+  //         (range) => job.salaryRange?.includes(range.split('$')[1]) || range === 'All'
+  //       )
+  //     );
+  //   }
 
-    const activeSort = toSafeArray(filters.sort).length > 0 ? filters.sort[0] : sortBy;
-    if (activeSort === 'Date (Newest)' || activeSort === 'Newest Post') {
-      result.sort((a, b) => parseRelativeAgeInDays(a.time) - parseRelativeAgeInDays(b.time));
-    } else if (activeSort === 'Oldest Post') {
-      result.sort((a, b) => parseRelativeAgeInDays(b.time) - parseRelativeAgeInDays(a.time));
-    } else if (activeSort === 'Salary (High-Low)' || activeSort === 'Salary (High–Low)') {
-      result.sort((a, b) => extractSalaryLpa(b.salaryRange).max - extractSalaryLpa(a.salaryRange).max);
-    } else if (activeSort === 'Salary (Low-High)' || activeSort === 'Salary (Low–High)') {
-      result.sort((a, b) => extractSalaryLpa(a.salaryRange).min - extractSalaryLpa(b.salaryRange).min);
-    }
+  //   const activeSort = toSafeArray(filters.sort).length > 0 ? filters.sort[0] : sortBy;
+  //   if (activeSort === 'Date (Newest)' || activeSort === 'Newest Post') {
+  //     result.sort((a, b) => parseRelativeAgeInDays(a.time) - parseRelativeAgeInDays(b.time));
+  //   } else if (activeSort === 'Oldest Post') {
+  //     result.sort((a, b) => parseRelativeAgeInDays(b.time) - parseRelativeAgeInDays(a.time));
+  //   } else if (activeSort === 'Salary (High-Low)' || activeSort === 'Salary (High–Low)') {
+  //     result.sort((a, b) => extractSalaryLpa(b.salaryRange).max - extractSalaryLpa(a.salaryRange).max);
+  //   } else if (activeSort === 'Salary (Low-High)' || activeSort === 'Salary (Low–High)') {
+  //     result.sort((a, b) => extractSalaryLpa(a.salaryRange).min - extractSalaryLpa(b.salaryRange).min);
+  //   }
 
-    setTotalFilteredCount(result.length);
+  //   setTotalFilteredCount(result.length);
 
-    const totalPages = Math.max(1, Math.ceil(result.length / showPerPage));
-    const safeCurrentPage = Math.min(currentPage, totalPages);
-    if (safeCurrentPage !== currentPage) {
-      setCurrentPage(safeCurrentPage);
-      return;
-    }
+  //   const totalPages = Math.max(1, Math.ceil(result.length / showPerPage));
+  //   const safeCurrentPage = Math.min(currentPage, totalPages);
+  //   if (safeCurrentPage !== currentPage) {
+  //     setCurrentPage(safeCurrentPage);
+  //     return;
+  //   }
 
-    const startIndex = (currentPage - 1) * showPerPage;
-    setFilteredJobs(result.slice(startIndex, startIndex + showPerPage));
-  }, [jobs, filters, sortBy, currentPage, showPerPage]);
+  //   const startIndex = (currentPage - 1) * showPerPage;
+  //   setFilteredJobs(result.slice(startIndex, startIndex + showPerPage));
+  // }, [jobs, filters, sortBy, currentPage, showPerPage]);
 
   const showingFrom = totalFilteredCount === 0 ? 0 : (currentPage - 1) * showPerPage + 1;
   const showingTo = totalFilteredCount === 0 ? 0 : Math.min(currentPage * showPerPage, totalFilteredCount);
   const totalPages = Math.max(1, Math.ceil(totalFilteredCount / showPerPage));
 
-  const openApplyModal = (job) => {
-    setActiveJob(job);
+const openApplyModal = async (job) => {
+  try {
+    const response = await getJobDetails(
+      job.jobId
+    );
+
+    console.log(
+      "JOB DETAILS RESPONSE",
+      response.data
+    );
+
+    setActiveJob(response.data);
     setShowApplyModal(true);
-  };
+  } catch (error) {
+    console.error(
+      "Failed to load job details",
+      error
+    );
+  }
+};
+
+
+  const loadJobs = async () => {
+  try {
+    setLoading(true);
+
+    const params = {
+      Keyword: filters.keyword || "",
+      Location: filters.locationSingle || "",
+      TradeCategory: filters.industries?.[0] || "",
+      Role: filters.role?.[0] || "",
+      Page: currentPage,
+      PageSize: showPerPage,
+      Sort: sortBy,
+    };
+
+    const response = await getJobs(params);
+
+    setFilteredJobs(response.data.jobs || []);
+    setTotalFilteredCount(response.data.totalCount || 0);
+  } catch (error) {
+    console.error("Failed to load jobs", error);
+  } finally {
+    setLoading(false);
+  }
+};
+useEffect(() => {
+  loadJobs();
+}, [filters, currentPage, showPerPage, sortBy]);
 
   return (
     <div className="content-page">
@@ -276,7 +324,7 @@ const JobList = ({ jobs = mockJobs, filters = {} }) => {
       <div className={`row display-${viewMode}`}>
         {filteredJobs.map((job) => (
           <div
-            key={job.id}
+            key={job.jobId}
             className={viewMode === 'grid' ? 'col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12' : 'col-xl-12 col-12'}
           >
             <JobCardList job={job} viewMode={viewMode} onApplyNow={openApplyModal} />

@@ -91,7 +91,9 @@ const ProfileJobCard = ({ job, isListView, applyToDetails = false }) => {
   };
 
   const displayPrice = formatSalary(job.price);
-  const visibleTags = applyToDetails ? job.tags.slice(0, 2) : job.tags;
+  const visibleTags = applyToDetails
+  ? (job.tags || []).slice(0, 2)
+  : (job.tags || []);
 
   return (
     <div

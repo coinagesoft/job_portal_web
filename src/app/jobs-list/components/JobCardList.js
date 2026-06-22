@@ -30,69 +30,72 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
     companyTagsFromData.length > 0
       ? companyTagsFromData
       : [
-          ...tags.filter((tag) => COMPANY_RELATED_TAGS.has(tag)),
-          ...(derivedCompanyBadge && !tags.includes(derivedCompanyBadge)
-            ? [derivedCompanyBadge]
-            : []),
-        ].slice(0, 4);
+        ...tags.filter((tag) => COMPANY_RELATED_TAGS.has(tag)),
+        ...(derivedCompanyBadge && !tags.includes(derivedCompanyBadge)
+          ? [derivedCompanyBadge]
+          : []),
+      ].slice(0, 4);
 
   const jobTags =
     jobTagsFromData.length > 0
       ? jobTagsFromData
       : tags.filter((tag) => !COMPANY_RELATED_TAGS.has(tag));
 
-  const formatHourlyPrice = (value) => {
-    const text = String(value || "").trim();
-    if (!text) return "";
-    return text.includes("$") ? text : `$${text}`;
-  };
+  // const formatHourlyPrice = (value) => {
+  //   const text = String(value || "").trim();
+  //   if (!text) return "";
+  //   return text.includes("$") ? text : `$${text}`;
+  // };
 
   return (
     <>
       <div
-  className="card-grid-2 hover-up"
-  style={{
-    border: "1px solid rgba(18, 35, 89, 0.08)",
-    borderRadius: "24px",
-    overflow: "hidden",
-    transition: "all 0.35s ease",
-    background: "#ffffff",
-    boxShadow:
-      "0 4px 14px rgba(18,35,89,0.04)",
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform =
-      "translateY(-8px)";
+        className="card-grid-2 hover-up"
+        style={{
+          border: "1px solid rgba(18, 35, 89, 0.08)",
+          borderRadius: "24px",
+          overflow: "hidden",
+          transition: "all 0.35s ease",
+          background: "#ffffff",
+          boxShadow:
+            "0 4px 14px rgba(18,35,89,0.04)",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform =
+            "translateY(-8px)";
 
-    e.currentTarget.style.border =
-      "1px solid rgba(255, 153, 0, 0.22)";
+          e.currentTarget.style.border =
+            "1px solid rgba(255, 153, 0, 0.22)";
 
-    e.currentTarget.style.boxShadow =
-      "0 20px 40px rgba(255,153,0,0.12)";
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform =
-      "translateY(0px)";
+          e.currentTarget.style.boxShadow =
+            "0 20px 40px rgba(255,153,0,0.12)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform =
+            "translateY(0px)";
 
-    e.currentTarget.style.border =
-      "1px solid rgba(18, 35, 89, 0.08)";
+          e.currentTarget.style.border =
+            "1px solid rgba(18, 35, 89, 0.08)";
 
-    e.currentTarget.style.boxShadow =
-      "0 4px 14px rgba(18,35,89,0.04)";
-  }}
->
+          e.currentTarget.style.boxShadow =
+            "0 4px 14px rgba(18,35,89,0.04)";
+        }}
+      >
         {/* <span className="flash"></span> */}
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12">
             <div className="card-grid-2-image-left">
               <div className="image-box">
-                <img src={job.img} alt="jobBox" />
+                <img
+                  src={job.companyLogoUrl || "/assets/imgs/brands/brand-10.png"}
+                  alt="jobBox"
+                />
               </div>
               <div className="right-info">
                 <Link className="name-job" href="/company-details">
-                  {job.company}
+                  {job.companyName}
                 </Link>
-                <span className="location-small">{job.location}</span>
+                <span className="location-small">{job.city}, {job.state}</span>
               </div>
             </div>
           </div>
@@ -145,82 +148,84 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
           </div>
         </div>
         <div className="card-block-info">
-          
-        <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    flexWrap: "wrap",
-    marginBottom: 6,
-  }}
->
-  {/* JOB TITLE */}
-  <h4
-    style={{
-      margin: 0,
-      lineHeight: 1.3,
-    }}
-  >
-    <Link href="/job-details">
-      {job.title}
-    </Link>
-  </h4>
 
-  {/* AI MATCH */}
-  <div
-    style={{
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              flexWrap: "wrap",
+              marginBottom: 6,
+            }}
+          >
+            {/* JOB TITLE */}
+            <h4
+              style={{
+                margin: 0,
+                lineHeight: 1.3,
+              }}
+            >
+              <Link href="/job-details">
+                {job.jobTitle}
+              </Link>
+            </h4>
 
-      gap: 6,
+            {/* AI MATCH */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
 
-      padding: "6px 14px",
+                gap: 6,
 
-      borderRadius: 999,
+                padding: "6px 14px",
 
-      background:
-        "linear-gradient(135deg, #fff4df 0%, #ffe7ba 100%)",
+                borderRadius: 999,
 
-      border:
-        "1px solid rgba(255, 163, 0, 0.22)",
+                background:
+                  "linear-gradient(135deg, #fff4df 0%, #ffe7ba 100%)",
 
-      color: "#ff9900",
+                border:
+                  "1px solid rgba(255, 163, 0, 0.22)",
 
-      fontSize: 12,
-      fontWeight: 700,
+                color: "#ff9900",
 
-      width: "fit-content",
+                fontSize: 12,
+                fontWeight: 700,
 
-      boxShadow:
-        "0 6px 16px rgba(255,153,0,0.08)",
-    }}
-  >
-    <i
-  className="fa-solid fa-wand-magic-sparkles"
-  style={{
-    fontSize: 12,
-    lineHeight: 1,
-  }}
-></i>
+                width: "fit-content",
 
-    AI Match: {job.aiMatch || 85}%
-  </div>
-</div>
+                boxShadow:
+                  "0 6px 16px rgba(255,153,0,0.08)",
+              }}
+            >
+              <i
+                className="fa-solid fa-wand-magic-sparkles"
+                style={{
+                  fontSize: 12,
+                  lineHeight: 1,
+                }}
+              ></i>
+
+              AI Match: {job.aiMatch || 85}%
+            </div>
+          </div>
           <div className="mt-5">
-            <span className="card-briefcase">{job.type}</span>
+            <span className="card-briefcase">
+              {job.jobType}
+            </span>
+
             <span className="card-time">
-              <span>{job.time.split(" ")[0]}</span>
-              <span>{job.time.split(" ")[1]} ago</span>
+              {job.timeAgo || "Recently Posted"}
             </span>
           </div>
-          <p className="font-sm color-text-paragraph mt-10">{job.desc}</p>
+          <p className="font-sm color-text-paragraph mt-10">{job.shortDescription}</p>
           {viewMode === "list" && (
             <div className="mt-10">
               <span className="font-xs color-text-paragraph-2">
-                Openings: <strong>{job.openings || 1}</strong> - Experience:{" "}
-                <strong>{job.experience}</strong>
+                Openings: <strong>{job.vacancies}  1</strong> - Experience:{" "}
+                <strong>{job.experienceRequiredYears} Years</strong>
               </span>
               {jobTags.length > 0 && (
                 <div
@@ -259,9 +264,9 @@ const JobCardList = ({ job, onApplyNow, viewMode = "list" }) => {
             <div className="row">
               <div className="col-lg-7 col-7">
                 <span className="card-text-price">
-                  {formatHourlyPrice(job.price)}
+                  {job.salaryDisplay}
                 </span>
-                <span className="text-muted">/Hour</span>
+                {/* <span className="text-muted">/Hour</span> */}
               </div>
               <div className="col-lg-5 col-5 text-end">
                 <button

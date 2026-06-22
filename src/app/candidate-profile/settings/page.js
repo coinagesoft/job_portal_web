@@ -1,8 +1,16 @@
 "use client";
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
+
+
+
 import Link from "next/link";
 import { useToast } from "@/components/Toast";
+
+import {
+  getPreferences,
+  updatePreferences,
+} from "@/services/settingCandidate/preferencesService";
 
 const LANGUAGES = [
   "English", "Hindi", "Marathi", "Bengali", "Tamil", "Telugu",
@@ -23,11 +31,7 @@ const SETTINGS_SHORTCUTS = [
   },
 ];
 
-const SECURITY_ITEMS = [
-  { label: "Two-factor authentication", value: "Enabled" },
-  { label: "Last password update", value: "07 Apr 2026" },
-  { label: "Recent login", value: "Today at 10:42 AM" },
-];
+const SECURITY_ITEMS = [];
 
 const CandidateSettingsPage = () => {
   const showToast = useToast();
@@ -36,11 +40,79 @@ const CandidateSettingsPage = () => {
   const [timezone, setTimezone] = useState("Asia/Kolkata (IST)");
   const [visibility, setVisibility] = useState("Recruiters from applied jobs only");
   const [comms, setComms] = useState("Email + In-app notifications");
+  const [planName, setPlanName] = useState("");
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [lastPasswordUpdatedAt, setLastPasswordUpdatedAt] = useState("");
+  const [lastLoginAt, setLastLoginAt] = useState("");
+  const candidateId =
+    "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
 
-  const handleSave = () => {
-    setSaved(true);
-    showToast("Settings saved successfully!", "success");
-    setTimeout(() => setSaved(false), 2500);
+  useEffect(() => {
+    loadPreferences();
+  }, []);
+
+  const loadPreferences = async () => {
+    try {
+      const response = await getPreferences(candidateId);
+
+      if (response?.data?.success) {
+        const data = response.data.data;
+
+        setLanguage(data.preferredLanguage || "");
+        setTimezone(data.timeZone || "");
+        setVisibility(data.resumeVisibility || "");
+        setComms(data.communicationPreference || "");
+
+        setPlanName(data.planName || "");
+        setTwoFactorEnabled(data.twoFactorEnabled);
+
+        setLastPasswordUpdatedAt(
+          data.lastPasswordUpdatedAt || ""
+        );
+
+        setLastLoginAt(
+          data.lastLoginAt || ""
+        );
+      }
+    } catch (error) {
+      console.error("Preferences Error:", error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const payload = {
+        preferredLanguage: language,
+        timeZone: timezone,
+        resumeVisibility: visibility,
+        communicationPreference: comms,
+      };
+
+      const response = await updatePreferences(
+        candidateId,
+        payload
+      );
+
+      if (response?.data?.success) {
+        setSaved(true);
+
+        showToast(
+          "Settings saved successfully!",
+          "success"
+        );
+
+        setTimeout(() => {
+          setSaved(false);
+        }, 2500);
+      }
+    } catch (error) {
+      console.error(error);
+
+      showToast(
+        "Failed to save settings",
+        "error"
+      );
+    }
   };
 
   return (
@@ -150,7 +222,22 @@ const CandidateSettingsPage = () => {
                 <div className="candidate-settings-card mb-20">
                   <h6 className="mb-15">Security Snapshot</h6>
                   <ul className="candidate-settings-simple-list">
-                    {SECURITY_ITEMS.map((item) => (
+                    {[
+                      {
+                        label: "Two-factor authentication",
+                        value: twoFactorEnabled
+                          ? "Enabled"
+                          : "Disabled",
+                      },
+                      {
+                        label: "Last password update",
+                        value: lastPasswordUpdatedAt,
+                      },
+                      {
+                        label: "Recent login",
+                        value: lastLoginAt,
+                      },
+                    ].map((item) => (
                       <li key={item.label}>
                         <span>{item.label}</span>
                         <strong>{item.value}</strong>
@@ -166,7 +253,7 @@ const CandidateSettingsPage = () => {
                   <h6 className="mb-15">Account Status</h6>
                   <div className="candidate-settings-inline-stat">
                     <span>Plan</span>
-                    <strong>Candidate Plus</strong>
+                    <strong>{planName}</strong>
                   </div>
                   <div className="candidate-settings-inline-stat">
                     <span>Language</span>

@@ -1,8 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+
 import { useToast } from "@/components/Toast";
 import SettingsPageShell from "../components/SettingsPageShell";
+
+import { useEffect, useMemo, useState } from "react";
+
+import {
+  getNotifications,
+  updateNotifications,
+  resetNotifications,
+} from "@/services/settingCandidate/notificationService";
 
 const NOTIFICATION_ITEMS = [
   {
@@ -42,7 +50,42 @@ const DEFAULT_SETTINGS = {
 
 const CandidateNotificationsSettingsPage = () => {
   const showToast = useToast();
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const candidateId =
+  "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
+ const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+
+useEffect(() => {
+  loadNotifications();
+}, []);
+
+const loadNotifications = async () => {
+  try {
+   const response = await getNotifications(candidateId);
+
+console.log("GET Notifications Response:", response.data);
+
+    if (response?.data?.success) {
+      const data = response.data.data;
+
+      setSettings({
+        jobMatches: data.jobMatches,
+        applicationUpdates:
+          data.applicationUpdates,
+        messages:
+          data.recruiterMessages,
+        documentAlerts:
+          data.documentReminders,
+        marketing:
+          data.offersAnnouncements,
+      });
+    }
+  } catch (error) {
+    console.error(
+      "Notification Load Error",
+      error
+    );
+  }
+};
 
   const activeCount = useMemo(
     () => Object.values(settings).filter(Boolean).length,
@@ -53,14 +96,66 @@ const CandidateNotificationsSettingsPage = () => {
     setSettings((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleReset = () => {
-    setSettings(DEFAULT_SETTINGS);
-    showToast("Notification settings reset.", "info");
-  };
+ const handleReset = async () => {
+  try {
+    const response =
+      await resetNotifications(
+        candidateId
+      );
 
-  const handleSave = () => {
-    showToast("Notification settings saved.", "success");
-  };
+    if (response?.data?.success) {
+      await loadNotifications();
+
+      showToast(
+        "Notification settings reset.",
+        "info"
+      );
+    }
+  } catch (error) {
+    console.error(error);
+
+    showToast(
+      "Reset failed",
+      "error"
+    );
+  }
+};
+
+  const handleSave = async () => {
+  try {
+    const payload = {
+      jobMatches: settings.jobMatches,
+      applicationUpdates:
+        settings.applicationUpdates,
+      recruiterMessages:
+        settings.messages,
+      documentReminders:
+        settings.documentAlerts,
+      offersAnnouncements:
+        settings.marketing,
+    };
+
+    const response =
+      await updateNotifications(
+        candidateId,
+        payload
+      );
+
+    if (response?.data?.success) {
+      showToast(
+        "Notification settings saved.",
+        "success"
+      );
+    }
+  } catch (error) {
+    console.error(error);
+
+    showToast(
+      "Failed to save notifications",
+      "error"
+    );
+  }
+};
 
   return (
     <SettingsPageShell

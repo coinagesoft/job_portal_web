@@ -4,8 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { mockProfile } from "@/app/candidate-profile/components/data";
 
+import { applyJob } from "@/services/candidate/applyJobService";
+import { useToast } from "@/components/Toast";
+
+import { getProfileSummary } from "@/services/candidate/profileSummaryService";
+
 const getDefaultQuestions = (job) => {
-  const roleTitle = String(job?.title || "this role");
+  const roleTitle = String(job?.jobTitle || "this role");
   return [
     {
       id: "availability",
@@ -38,15 +43,56 @@ const ApplyJobModal = ({ showModal = false, setShowModal, job }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState("");
 
-  const candidateName =
-    mockProfile.fullName || `${mockProfile.firstName || ""} ${mockProfile.lastName || ""}`.trim();
+  const showToast = useToast();
 
-  const employerQuestions = useMemo(() => {
-    if (Array.isArray(job?.employerQuestions) && job.employerQuestions.length > 0) {
-      return job.employerQuestions;
+  const [profile, setProfile] = useState(null);
+
+const candidateId =
+  "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
+
+const candidateName =
+  profile?.fullName || "";
+
+const employerQuestions = useMemo(() => {
+  if (
+    Array.isArray(job?.screeningQuestions) &&
+    job.screeningQuestions.length > 0
+  ) {
+    return job.screeningQuestions.map(
+      (question, index) => ({
+        id: `question-${index}`,
+        label: question.questionText,
+        type:
+          question.answerType?.toLowerCase() === "yesno"
+            ? "radio"
+            : "text",
+        required: question.isMandatory,
+        options: ["Yes", "No"],
+      })
+    );
+  }
+
+  return getDefaultQuestions(job);
+}, [job]);
+
+
+  useEffect(() => {
+  const loadProfile = async () => {
+    try {
+      const response =
+        await getProfileSummary(candidateId);
+
+      setProfile(response.data.data);
+    } catch (error) {
+      console.error(
+        "Failed to load profile",
+        error
+      );
     }
-    return getDefaultQuestions(job);
-  }, [job]);
+  };
+
+  loadProfile();
+}, []);
 
   useEffect(() => {
     if (!showModal || typeof document === "undefined") return undefined;
@@ -108,11 +154,78 @@ const ApplyJobModal = ({ showModal = false, setShowModal, job }) => {
     setCurrentStep(2);
   };
 
-  const submitApplication = () => {
-    if (!validateBeforeSubmit()) return;
-    setSubmitted(true);
-  };
+  const submitApplication = async () => {
+  if (!validateBeforeSubmit()) return;
+  console.log("JOB DATA:", job);
 
+
+
+  try {
+    const candidateId =
+      "2e51baf0-cf8a-4b3f-b2de-4dfc92b8c222";
+
+    const payload = {
+      fullName: candidateName,
+     phone: profile?.mobileNumber || "",
+email: profile?.email || "",
+      passportGatePassed: true,
+
+      screeningAnswers: employerQuestions.map(
+  (question) => ({
+    questionText:
+      question.id === "passport"
+        ? "Do you have a valid passport?"
+        : question.label,
+    answer: answers[question.id] || "",
+  })
+)
+    };
+
+    console.log(
+  "SCREENING ANSWERS:",
+  employerQuestions.map((question) => ({
+    questionText: question.label,
+    answer: answers[question.id] || "",
+  }))
+
+
+);
+  console.log("JOB INSIDE MODAL", job);
+console.log(
+  "EMPLOYER QUESTIONS INSIDE MODAL",
+  job?.employerQuestions
+);
+    console.log("Apply Payload", payload);
+    console.log(JSON.stringify(payload, null, 2));
+
+    const response = await applyJob(
+      job.jobId,
+      candidateId,
+      payload
+    );
+
+    if (response?.data?.success) {
+      setSubmitted(true);
+
+      showToast(
+        response.data.message ||
+        "Application submitted successfully",
+        "success"
+      );
+    }
+  } catch (error) {
+    console.log(
+      "Apply Error",
+      error.response?.data
+    );
+
+    showToast(
+      error.response?.data?.message ||
+      "Failed to apply",
+      "error"
+    );
+  }
+};
   if (!showModal) return null;
 
   return (
@@ -135,7 +248,7 @@ const ApplyJobModal = ({ showModal = false, setShowModal, job }) => {
               <div className="apply-job-modal-header">
                 <div>
                   <p className="font-sm text-brand-2 mb-5">Job Application</p>
-                  <h5 className="mb-0 color-brand-1">{job?.title || "Apply to job"}</h5>
+                  <h5 className="mb-0 color-brand-1">{job?.jobTitle || "Apply to job"}</h5>
                 </div>
                 <button
                   className="apply-job-modal-close"
@@ -179,10 +292,10 @@ const ApplyJobModal = ({ showModal = false, setShowModal, job }) => {
                               <input className="form-control" value={candidateName} readOnly />
                             </div>
                             <div className="col-md-6 mb-10">
-                              <input className="form-control" value={mockProfile.mobile || ""} readOnly />
+                              <input className="form-control" value={profile?.mobileNumber || ""} readOnly />
                             </div>
                             <div className="col-md-12 mb-10">
-                              <input className="form-control" value={mockProfile.email || ""} readOnly />
+                              <input className="form-control" value={profile?.email || ""} readOnly />
                             </div>
                           </div>
                         </div>
